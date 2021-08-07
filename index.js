@@ -1,38 +1,23 @@
 // Import Internal Dependencies
-import { NPMAuditStrategy, SecurityWGStrategy } from "./src/strategies/index.js";
-import { VULN_MODE } from "./src/constants.js";
+import { initStrategy } from "./src/strategies/index.js";
+import { VULN_MODE, DEFAULT_VULN_MODE } from "./src/constants.js";
 
-// CONSTANTS
-const kDefaultVulnModeStrategy = VULN_MODE.NPM_AUDIT;
+/** @type {Vuln.Strategy} **/
+let localVulnerabilityStrategy;
 
-// VARS
-let strategy;
+export async function setStrategy(name = DEFAULT_VULN_MODE, options = {}) {
+  localVulnerabilityStrategy = await initStrategy(name, options);
 
-export async function setVulnerabilityStrategy(newStrategy = kDefaultVulnModeStrategy, options = {}) {
-  strategy = await initVulnerabilityStrategy(newStrategy, options);
-
-  return strategy;
+  return localVulnerabilityStrategy;
 }
 
-export async function getVulnerabilityStrategy() {
-  if (!strategy) {
-    const initializedStrategy = await setVulnerabilityStrategy(kDefaultVulnModeStrategy);
-
-    return initializedStrategy;
+export async function getStrategy() {
+  if (!localVulnerabilityStrategy) {
+    // eslint-disable-next-line no-return-await
+    return await setStrategy(DEFAULT_VULN_MODE);
   }
 
-  return strategy;
+  return localVulnerabilityStrategy;
 }
 
-async function initVulnerabilityStrategy(strategy, options) {
-  switch (strategy) {
-    case VULN_MODE.SECURITY_WG:
-      return Object.seal(await SecurityWGStrategy(options));
-
-    case VULN_MODE.NPM_AUDIT:
-      return Object.seal(NPMAuditStrategy());
-
-    default:
-      return Object.seal(await SecurityWGStrategy(options));
-  }
-}
+export { VULN_MODE };

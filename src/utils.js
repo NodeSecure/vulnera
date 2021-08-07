@@ -37,7 +37,6 @@ export async function readJsonFile(path) {
     return JSON.parse(buf.toString());
   }
   catch (err) {
-    /* istanbul ignore next */
     return null;
   }
 }

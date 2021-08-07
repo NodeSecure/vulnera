@@ -7,5 +7,6 @@ export const VULN_MODE = Object.freeze({
   SECURITY_WG: "node",
   NPM_AUDIT: "npm"
 });
+export const DEFAULT_VULN_MODE = VULN_MODE.NPM_AUDIT;
 
 export const VULN_FILE_PATH = join(os.tmpdir(), "nsecure-vulnerabilities.json");

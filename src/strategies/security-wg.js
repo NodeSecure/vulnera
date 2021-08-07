@@ -13,8 +13,10 @@ import { VULN_MODE, VULN_FILE_PATH } from "../constants.js";
 // CONSTANTS
 const kOneDay = 3600000 * 24;
 
-export async function SecurityWGStrategy({ sideEffects = true }) {
-  if (sideEffects) {
+export async function SecurityWGStrategy(options) {
+  const { hydrateDatabase = false } = options;
+
+  if (hydrateDatabase) {
     try {
       await checkHydrateDB();
     }
@@ -23,9 +25,9 @@ export async function SecurityWGStrategy({ sideEffects = true }) {
 
   return {
     type: VULN_MODE.SECURITY_WG,
-    hydrateNodeSecurePayload,
-    hydrateDB,
-    deleteDB
+    hydratePayloadDependencies,
+    hydrateDatabase,
+    deleteDatabase
   };
 }
 
@@ -35,12 +37,12 @@ export async function checkHydrateDB() {
 
   if (ts > kOneDay) {
     deleteDB();
-    await hydrateDB();
+    await hydrateDatabase();
     writeNsecureCache();
   }
 }
 
-export async function hydrateNodeSecurePayload(flattenedDeps) {
+export async function hydratePayloadDependencies(flattenedDeps) {
   try {
     const vulnerabilities = await readJsonFile(VULN_FILE_PATH);
 
@@ -68,7 +70,7 @@ export async function hydrateNodeSecurePayload(flattenedDeps) {
   catch {}
 }
 
-export async function hydrateDB() {
+export async function hydrateDatabase() {
   const location = await download("nodejs.security-wg", { extract: true });
   const vulnPath = path.join(location, "vuln", "npm");
 
@@ -100,7 +102,7 @@ export async function hydrateDB() {
   }
 }
 
-export function deleteDB() {
+export function deleteDatabase() {
   try {
     unlinkSync(VULN_FILE_PATH);
   }

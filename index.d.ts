@@ -1,6 +1,6 @@
-export type VulnerabilityStrategy = "npm" | "node";
 
-export interface Vulnerability {
+
+export interface NodeVulnerability {
   id: number;
   created_at: string;
   updated_at: string;
@@ -23,3 +23,25 @@ export interface Vulnerability {
   coordinating_vendor: string;
 }
 
+// TODO: add NpmVulnerability interface
+
+declare namespace Vuln {
+  type Strategies = "npm" | "node";
+
+  interface StrategyOptions {
+    hydrateDatabase?: boolean;
+  }
+
+  interface Strategy {
+    type: Strategies;
+    hydratePayloadDependencies: (dependencies: any, defaultRegistryAddr?: string) => Promise<void>;
+    hydrateDatabase?: () => Promise<void>;
+    deleteDatabase?: () => Promise<void>;
+  }
+
+  export declare function setStrategy(name?: Strategies, options?: StrategyOptions): Promise<Strategy>;
+  export declare function getStrategy(): Promise<Strategy>;
+}
+
+export = Vuln;
+export as namespace Vuln;

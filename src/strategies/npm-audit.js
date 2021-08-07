@@ -7,11 +7,11 @@ import { VULN_MODE } from "../constants.js";
 export function NPMAuditStrategy() {
   return {
     type: VULN_MODE.NPM_AUDIT,
-    hydrateNodeSecurePayload
+    hydratePayloadDependencies
   };
 }
 
-export async function hydrateNodeSecurePayload(dependencies, registry) {
+export async function hydratePayloadDependencies(dependencies, registry) {
   const arborist = new Arborist({ ...constants.NPM_TOKEN, registry });
 
   try {

@@ -2,7 +2,6 @@
 import { initStrategy } from "./src/strategies/index.js";
 import { VULN_MODE, DEFAULT_VULN_MODE } from "./src/constants.js";
 
-/** @type {Vuln.Strategy} **/
 let localVulnerabilityStrategy;
 
 export async function setStrategy(name = DEFAULT_VULN_MODE, options = {}) {
@@ -20,4 +19,5 @@ export async function getStrategy() {
   return localVulnerabilityStrategy;
 }
 
-export { VULN_MODE };
+export const mode = VULN_MODE;
+export * as cache from "./src/cache.js";

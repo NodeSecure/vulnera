@@ -1,9 +1,11 @@
 // Import Strategies
-export { NPMAuditStrategy } from "./npm-audit.js";
-export { SecurityWGStrategy } from "./security-wg.js";
+import { NPMAuditStrategy } from "./npm-audit.js";
+import { SecurityWGStrategy } from "./security-wg.js";
 
 // CONSTANTS
 import { VULN_MODE } from "../constants.js";
+
+export { NPMAuditStrategy, SecurityWGStrategy };
 
 export async function initStrategy(strategy, options) {
   switch (strategy) {
@@ -14,6 +16,6 @@ export async function initStrategy(strategy, options) {
       return Object.seal(NPMAuditStrategy());
 
     default:
-      return Object.seal(await SecurityWGStrategy(options));
+      return Object.seal(NPMAuditStrategy());
   }
 }

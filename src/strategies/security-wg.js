@@ -7,20 +7,20 @@ import download from "@slimio/github";
 import semver from "semver";
 
 // Import Internal Dependencies
-import { loadNsecureCache, writeNsecureCache, readJsonFile } from "../utils.js";
-import { VULN_MODE, VULN_FILE_PATH } from "../constants.js";
-
-// CONSTANTS
-const kOneDay = 3600000 * 24;
+import { readJsonFile } from "../utils.js";
+import { VULN_MODE, VULN_FILE_PATH, CACHE_DELAY } from "../constants.js";
+import * as cache from "../cache.js";
 
 export async function SecurityWGStrategy(options) {
-  const { hydrateDatabase = false } = options;
-
-  if (hydrateDatabase) {
+  const { hydrateDatabase: udpDb = false } = options;
+  if (udpDb) {
     try {
       await checkHydrateDB();
     }
-    catch {}
+    catch (err) {
+      // TODO: remove this log
+      console.error(err);
+    }
   }
 
   return {
@@ -32,13 +32,13 @@ export async function SecurityWGStrategy(options) {
 }
 
 export async function checkHydrateDB() {
-  const localCache = loadNsecureCache();
+  const localCache = cache.load();
   const ts = Math.abs(Date.now() - localCache.lastUpdated);
 
-  if (ts > kOneDay) {
-    deleteDB();
+  if (ts > CACHE_DELAY) {
+    deleteDatabase();
     await hydrateDatabase();
-    writeNsecureCache();
+    cache.refresh();
   }
 }
 

@@ -1,0 +1,37 @@
+// Import Third-party Dependencies
+import Arborist from "@npmcli/arborist";
+
+// Import Internal Dependencies
+import { VULN_MODE } from "../constants.js";
+
+export function NPMAuditStrategy() {
+  return {
+    type: VULN_MODE.NPM_AUDIT,
+    hydrateNodeSecurePayload
+  };
+}
+
+export async function hydrateNodeSecurePayload(dependencies, registry) {
+  const arborist = new Arborist({ ...constants.NPM_TOKEN, registry });
+
+  try {
+    const { vulnerabilities } = (await arborist.audit()).toJSON();
+
+    for (const [packageName, packageVulns] of Object.entries(vulnerabilities)) {
+      const dependenciesVulnerabilities = dependencies.get(packageName).vulnerabilities;
+
+      dependenciesVulnerabilities.push(...extractPackageVulnsFromSource(packageVulns));
+    }
+  }
+  catch {}
+}
+
+export function* extractPackageVulnsFromSource(packageVulnerabilities) {
+  for (const vulnSource of packageVulnerabilities.via) {
+    const { title, range, id, module_name, severity, version, vulnerableVersions } = vulnSource;
+
+    yield {
+      title, module_name, severity, version, vulnerableVersions, range, id
+    };
+  }
+}

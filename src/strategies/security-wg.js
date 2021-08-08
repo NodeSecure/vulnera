@@ -17,10 +17,7 @@ export async function SecurityWGStrategy(options) {
     try {
       await checkHydrateDB();
     }
-    catch (err) {
-      // TODO: remove this log
-      console.error(err);
-    }
+    catch {}
   }
 
   return {
@@ -71,7 +68,7 @@ export async function hydratePayloadDependencies(flattenedDeps) {
 }
 
 export async function hydrateDatabase() {
-  const location = await download("nodejs.security-wg", { extract: true });
+  const location = await download("nodejs.security-wg", { extract: true, branch: "main" });
   const vulnPath = path.join(location, "vuln", "npm");
 
   try {

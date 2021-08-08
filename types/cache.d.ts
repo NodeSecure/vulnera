@@ -2,6 +2,7 @@ export = cache;
 
 declare namespace cache {
   export interface Data {
+    /** Timestamp that indicate the last time the cache has been updated **/
     lastUpdated: number;
   }
 

@@ -48,7 +48,7 @@
   "type": "module",
   "dependencies": {
     "@npmcli/arborist": "^2.8.0",
-    "@slimio/github": "^0.5.0",
+    "@slimio/github": "^1.0.0",
     "semver": "^7.3.5"
   }
 }

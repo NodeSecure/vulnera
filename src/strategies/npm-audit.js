@@ -3,7 +3,7 @@ import Arborist from "@npmcli/arborist";
 import { getLocalRegistryURL } from "@nodesecure/npm-registry-sdk";
 
 // Import Internal Dependencies
-import { VULN_MODE } from "../constants.js";
+import { VULN_MODE, NPM_TOKEN } from "../constants.js";
 
 export function NPMAuditStrategy() {
   return {
@@ -14,7 +14,7 @@ export function NPMAuditStrategy() {
 
 export async function hydratePayloadDependencies(dependencies) {
   const registry = getLocalRegistryURL();
-  const arborist = new Arborist({ ...constants.NPM_TOKEN, registry });
+  const arborist = new Arborist({ ...NPM_TOKEN, registry });
 
   try {
     const { vulnerabilities } = (await arborist.audit()).toJSON();

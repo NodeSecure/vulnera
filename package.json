@@ -29,7 +29,7 @@
   "files": [
     "index.d.ts",
     "index.js",
-    "languages",
+    "types",
     "src"
   ],
   "license": "MIT",

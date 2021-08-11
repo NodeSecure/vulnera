@@ -37,6 +37,8 @@ test("expect getStrategy() to return the default strategy", async(tape) => {
 
   isStrategyDefinition(tape, definition);
   tape.strictEqual(definition.strategy, defaultStrategyName);
+
+  tape.end();
 });
 
 test("expect initStrategy() to return npm strategy as default case", async(tape) => {
@@ -44,6 +46,8 @@ test("expect initStrategy() to return npm strategy as default case", async(tape)
 
   isStrategyDefinition(tape, definition);
   tape.strictEqual(definition.strategy, strategies.NPM_AUDIT);
+
+  tape.end();
 });
 
 test("initialize Node.js strategy (with no database hydration)", async(tape) => {

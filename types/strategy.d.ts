@@ -16,11 +16,15 @@ declare namespace Strategy {
     hydrateDatabase?: boolean;
   }
 
+  export interface HydratePayloadDependenciesOptions {
+    path?: string;
+  }
+
   export interface Definition {
     /** Name of the strategy **/
     strategy: Kind;
     /** Method to hydrate (insert/push) vulnerabilities in the dependencies retrieved by the Scanner **/
-    hydratePayloadDependencies: (dependencies: Dependencies) => Promise<void>;
+    hydratePayloadDependencies: (dependencies: Dependencies, options?: HydratePayloadDependenciesOptions) => Promise<void>;
     /** Hydrate local database (if the strategy need one obviously) **/
     hydrateDatabase?: () => Promise<void>;
     /** Method to delete the local vulnerabilities database (if available) **/

@@ -51,9 +51,9 @@ type Kind = "npm" | "node";
 See `types/api.d.ts` for a complete TypeScript definition.
 
 ```ts
-declare function setStrategy(name?: Strategy.Kind, options?: Strategy.Options): Promise<Strategy.Definition>;
-declare function getStrategy(): Promise<Strategy.Definition>;
-declare const strategies: {
+function setStrategy(name?: Strategy.Kind, options?: Strategy.Options): Promise<Strategy.Definition>;
+function getStrategy(): Promise<Strategy.Definition>;
+const strategies: {
   SECURITY_WG: "node";
   NPM_AUDIT: "npm";
 };
@@ -71,7 +71,7 @@ export interface Definition {
   /** Name of the strategy **/
   strategy: Kind;
   /** Method to hydrate (insert/push) vulnerabilities in the dependencies retrieved by the Scanner **/
-  hydratePayloadDependencies: (dependencies: Dependencies, defaultRegistryAddr?: string) => Promise<void>;
+  hydratePayloadDependencies: (dependencies: Dependencies) => Promise<void>;
   /** Hydrate local database (if the strategy need one obviously) **/
   hydrateDatabase?: () => Promise<void>;
   /** Method to delete the local vulnerabilities database (if available) **/

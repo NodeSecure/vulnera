@@ -20,7 +20,10 @@ const dependencies = new Map();
 // ...do work on dependencies...
 
 const definition = await vuln.setStrategy(vuln.strategies.NPM_AUDIT);
-await definition.hydratePayloadDependencies(dependencies);
+await definition.hydratePayloadDependencies(dependencies, {
+  // path where we have to run npm audit (default equal to process.cwd())
+  path: process.cwd();
+});
 ```
 
 Note that it is important to call `loadRegistryURLFromLocalSystem` before running `hydratePayloadDependencies` method. The internal method will retrieve the correct URL for the registry (could be useful if the developer use a private registry for example).

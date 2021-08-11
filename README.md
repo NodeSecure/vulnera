@@ -59,7 +59,7 @@ const strategies: {
 };
 ```
 
-Strategy `Kind` and `Options` are described by the following interfaces:
+Strategy `Kind`, `HydratePayloadDependenciesOptions`, `Options` are described by the following interfaces:
 
 ```ts
 export interface Options {

@@ -1,6 +1,6 @@
 import Strategy from "./strategy";
 
-export = {
+export {
   setStrategy,
   getStrategy,
   strategies,

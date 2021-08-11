@@ -21,7 +21,7 @@ export async function SecurityWGStrategy(options) {
   }
 
   return {
-    type: VULN_MODE.SECURITY_WG,
+    strategy: VULN_MODE.SECURITY_WG,
     hydratePayloadDependencies,
     hydrateDatabase,
     deleteDatabase
@@ -39,17 +39,17 @@ export async function checkHydrateDB() {
   }
 }
 
-export async function hydratePayloadDependencies(flattenedDeps) {
+export async function hydratePayloadDependencies(dependencies) {
   try {
     const vulnerabilities = await readJsonFile(VULN_FILE_PATH);
 
-    const currThreeNames = new Set([...flattenedDeps.keys()]);
+    const currThreeNames = new Set([...dependencies.keys()]);
     const filtered = new Set(
       Object.keys(vulnerabilities).filter((name) => currThreeNames.has(name))
     );
 
     for (const name of filtered) {
-      const dep = flattenedDeps.get(name);
+      const dep = dependencies.get(name);
       const detectedVulnerabilities = [];
       for (const currVuln of vulnerabilities[name]) {
         // eslint-disable-next-line no-loop-func

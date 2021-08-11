@@ -1,17 +1,19 @@
 // Import Third-party Dependencies
 import Arborist from "@npmcli/arborist";
+import { getLocalRegistryURL } from "@nodesecure/npm-registry-sdk";
 
 // Import Internal Dependencies
 import { VULN_MODE } from "../constants.js";
 
 export function NPMAuditStrategy() {
   return {
-    type: VULN_MODE.NPM_AUDIT,
+    strategy: VULN_MODE.NPM_AUDIT,
     hydratePayloadDependencies
   };
 }
 
-export async function hydratePayloadDependencies(dependencies, registry) {
+export async function hydratePayloadDependencies(dependencies) {
+  const registry = getLocalRegistryURL();
   const arborist = new Arborist({ ...constants.NPM_TOKEN, registry });
 
   try {

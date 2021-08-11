@@ -6,7 +6,7 @@
 [![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/NodeSecure/vuln/blob/master/LICENSE)
 ![dep](https://img.shields.io/david/NodeSecure/vuln)
 
-NodeSecure vulnerabilities strategies
+NodeSecure vulnerabilities strategies built for NodeSecure scanner.
 
 ## Requirements
 - [Node.js](https://nodejs.org/en/) v14 or higher
@@ -25,10 +25,63 @@ $ yarn add @nodesecure/vuln
 
 ```js
 import * as vuln from "@nodesecure/vuln";
+
+// Default strategy is currently "npm".
+await vuln.setStrategy(vuln.strategies.NPM_AUDIT);
+
+const definition = await vuln.getStrategy();
+console.log(definition.strategy);
+
+await definition.hydratePayloadDependencies(new Map());
+```
+
+## Available strategy
+
+- [NPM Audit](./docs/npm_audit.md)
+- [Node.js Security WG - Database](./docs/node_security_wg.md)
+- [**COMING SOON**] Snyk.
+
+Those strategies are described as "string" **type** with the following TypeScript definition:
+```ts
+type Kind = "npm" | "node";
 ```
 
 ## API
-TBC
+
+See `types/api.d.ts` for a complete TypeScript definition.
+
+```ts
+declare function setStrategy(name?: Strategy.Kind, options?: Strategy.Options): Promise<Strategy.Definition>;
+declare function getStrategy(): Promise<Strategy.Definition>;
+declare const strategies: {
+  SECURITY_WG: "node";
+  NPM_AUDIT: "npm";
+};
+```
+
+Strategy `Kind` and `Options` are described by the following interfaces:
+
+```ts
+export interface Options {
+  /** Force hydratation of the strategy local database (if the strategy has one obviously) **/
+  hydrateDatabase?: boolean;
+}
+
+export interface Definition {
+  /** Name of the strategy **/
+  strategy: Kind;
+  /** Method to hydrate (insert/push) vulnerabilities in the dependencies retrieved by the Scanner **/
+  hydratePayloadDependencies: (dependencies: Dependencies, defaultRegistryAddr?: string) => Promise<void>;
+  /** Hydrate local database (if the strategy need one obviously) **/
+  hydrateDatabase?: () => Promise<void>;
+  /** Method to delete the local vulnerabilities database (if available) **/
+  deleteDatabase?: () => Promise<void>;
+}
+```
+
+Where `dependencies` is the dependencies **Map()** object of the scanner.
+
+> Note: the option **hydrateDatabase** is only useful for some of the strategy (like Node.js Security WG).
 
 ## License
 MIT

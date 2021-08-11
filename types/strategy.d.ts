@@ -1,7 +1,7 @@
 export = Strategy;
 
 declare namespace Strategy {
-  export type Mode = "npm" | "node";
+  export type Kind = "npm" | "node";
 
   // Degraded version from scanner (only implement what we need).
   export interface VersionDescriptor {
@@ -18,9 +18,9 @@ declare namespace Strategy {
 
   export interface Definition {
     /** Name of the strategy **/
-    type: Mode;
+    strategy: Kind;
     /** Method to hydrate (insert/push) vulnerabilities in the dependencies retrieved by the Scanner **/
-    hydratePayloadDependencies: (dependencies: Dependencies, defaultRegistryAddr?: string) => Promise<void>;
+    hydratePayloadDependencies: (dependencies: Dependencies) => Promise<void>;
     /** Hydrate local database (if the strategy need one obviously) **/
     hydrateDatabase?: () => Promise<void>;
     /** Method to delete the local vulnerabilities database (if available) **/

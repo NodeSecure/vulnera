@@ -19,5 +19,7 @@ export async function getStrategy() {
   return localVulnerabilityStrategy;
 }
 
-export const mode = VULN_MODE;
+export const strategies = VULN_MODE;
+export const defaultStrategyName = DEFAULT_VULN_MODE;
+
 export * as cache from "./src/cache.js";

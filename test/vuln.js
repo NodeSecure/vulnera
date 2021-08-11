@@ -32,14 +32,16 @@ function isStrategyDefinition(tape, definition) {
   }
 }
 
-test("get default strategy", async(tape) => {
+test("expect getStrategy() to return the default strategy", async(tape) => {
   const definition = await getStrategy();
+
   isStrategyDefinition(tape, definition);
   tape.strictEqual(definition.strategy, defaultStrategyName);
 });
 
-test("expect initStrategy to return npm strategy as default case", async(tape) => {
+test("expect initStrategy() to return npm strategy as default case", async(tape) => {
   const definition = await initStrategy();
+
   isStrategyDefinition(tape, definition);
   tape.strictEqual(definition.strategy, strategies.NPM_AUDIT);
 });
@@ -49,15 +51,17 @@ test("initialize Node.js strategy (with no database hydration)", async(tape) => 
 
   const definition = await setStrategy(strategies.SECURITY_WG);
   isStrategyDefinition(tape, definition);
+
   tape.strictEqual(definition.strategy, strategies.SECURITY_WG);
   tape.false(existsSync(VULN_FILE_PATH));
 
   // Fetch current definition
   const currentDefinition = await getStrategy();
   isStrategyDefinition(tape, currentDefinition);
-  tape.strictEqual(currentDefinition.strategy, strategies.SECURITY_WG);
 
+  tape.strictEqual(currentDefinition.strategy, strategies.SECURITY_WG);
   tape.strictEqual(definition, currentDefinition);
+
   tape.end();
 });
 
@@ -67,6 +71,7 @@ test("initialize Node.js strategy (with database hydration)", async(tape) => {
 
   const definition = await setStrategy(strategies.SECURITY_WG, { hydrateDatabase: true });
   isStrategyDefinition(tape, definition);
+
   tape.strictEqual(definition.strategy, strategies.SECURITY_WG);
   tape.true(existsSync(VULN_FILE_PATH));
 

@@ -13,12 +13,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const kFixturesDir = path.join(__dirname, "fixtures");
 
-test("readJsonFile", async(tape) => {
-  const data1 = await readJsonFile(path.join(kFixturesDir, "jsondata.json"));
-  tape.deepEqual(data1, { foo: "bar" });
+test("readJsonFile (file that exists)", async(tape) => {
+  const data = await readJsonFile(path.join(kFixturesDir, "jsondata.json"));
+  tape.deepEqual(data, { foo: "bar" });
 
-  const data2 = await readJsonFile(path.join(kFixturesDir, "blezkdcklerje.txt"));
-  tape.deepEqual(data2, null);
+  tape.end();
+});
+
+test("readJsonFile (file that does not exist)", async(tape) => {
+  const data = await readJsonFile(path.join(kFixturesDir, "blezkdcklerje.txt"));
+  tape.strictEqual(data, null, "asking to read a file not on the local system should return null");
 
   tape.end();
 });

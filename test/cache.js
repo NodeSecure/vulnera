@@ -12,6 +12,7 @@ import { TMP_CACHE, CACHE_DELAY } from "../src/constants.js";
 test("cache constants", (tape) => {
   tape.true(typeof TMP_CACHE === "string");
   tape.true(path.isAbsolute(TMP_CACHE));
+
   tape.true(typeof CACHE_DELAY === "number");
   tape.true(CACHE_DELAY > 0);
 
@@ -23,7 +24,7 @@ test("node-secure load cache", (tape) => {
 
   {
     const payload = cache.load();
-    tape.strictEqual("lastUpdated" in payload, true);
+    tape.strictEqual("lastUpdated" in payload, true, "cache must contain a 'lastUpdated' property");
 
     const delay = (Date.now() - CACHE_DELAY) - payload.lastUpdated;
     tape.true(delay >= 0 && delay <= 1);
@@ -47,7 +48,7 @@ test("node-secure refresh cache", (tape) => {
 
   {
     const payload = cache.load();
-    tape.strictEqual("lastUpdated" in payload, true);
+    tape.strictEqual("lastUpdated" in payload, true, "cache must contain a 'lastUpdated' property");
 
     const delay = Date.now() - payload.lastUpdated;
     tape.true(delay >= 0 && delay <= 1);

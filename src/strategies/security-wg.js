@@ -42,17 +42,19 @@ export async function checkHydrateDB() {
 export async function hydratePayloadDependencies(dependencies) {
   try {
     const vulnerabilities = await readJsonFile(VULN_FILE_PATH);
+    if (vulnerabilities === null) {
+      return;
+    }
 
-    const currThreeNames = new Set([...dependencies.keys()]);
+    const uniqueDependenciesName = new Set([...dependencies.keys()]);
     const filtered = new Set(
-      Object.keys(vulnerabilities).filter((name) => currThreeNames.has(name))
+      Object.keys(vulnerabilities).filter((name) => uniqueDependenciesName.has(name))
     );
 
     for (const name of filtered) {
       const dep = dependencies.get(name);
       const detectedVulnerabilities = [];
       for (const currVuln of vulnerabilities[name]) {
-        // eslint-disable-next-line no-loop-func
         const satisfied = dep.versions.some((version) => semver.satisfies(version, currVuln.vulnerable_versions));
         if (satisfied) {
           detectedVulnerabilities.push(currVuln);

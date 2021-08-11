@@ -27,7 +27,7 @@ function isAdvisory(tape, data) {
   tape.true("range" in data, "advisory must have a 'range' property");
 }
 
-test("npm: hydratePayloadDependencies", async(tape) => {
+test("npm strategy: hydratePayloadDependencies", async(tape) => {
   const dependencies = new Map();
   dependencies.set("@npmcli/git", { vulnerabilities: [] });
 

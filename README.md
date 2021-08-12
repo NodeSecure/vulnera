@@ -26,7 +26,7 @@ $ yarn add @nodesecure/vuln
 ```js
 import * as vuln from "@nodesecure/vuln";
 
-// Default strategy is currently "npm".
+// Default strategy is currently "none".
 await vuln.setStrategy(vuln.strategies.NPM_AUDIT);
 
 const definition = await vuln.getStrategy();
@@ -37,13 +37,14 @@ await definition.hydratePayloadDependencies(new Map());
 
 ## Available strategy
 
+- **None** (No strategy at all.. which is the `default` value).
 - [NPM Audit](./docs/npm_audit.md)
 - [Node.js Security WG - Database](./docs/node_security_wg.md)
 - [**COMING SOON**] Snyk.
 
 Those strategies are described as "string" **type** with the following TypeScript definition:
 ```ts
-type Kind = "npm" | "node";
+type Kind = "npm" | "node" | "none";
 ```
 
 ## API

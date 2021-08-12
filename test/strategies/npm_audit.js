@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 import test from "tape";
 
 // Import Internal Dependencies
-import { hydratePayloadDependencies } from "../../src/strategies/npm-audit.js";
+import { NPMAuditStrategy, hydratePayloadDependencies } from "../../src/strategies/npm-audit.js";
 
 // CONSTANTS
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -26,6 +26,15 @@ function isAdvisory(tape, data) {
   tape.true("severity" in data, "advisory must have a 'severity' property");
   tape.true("range" in data, "advisory must have a 'range' property");
 }
+
+test("NPMAuditStrategy definition must return only two keys.", (tape) => {
+  const definition = NPMAuditStrategy();
+
+  tape.strictEqual(definition.strategy, "npm", "strategy property must equal 'npm'");
+  tape.deepEqual(Object.keys(definition).sort(), ["strategy", "hydratePayloadDependencies"].sort());
+
+  tape.end();
+});
 
 test("npm strategy: hydratePayloadDependencies", async(tape) => {
   const dependencies = new Map();

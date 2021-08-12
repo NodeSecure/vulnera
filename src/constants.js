@@ -6,9 +6,10 @@ export const NPM_TOKEN = typeof process.env.NODE_SECURE_TOKEN === "string" ? { t
 
 export const VULN_MODE = Object.freeze({
   SECURITY_WG: "node",
-  NPM_AUDIT: "npm"
+  NPM_AUDIT: "npm",
+  NONE: "none"
 });
-export const DEFAULT_VULN_MODE = VULN_MODE.NPM_AUDIT;
+export const DEFAULT_VULN_MODE = VULN_MODE.NONE;
 
 export const VULN_FILE_PATH = path.join(os.tmpdir(), "nsecure-vulnerabilities.json");
 export const TMP_CACHE = path.join(os.tmpdir(), "nsecure-cache.json");

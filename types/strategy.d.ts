@@ -1,7 +1,7 @@
 export = Strategy;
 
 declare namespace Strategy {
-  export type Kind = "npm" | "node";
+  export type Kind = "npm" | "node" | "none";
 
   // Degraded version from scanner (only implement what we need).
   export interface VersionDescriptor {

@@ -41,8 +41,17 @@ test("expect getStrategy() to return the default strategy", async(tape) => {
   tape.end();
 });
 
-test("expect initStrategy() to return npm strategy as default case", async(tape) => {
+test("expect initStrategy() to return none strategy as default case", async(tape) => {
   const definition = await initStrategy();
+
+  isStrategyDefinition(tape, definition);
+  tape.strictEqual(definition.strategy, strategies.NONE);
+
+  tape.end();
+});
+
+test("initialize Npm Audit Strategy", async(tape) => {
+  const definition = await initStrategy(strategies.NPM_AUDIT);
 
   isStrategyDefinition(tape, definition);
   tape.strictEqual(definition.strategy, strategies.NPM_AUDIT);

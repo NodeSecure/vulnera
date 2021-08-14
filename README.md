@@ -37,15 +37,18 @@ await definition.hydratePayloadDependencies(new Map());
 
 ## Available strategy
 
-- **None** (No strategy at all.. which is the `default` value).
-- [NPM Audit](./docs/npm_audit.md)
-- [Node.js Security WG - Database](./docs/node_security_wg.md)
-- [**COMING SOON**] Snyk.
+The default strategy is **NONE** which mean no strategy at all (we execute nothing).
+
+[NPM Audit](./docs/npm_audit.md) | [Node.js Security WG - Database](./docs/node_security_wg.md) | [**COMING SOON**] Snyk 
+:-------------------------:|:-------------------------:|:-------------------------:
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/1200px-Npm-logo.svg.png" width="300"> | <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1280px-Node.js_logo.svg.png" width="300"> | <img src="https://res.cloudinary.com/snyk/image/upload/v1537345894/press-kit/brand/logo-black.png" width="400"> 
 
 Those strategies are described as "string" **type** with the following TypeScript definition:
 ```ts
 type Kind = "npm" | "node" | "none";
 ```
+
+To add a strategy or better understand how the code works, please consult [the following guide](./docs/adding_new_strategy.md).
 
 ## API
 
@@ -54,10 +57,15 @@ See `types/api.d.ts` for a complete TypeScript definition.
 ```ts
 function setStrategy(name?: Strategy.Kind, options?: Strategy.Options): Promise<Strategy.Definition>;
 function getStrategy(): Promise<Strategy.Definition>;
+
 const strategies: {
   SECURITY_WG: "node";
   NPM_AUDIT: "npm";
+  NONE: "none";
 };
+
+/** Equal to strategies.NONE by default **/
+const defaultStrategyName: string;
 ```
 
 Strategy `Kind`, `HydratePayloadDependenciesOptions`, `Options` are described by the following interfaces:
@@ -69,6 +77,10 @@ export interface Options {
 }
 
 export interface HydratePayloadDependenciesOptions {
+  /**
+   * Absolute path to the location to analyze (with a package.json and/or package-lock.json)
+   * Useful to NPM Audit strategy
+   **/
   path?: string;
 }
 
@@ -76,7 +88,10 @@ export interface Definition {
   /** Name of the strategy **/
   strategy: Kind;
   /** Method to hydrate (insert/push) vulnerabilities in the dependencies retrieved by the Scanner **/
-  hydratePayloadDependencies: (dependencies: Dependencies, options?: HydratePayloadDependenciesOptions) => Promise<void>;
+  hydratePayloadDependencies: (
+    dependencies: Dependencies,
+    options?: HydratePayloadDependenciesOptions
+  ) => Promise<void>;
   /** Hydrate local database (if the strategy need one obviously) **/
   hydrateDatabase?: () => Promise<void>;
   /** Method to delete the local vulnerabilities database (if available) **/

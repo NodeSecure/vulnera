@@ -17,6 +17,7 @@ declare namespace Strategy {
   }
 
   export interface HydratePayloadDependenciesOptions {
+    /** Absolute path to the location to analyze (with a package.json and/or package-lock.json for NPM Audit for example) **/
     path?: string;
   }
 

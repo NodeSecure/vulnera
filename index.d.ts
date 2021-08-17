@@ -4,6 +4,7 @@ import { setStrategy, getStrategy, strategies, defaultStrategyName } from "./typ
 
 import NpmStrategy from "./types/npm-strategy";
 import NodeStrategy from "./types/node-strategy";
+import SnykStrategy from "./types/snyk-strategy";
 import Strategy from "./types/strategy";
 
 export {
@@ -18,5 +19,6 @@ export {
   // Interfaces
   NodeStrategy,
   NpmStrategy,
+  SnykStrategy,
   Strategy
 };

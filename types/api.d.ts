@@ -12,6 +12,7 @@ declare function getStrategy(): Promise<Strategy.Definition>;
 declare const strategies: {
   SECURITY_WG: "node";
   NPM_AUDIT: "npm";
+  SNYK: "snyk";
   NONE: "none";
 };
 declare const defaultStrategyName: string;

@@ -24,23 +24,26 @@ export function SnykStrategy() {
 
 export async function hydratePayloadDependencies(dependencies, options = {}) {
   try {
-    const targetFilePath = path.join(options.path, kTargetFileName);
-    const additionalFilePath = path.join(options.path, kAdditionalFileName);
-
-    const targetFile = await readFile(targetFilePath, kEncoding);
-    let additionalFile;
-
-    try {
-      additionalFile = await readFile(additionalFilePath, kEncoding);
-    }
-    catch {}
-
+    const { targetFile, additionalFile } = await getDependenciesFiles(options.path);
     const res = await fetch(kSnykApiUrl, getRequestOptions(targetFile, additionalFile));
-    const data = await res.json();
-    // TODO: add extractPackageVulnsFromSource fn
-    console.dir(data);
+    extractSnykVulnerabilities(dependencies, await res.json());
   }
   catch {}
+}
+
+async function getDependenciesFiles(projectPath) {
+  const targetFile = await readFile(path.join(projectPath, kTargetFileName), kEncoding);
+  let additionalFile;
+
+  try {
+    additionalFile = await readFile(path.join(projectPath, kAdditionalFileName), kEncoding);
+  }
+  catch {}
+
+  return {
+    targetFile,
+    additionalFile
+  };
 }
 
 function getRequestOptions(targetFile, additionalFile) {
@@ -66,4 +69,16 @@ function getRequestOptions(targetFile, additionalFile) {
     },
     body: JSON.stringify(body)
   };
+}
+
+function extractSnykVulnerabilities(dependencies, source) {
+  const { ok, issues } = source;
+  if (!ok) {
+    for (const vuln of issues.vulnerabilities) {
+      const dependency = dependencies.get(vuln.package);
+      if (dependency) {
+        dependency.vulnerabilities.push(vuln);
+      }
+    }
+  }
 }

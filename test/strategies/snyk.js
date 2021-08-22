@@ -7,6 +7,7 @@ import test from "tape";
 
 // Import Internal Dependencies
 import { SnykStrategy, hydratePayloadDependencies } from "../../src/strategies/snyk.js";
+import { readJsonFile } from "../../src/utils.js";
 
 // CONSTANTS
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -18,13 +19,14 @@ const kFixturesDir = path.join(__dirname, "..", "fixtures");
  */
 function isAdvisory(tape, data) {
   // Assert property
-  tape.true("source" in data, "advisory must have a 'source' property");
-  tape.true("name" in data, "advisory must have a 'name' property");
-  tape.true("dependency" in data, "advisory must have a 'dependency' property");
-  tape.true("title" in data, "advisory must have a 'title' property");
+  tape.true("id" in data, "advisory must have a 'id' property");
   tape.true("url" in data, "advisory must have a 'url' property");
+  tape.true("title" in data, "advisory must have a 'title' property");
+  tape.true("package" in data, "advisory must have a 'package' property");
+  tape.true("isPatchable" in data, "advisory must have a 'isPatchable' property");
+  tape.true("patches" in data, "advisory must have a 'patches' property");
+  tape.true("upgradePath" in data, "advisory must have a 'upgradePath' property");
   tape.true("severity" in data, "advisory must have a 'severity' property");
-  tape.true("range" in data, "advisory must have a 'range' property");
 }
 
 test("SnykStrategy definition must return only two keys.", (tape) => {
@@ -38,29 +40,20 @@ test("SnykStrategy definition must return only two keys.", (tape) => {
 
 test("snyk strategy: hydratePayloadDependencies", async(tape) => {
   const dependencies = new Map();
-  dependencies.set("@npmcli/git", { vulnerabilities: [] });
+  dependencies.set("node-uuid", { vulnerabilities: [] });
 
   await hydratePayloadDependencies(dependencies, {
-    path: path.join(kFixturesDir, "audit")
+    path: path.join(kFixturesDir, "snyk")
   });
 
   tape.strictEqual(dependencies.size, 1, "hydratePayloadDependencies must not add new dependencies by itself");
-  const { vulnerabilities } = dependencies.get("@npmcli/git");
+  const { vulnerabilities } = dependencies.get("node-uuid");
   tape.strictEqual(vulnerabilities.length, 1);
 
   isAdvisory(tape, vulnerabilities[0]);
-  tape.deepEqual(vulnerabilities[0], {
-    source: 1772,
-    name: "@npmcli/git",
-    dependency: "@npmcli/git",
-    title: "Arbitrary Command Injection due to Improper Command Sanitization",
-    url: "https://npmjs.com/advisories/1772",
-    severity: "moderate",
-    range: "<2.0.8",
-    version: undefined,
-    id: undefined,
-    vulnerableVersions: undefined
-  });
+
+  const responseBody = await readJsonFile(path.join(kFixturesDir, "snyk/responseBody.json"));
+  tape.deepEqual(vulnerabilities[0], responseBody.issues.vulnerabilities[0]);
 
   tape.end();
 });

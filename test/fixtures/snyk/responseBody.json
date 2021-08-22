@@ -1,0 +1,73 @@
+{
+  "ok": false,
+  "issues": {
+    "vulnerabilities": [
+      {
+        "id": "npm:node-uuid:20160328",
+        "url": "https://snyk.io/vuln/npm:node-uuid:20160328",
+        "title": "Insecure Randomness",
+        "type": "vuln",
+        "description": "## Overview\n[`node-uuid`](https://github.com/kelektiv/node-uuid) is a Simple, fast generation of RFC4122 UUIDS.\n\nAffected versions of this package are vulnerable to Insecure Randomness. It uses the cryptographically insecure `Math.random` which can produce predictable values and should not be used in security-sensitive context.\n\n## Remediation\nUpgrade `node-uuid` to version 1.4.4 or greater.\n\n## References\n- [GitHub Issue](https://github.com/broofa/node-uuid/issues/108)\n- [GitHub Issue 2](https://github.com/broofa/node-uuid/issues/122)\n",
+        "functions": [],
+        "from": [
+          "node-uuid@1.4.0"
+        ],
+        "package": "node-uuid",
+        "version": "1.4.0",
+        "severity": "medium",
+        "exploitMaturity": "no-known-exploit",
+        "language": "js",
+        "packageManager": "npm",
+        "semver": {
+          "vulnerable": [
+            "<1.4.4"
+          ]
+        },
+        "publicationTime": "2016-03-28T22:00:02.566000Z",
+        "disclosureTime": "2016-03-28T21:29:30Z",
+        "isUpgradable": true,
+        "isPatchable": false,
+        "isPinnable": false,
+        "identifiers": {
+          "ALTERNATIVE": [
+            "SNYK-JS-NODEUUID-10089"
+          ],
+          "CVE": [],
+          "CWE": [
+            "CWE-330"
+          ],
+          "NSP": [
+            93
+          ]
+        },
+        "credit": [
+          "Fedot Praslov"
+        ],
+        "CVSSv3": "CVSS:3.0/AV:A/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+        "cvssScore": 4.2,
+        "patches": [
+          {
+            "comments": [],
+            "id": "patch:npm:node-uuid:20160328:0",
+            "modificationTime": "2019-12-03T11:40:45.815314Z",
+            "urls": [
+              "https://snyk-patches.s3.amazonaws.com/npm/node-uuid/20160328/node-uuid_20160328_0_0_616ad3800f35cf58089215f420db9654801a5a02.patch"
+            ],
+            "version": "<=1.4.3 >=1.4.2"
+          }
+        ],
+        "upgradePath": [
+          "node-uuid@1.4.6"
+        ]
+      }
+    ],
+    "licenses": []
+  },
+  "dependencyCount": 1,
+  "org": {
+    "name": "atokeneduser",
+    "id": "4a18d42f-0706-4ad0-b127-24078731fbed"
+  },
+  "licensesPolicy": null,
+  "packageManager": "npm"
+}

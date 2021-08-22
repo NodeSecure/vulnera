@@ -9,7 +9,7 @@
 NodeSecure vulnerabilities strategies built for NodeSecure scanner.
 
 ## Requirements
-- [Node.js](https://nodejs.org/en/) v14 or higher
+- [Node.js](https://nodejs.org/en/) v16 or higher
 
 ## Getting Started
 
@@ -45,7 +45,7 @@ The default strategy is **NONE** which mean no strategy at all (we execute nothi
 
 Those strategies are described as "string" **type** with the following TypeScript definition:
 ```ts
-type Kind = "npm" | "node" | "none";
+type Kind = "npm" | "node" | "snyk" | "none";
 ```
 
 To add a strategy or better understand how the code works, please consult [the following guide](./docs/adding_new_strategy.md).
@@ -61,6 +61,7 @@ function getStrategy(): Promise<Strategy.Definition>;
 const strategies: {
   SECURITY_WG: "node";
   NPM_AUDIT: "npm";
+  SNYK: "snyk";
   NONE: "none";
 };
 

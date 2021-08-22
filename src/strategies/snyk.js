@@ -3,7 +3,7 @@ import path from "path";
 import { readFile } from "fs/promises";
 
 // Import Third-Party Dependencies
-import fetch from "node-fetch";
+import * as httpie from "@myunisoft/httpie";
 
 // Import Internal Dependencies
 import { VULN_MODE, SNYK_ORG, SNYK_TOKEN } from "../constants.js";
@@ -25,8 +25,8 @@ export function SnykStrategy() {
 export async function hydratePayloadDependencies(dependencies, options = {}) {
   try {
     const { targetFile, additionalFile } = await getDependenciesFiles(options.path);
-    const res = await fetch(kSnykApiUrl, getRequestOptions(targetFile, additionalFile));
-    extractSnykVulnerabilities(dependencies, await res.json());
+    const { data } = await httpie.post(kSnykApiUrl, getRequestOptions(targetFile, additionalFile));
+    extractSnykVulnerabilities(dependencies, data);
   }
   catch {}
 }
@@ -62,7 +62,6 @@ function getRequestOptions(targetFile, additionalFile) {
   };
 
   return {
-    method: "post",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       Authorization: kAuthHeader
@@ -71,8 +70,8 @@ function getRequestOptions(targetFile, additionalFile) {
   };
 }
 
-function extractSnykVulnerabilities(dependencies, source) {
-  const { ok, issues } = source;
+function extractSnykVulnerabilities(dependencies, snykAudit) {
+  const { ok, issues } = snykAudit;
   if (!ok) {
     for (const vuln of issues.vulnerabilities) {
       const dependency = dependencies.get(vuln.package);

@@ -11,7 +11,7 @@ declare namespace SnykStrategy {
     /** The issue type **/
     type: "vulnerability" | "license";
     /** The paths to the dependencies which have an issue, and their corresponding upgrade path (if an upgrade is available) **/
-    paths: Array<{
+    paths?: Array<{
       "from": Array<string>,
       "upgrade": Array<string | boolean>
     }>;

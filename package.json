@@ -51,7 +51,7 @@
   "type": "module",
   "dependencies": {
     "@myunisoft/httpie": "^1.1.0",
-    "@nodesecure/npm-registry-sdk": "^1.1.1",
+    "@nodesecure/npm-registry-sdk": "^1.1.2",
     "@npmcli/arborist": "^2.8.0",
     "@slimio/github": "^1.0.0",
     "semver": "^7.3.5"

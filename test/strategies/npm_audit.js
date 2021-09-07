@@ -7,10 +7,28 @@ import test from "tape";
 
 // Import Internal Dependencies
 import { NPMAuditStrategy, hydratePayloadDependencies } from "../../src/strategies/npm-audit.js";
+import { standardizeVulnsPayload } from "../../src/strategies/vuln-payload/standardize.js";
+import { VULN_MODE } from "../../src/constants.js";
+import { NPM_VULNS_PAYLOADS } from "../fixtures/vuln-payload/payloads.js";
 
 // CONSTANTS
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const kFixturesDir = path.join(__dirname, "..", "fixtures");
+
+function getNPMAuditExpectedPayload() {
+  return {
+    source: 1772,
+    name: "@npmcli/git",
+    dependency: "@npmcli/git",
+    title: "Arbitrary Command Injection due to Improper Command Sanitization",
+    url: "https://npmjs.com/advisories/1772",
+    severity: "moderate",
+    range: "<2.0.8",
+    version: undefined,
+    id: undefined,
+    vulnerableVersions: undefined
+  }
+}
 
 /**
  * @param {test.Test} tape
@@ -36,7 +54,7 @@ test("NPMAuditStrategy definition must return only two keys.", (tape) => {
   tape.end();
 });
 
-test("npm strategy: hydratePayloadDependencies", async(tape) => {
+test("npm strategy: hydratePayloadDependencies", async (tape) => {
   const dependencies = new Map();
   dependencies.set("@npmcli/git", { vulnerabilities: [] });
 
@@ -49,18 +67,28 @@ test("npm strategy: hydratePayloadDependencies", async(tape) => {
   tape.strictEqual(vulnerabilities.length, 1);
 
   isAdvisory(tape, vulnerabilities[0]);
-  tape.deepEqual(vulnerabilities[0], {
-    source: 1772,
-    name: "@npmcli/git",
-    dependency: "@npmcli/git",
-    title: "Arbitrary Command Injection due to Improper Command Sanitization",
-    url: "https://npmjs.com/advisories/1772",
-    severity: "moderate",
-    range: "<2.0.8",
-    version: undefined,
-    id: undefined,
-    vulnerableVersions: undefined
+  tape.deepEqual(vulnerabilities[0], getNPMAuditExpectedPayload());
+
+  tape.end();
+});
+
+test("npm strategy: hydratePayloadDependencies using NodeSecure standard format", async (tape) => {
+  const dependencies = new Map();
+  dependencies.set("@npmcli/git", { vulnerabilities: [] });
+
+  await hydratePayloadDependencies(dependencies, {
+    path: path.join(kFixturesDir, "audit"),
+    useStandardFormat: true
   });
 
+  tape.strictEqual(dependencies.size, 1, "hydratePayloadDependencies must not add new dependencies by itself");
+  const { vulnerabilities } = dependencies.get("@npmcli/git");
+  tape.strictEqual(vulnerabilities.length, 1);
+
+  tape.notDeepEqual(vulnerabilities[0], getNPMAuditExpectedPayload());
+  tape.deepEqual(
+    Object.keys(vulnerabilities[0]),
+    Object.keys(NPM_VULNS_PAYLOADS.outputStandardizedPayload)
+  );
   tape.end();
 });

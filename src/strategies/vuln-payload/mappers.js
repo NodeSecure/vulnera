@@ -1,7 +1,7 @@
 // Import Internal Dependencies
 import { VULN_MODE } from "../../constants.js"
 
-function mapToSecurityWG(vuln) {
+function mapFromSecurityWG(vuln) {
     return {
         id: vuln.id,
         origin: VULN_MODE.SECURITY_WG,
@@ -17,7 +17,7 @@ function mapToSecurityWG(vuln) {
     }
 }
 
-function mapToNPM(vuln) {
+function mapFromNPM(vuln) {
     function standardizeSeverity(severity) {
         if (severity === "moderate") return "medium";
         return severity;
@@ -35,7 +35,7 @@ function mapToNPM(vuln) {
     }
 }
 
-function mapToSnyk(vuln) {
+function mapFromSnyk(vuln) {
     function concatFunctionsVulnVersion(vulnFunctions) {
         return vulnFunctions
             .reduce((ranges, functions) => [...ranges, ...functions.version], []);
@@ -64,8 +64,8 @@ function convertStringToArrayWhenDefined(value) {
 }
 
 export const VULN_MAPPERS = {
-    [VULN_MODE.NPM_AUDIT]: mapToNPM,
-    [VULN_MODE.SECURITY_WG]: mapToSecurityWG,
-    [VULN_MODE.SNYK]: mapToSnyk
+    [VULN_MODE.NPM_AUDIT]: mapFromNPM,
+    [VULN_MODE.SECURITY_WG]: mapFromSecurityWG,
+    [VULN_MODE.SNYK]: mapFromSnyk
 };
 

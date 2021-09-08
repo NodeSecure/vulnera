@@ -4,7 +4,7 @@ export const NPM_VULNERABILITY = {
     "dependency": "slashify",
     "title": "Open Redirect",
     "url": "https://npmjs.com/advisories/1622",
-    "severity": "high",
+    "severity": "moderate",
     "range": ">=0.0.0",
     "vulnerableVersions": "*"
 }
@@ -39,7 +39,7 @@ export const SNYK_VULNERABILITY = {
     "language": "js",
     "packageManager": "npm",
     "semver": {
-        "vulnerable": ["<0.7.1"]
+        "vulnerable": ["<0.5.0, >=0.4.0", "<0.3.8, >=0.3.6"]
     },
     "publicationTime": "2015-11-06T02:09:36Z",
     "disclosureTime": "2015-10-24T20:39:59Z",

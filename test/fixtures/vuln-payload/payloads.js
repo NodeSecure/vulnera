@@ -14,7 +14,8 @@ export const NPM_VULNS_PAYLOADS = {
         "package": NPM_VULNERABILITY.name,
         "title": NPM_VULNERABILITY.title,
         "url": NPM_VULNERABILITY.url,
-        "severity": NPM_VULNERABILITY.severity,
+        "severity": "medium",
+        "vulnerableRanges": [NPM_VULNERABILITY.range],
         "vulnerableVersions": [NPM_VULNERABILITY.vulnerableVersions]
     }
 }
@@ -33,7 +34,11 @@ export const SNYK_VULNS_PAYLOADS = {
         "url": SNYK_VULNERABILITY.url,
         "description": SNYK_VULNERABILITY.description,
         "severity": SNYK_VULNERABILITY.severity,
-        "vulnerableVersions": SNYK_VULNERABILITY.semver.vulnerable,
+        "vulnerableRanges": SNYK_VULNERABILITY.semver.vulnerable,
+        "vulnerableVersions": [
+            ...SNYK_VULNERABILITY.functions[0].version,
+            ...SNYK_VULNERABILITY.functions[1].version,
+        ],
         "cves": SNYK_VULNERABILITY.identifiers.CVE,
         "cvssVector": SNYK_VULNERABILITY.CVSSv3,
         "cvssScore": SNYK_VULNERABILITY.cvssScore,
@@ -53,7 +58,8 @@ export const SECURITYWG_VULNS_PAYLOADS = {
         "package": SECURITYWG_VULNERABILITY.module_name,
         "title": SECURITYWG_VULNERABILITY.title,
         "description": SECURITYWG_VULNERABILITY.overview,
-        "vulnerableVersions": [SECURITYWG_VULNERABILITY.vulnerable_versions],
+        "vulnerableRanges": [SECURITYWG_VULNERABILITY.vulnerable_versions],
+        "vulnerableVersions": [],
         "cves": SECURITYWG_VULNERABILITY.cves,
         "cvssVector": SECURITYWG_VULNERABILITY.cvss_vector,
         "cvssScore": SECURITYWG_VULNERABILITY.cvss_score,

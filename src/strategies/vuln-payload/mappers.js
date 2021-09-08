@@ -11,24 +11,36 @@ function mapToSecurityWG(vuln) {
         cves: vuln.cves,
         cvssVector: vuln.cvss_vector,
         cvssScore: vuln.cvss_score,
-        vulnerableVersions: [vuln.vulnerable_versions],
+        vulnerableVersions: [],
+        vulnerableRanges: convertStringToArrayWhenDefined(vuln.vulnerable_versions),
         patchedVersions: vuln.patched_versions,
     }
 }
 
 function mapToNPM(vuln) {
+    function standardizeSeverity(severity) {
+        if (severity === "moderate") return "medium";
+        return severity;
+    }
+
     return {
         id: vuln.id,
         origin: VULN_MODE.NPM_AUDIT,
         package: vuln.name,
         title: vuln.title,
         url: vuln.url,
-        severity: vuln.severity,
-        vulnerableVersions: [vuln.vulnerableVersions || vuln.range]
+        severity: standardizeSeverity(vuln.severity),
+        vulnerableRanges: convertStringToArrayWhenDefined(vuln.range),
+        vulnerableVersions: convertStringToArrayWhenDefined(vuln.vulnerableVersions)
     }
 }
 
 function mapToSnyk(vuln) {
+    function concatFunctionsVulnVersion(vulnFunctions) {
+        return vulnFunctions
+            .reduce((ranges, functions) => [...ranges, ...functions.version], []);
+    }
+
     return {
         id: vuln.id,
         origin: VULN_MODE.SNYK,
@@ -37,7 +49,8 @@ function mapToSnyk(vuln) {
         url: vuln.url,
         description: vuln.description,
         severity: vuln.severity,
-        vulnerableVersions: vuln.semver.vulnerable,
+        vulnerableVersions: concatFunctionsVulnVersion(vuln.functions),
+        vulnerableRanges: vuln.semver.vulnerable,
         cves: vuln.identifiers.CVE,
         cvssVector: vuln.CVSSv3,
         cvssScore: vuln.cvssScore,
@@ -45,8 +58,14 @@ function mapToSnyk(vuln) {
     }
 }
 
+function convertStringToArrayWhenDefined(value) {
+    if (!value) return [];
+    return [value];
+}
+
 export const VULN_MAPPERS = {
     [VULN_MODE.NPM_AUDIT]: mapToNPM,
     [VULN_MODE.SECURITY_WG]: mapToSecurityWG,
     [VULN_MODE.SNYK]: mapToSnyk
 };
+

@@ -28,7 +28,7 @@ export async function hydratePayloadDependencies(dependencies, options = {}) {
     const { data } = await httpie.post(kSnykApiUrl, getRequestOptions(targetFile, additionalFile));
     extractSnykVulnerabilities(dependencies, data);
   }
-  catch {}
+  catch { }
 }
 
 async function getDependenciesFiles(projectPath) {
@@ -38,7 +38,7 @@ async function getDependenciesFiles(projectPath) {
   try {
     additionalFile = await readFile(path.join(projectPath, kAdditionalFileName), kEncoding);
   }
-  catch {}
+  catch { }
 
   return {
     targetFile,
@@ -73,7 +73,10 @@ function getRequestOptions(targetFile, additionalFile) {
 function extractSnykVulnerabilities(dependencies, snykAudit) {
   const { ok, issues } = snykAudit;
   if (!ok) {
-    for (const vuln of issues.vulnerabilities) {
+    const vulnerabilities = options.useStandardFormat
+      ? standardizeVulnsPayload(VULN_MODE.SNYK, issues.vulnerabilities)
+      : issues.vulnerabilities;
+    for (const vuln of vulnerabilities) {
       const dependency = dependencies.get(vuln.package);
       if (dependency) {
         dependency.vulnerabilities.push(vuln);

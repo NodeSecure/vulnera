@@ -4,6 +4,7 @@ import { getLocalRegistryURL } from "@nodesecure/npm-registry-sdk";
 
 // Import Internal Dependencies
 import { VULN_MODE, NPM_TOKEN } from "../constants.js";
+import { standardizeVulnsPayload } from "./vuln-payload/standardize.js";
 
 export function NPMAuditStrategy() {
   return {
@@ -27,10 +28,14 @@ export async function hydratePayloadDependencies(dependencies, options = {}) {
       }
 
       const dependenciesVulnerabilities = dependencies.get(packageName).vulnerabilities;
-      dependenciesVulnerabilities.push(...extractPackageVulnsFromSource(packageVulns));
+      dependenciesVulnerabilities.push(
+        ...options.useStandardFormat
+          ? standardizeVulnsPayload(VULN_MODE.NPM_AUDIT, packageVulns.via)
+          : extractPackageVulnsFromSource(packageVulns)
+      );
     }
   }
-  catch {}
+  catch { }
 }
 
 export function* extractPackageVulnsFromSource(packageVulnerabilities) {

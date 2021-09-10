@@ -10,6 +10,7 @@ import semver from "semver";
 import { readJsonFile } from "../utils.js";
 import { VULN_MODE, VULN_FILE_PATH, CACHE_DELAY } from "../constants.js";
 import * as cache from "../cache.js";
+import { standardizeVulnsPayload } from "./vuln-payload/standardize.js";
 
 export async function SecurityWGStrategy(options) {
   const { hydrateDatabase: udpDb = false } = options;
@@ -17,7 +18,7 @@ export async function SecurityWGStrategy(options) {
     try {
       await checkHydrateDB();
     }
-    catch {}
+    catch { }
   }
 
   return {
@@ -39,7 +40,7 @@ export async function checkHydrateDB() {
   }
 }
 
-export async function hydratePayloadDependencies(dependencies) {
+export async function hydratePayloadDependencies(dependencies, options = {}) {
   try {
     const vulnerabilities = await readJsonFile(VULN_FILE_PATH);
     if (vulnerabilities === null) {
@@ -62,11 +63,13 @@ export async function hydratePayloadDependencies(dependencies) {
       }
 
       if (detectedVulnerabilities.length > 0) {
-        dep.vulnerabilities = detectedVulnerabilities;
+        dep.vulnerabilities = options.useStandardFormat
+          ? standardizeVulnsPayload(VULN_MODE.SECURITY_WG, detectedVulnerabilities)
+          : detectedVulnerabilities;
       }
     }
   }
-  catch {}
+  catch { }
 }
 
 export async function hydrateDatabase() {
@@ -105,5 +108,5 @@ export function deleteDatabase() {
   try {
     unlinkSync(VULN_FILE_PATH);
   }
-  catch {}
+  catch { }
 }

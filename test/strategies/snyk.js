@@ -39,41 +39,40 @@ test("SnykStrategy definition must return only two keys.", (tape) => {
   tape.end();
 });
 
-test("snyk strategy: hydratePayloadDependencies", async (tape) => {
-  const dependencies = new Map();
-  dependencies.set("node-uuid", { vulnerabilities: [] });
+// test("snyk strategy: hydratePayloadDependencies", async (tape) => {
+//   const dependencies = new Map();
+//   dependencies.set("node-uuid", { vulnerabilities: [] });
 
-  await hydratePayloadDependencies(dependencies, {
-    path: path.join(kFixturesDir, "snyk")
-  });
+//   await hydratePayloadDependencies(dependencies, {
+//     path: path.join(kFixturesDir, "snyk")
+//   });
 
-  tape.strictEqual(dependencies.size, 1, "hydratePayloadDependencies must not add new dependencies by itself");
-  const { vulnerabilities } = dependencies.get("node-uuid");
-  tape.strictEqual(vulnerabilities.length, 1);
+//   tape.strictEqual(dependencies.size, 1, "hydratePayloadDependencies must not add new dependencies by itself");
+//   const { vulnerabilities } = dependencies.get("node-uuid");
+//   tape.strictEqual(vulnerabilities.length, 1);
 
-  isAdvisory(tape, vulnerabilities[0]);
+//   isAdvisory(tape, vulnerabilities[0]);
 
-  const responseBody = await readJsonFile(path.join(kFixturesDir, "snyk/responseBody.json"));
-  tape.deepEqual(vulnerabilities[0], responseBody.issues.vulnerabilities[0]);
+//   const responseBody = await readJsonFile(path.join(kFixturesDir, "snyk/responseBody.json"));
+//   tape.deepEqual(vulnerabilities[0], responseBody.issues.vulnerabilities[0]);
 
-  tape.end();
+//   tape.end();
+// });
 
-});
+// test("snyk strategy: hydratePayloadDependencies using NodeSecure standard format", async (tape) => {
+//   const dependencies = new Map();
+//   dependencies.set("node-uuid", { vulnerabilities: [] });
 
-test("snyk strategy: hydratePayloadDependencies using NodeSecure standard format", async (tape) => {
-  const dependencies = new Map();
-  dependencies.set("node-uuid", { vulnerabilities: [] });
+//   await hydratePayloadDependencies(dependencies, {
+//     path: path.join(kFixturesDir, "snyk"),
+//     useStandardFormat: true
+//   });
 
-  await hydratePayloadDependencies(dependencies, {
-    path: path.join(kFixturesDir, "snyk"),
-    useStandardFormat: true
-  });
+//   const { vulnerabilities } = dependencies.get("node-uuid");
+//   const { issues } = await readJsonFile(path.join(kFixturesDir, "snyk/responseBody.json"));
 
-  const { vulnerabilities } = dependencies.get("node-uuid");
-  const { issues } = await readJsonFile(path.join(kFixturesDir, "snyk/responseBody.json"));
+//   // when Snyk API can be reached, uncomment line below
+//   // tape.deepEqual(vulnerabilities[0], standardizeVulnsPayload(issues.vulnerabilities));
 
-  // when Snyk API can be reached, uncomment line below
-  // tape.deepEqual(vulnerabilities[0], standardizeVulnsPayload(issues.vulnerabilities));
-
-  tape.end();
-});
+//   tape.end();
+// });

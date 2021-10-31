@@ -4,7 +4,6 @@
 [![Security Responsible Disclosure](https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg)](https://github.com/nodejs/security-wg/blob/master/processes/responsible_disclosure_template.md
 )
 [![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/NodeSecure/vuln/blob/master/LICENSE)
-![dep](https://img.shields.io/david/NodeSecure/vuln)
 ![build](https://img.shields.io/github/workflow/status/NodeSecure/vuln/Node.js%20CI)
 
 NodeSecure vulnerabilities strategies built for NodeSecure scanner.

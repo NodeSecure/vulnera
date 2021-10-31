@@ -40,10 +40,10 @@ function getSecurityWGExpectedPayload() {
     cvss_vector: "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
     cvss_score: 7.5,
     coordinating_vendor: "^Lift Security"
-  }
+  };
 }
 
-test("node.js strategy: hydratePayloadDependencies", async (tape) => {
+test("node.js strategy: hydratePayloadDependencies", async(tape) => {
   cleanupCache();
 
   // Re-download database!
@@ -68,7 +68,7 @@ test("node.js strategy: hydratePayloadDependencies", async (tape) => {
   }
 });
 
-test("node.js strategy: hydratePayloadDependencies using standard format", async (tape) => {
+test("node.js strategy: hydratePayloadDependencies using standard format", async(tape) => {
   cleanupCache();
 
   // Re-download database!

@@ -7,8 +7,6 @@ import test from "tape";
 
 // Import Internal Dependencies
 import { NPMAuditStrategy, hydratePayloadDependencies } from "../../src/strategies/npm-audit.js";
-import { standardizeVulnsPayload } from "../../src/strategies/vuln-payload/standardize.js";
-import { VULN_MODE } from "../../src/constants.js";
 import { NPM_VULNS_PAYLOADS } from "../fixtures/vuln-payload/payloads.js";
 
 // CONSTANTS
@@ -17,17 +15,17 @@ const kFixturesDir = path.join(__dirname, "..", "fixtures");
 
 function getNPMAuditExpectedPayload() {
   return {
-    source: 1772,
+    source: 1002550,
     name: "@npmcli/git",
     dependency: "@npmcli/git",
     title: "Arbitrary Command Injection due to Improper Command Sanitization",
-    url: "https://npmjs.com/advisories/1772",
+    url: "https://github.com/advisories/GHSA-hxwm-x553-x359",
     severity: "moderate",
     range: "<2.0.8",
     version: undefined,
     id: undefined,
     vulnerableVersions: undefined
-  }
+  };
 }
 
 /**
@@ -54,7 +52,7 @@ test("NPMAuditStrategy definition must return only two keys.", (tape) => {
   tape.end();
 });
 
-test("npm strategy: hydratePayloadDependencies", async (tape) => {
+test("npm strategy: hydratePayloadDependencies", async(tape) => {
   const dependencies = new Map();
   dependencies.set("@npmcli/git", { vulnerabilities: [] });
 
@@ -72,7 +70,7 @@ test("npm strategy: hydratePayloadDependencies", async (tape) => {
   tape.end();
 });
 
-test("npm strategy: hydratePayloadDependencies using NodeSecure standard format", async (tape) => {
+test("npm strategy: hydratePayloadDependencies using NodeSecure standard format", async(tape) => {
   const dependencies = new Map();
   dependencies.set("@npmcli/git", { vulnerabilities: [] });
 

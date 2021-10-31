@@ -4,11 +4,11 @@
   "description": "NodeSecure vulnerabilities strategies",
   "exports": "./index.js",
   "scripts": {
-    "test": "cross-env esm-tape-runner 'test/**/*.js' | tap-monkey",
-    "test:typescript": "tsd",
-    "coverage": "c8 -r html npm test",
     "lint": "cross-env eslint index.js",
-    "check": "npm run lint && npm test"
+    "test-only": "cross-env esm-tape-runner 'test/**/*.js' | tap-monkey",
+    "test:typescript": "tsd",
+    "test": "npm run lint && npm run test-only",
+    "coverage": "c8 -r html npm test"
   },
   "repository": {
     "type": "git",

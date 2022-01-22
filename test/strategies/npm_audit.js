@@ -15,16 +15,16 @@ const kFixturesDir = path.join(__dirname, "..", "fixtures");
 
 function getNPMAuditExpectedPayload() {
   return {
-    source: 1002550,
-    name: "@npmcli/git",
-    dependency: "@npmcli/git",
     title: "Arbitrary Command Injection due to Improper Command Sanitization",
+    name: "@npmcli/git",
+    source: 1005085,
     url: "https://github.com/advisories/GHSA-hxwm-x553-x359",
+    dependency: "@npmcli/git",
     severity: "moderate",
-    range: "<2.0.8",
     version: undefined,
-    id: undefined,
-    vulnerableVersions: undefined
+    vulnerableVersions: undefined,
+    range: "<2.0.8",
+    id: undefined
   };
 }
 

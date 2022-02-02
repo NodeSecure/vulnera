@@ -10,6 +10,7 @@ export const VULN_MODE = Object.freeze({
   SECURITY_WG: "node",
   NPM_AUDIT: "npm",
   SNYK: "snyk",
+  SONATYPE: "sonatype",
   NONE: "none"
 });
 export const DEFAULT_VULN_MODE = VULN_MODE.NONE;

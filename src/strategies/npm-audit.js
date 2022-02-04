@@ -13,7 +13,7 @@ export function NPMAuditStrategy() {
   };
 }
 
-export async function hydratePayloadDependencies(dependencies, options = {}) {
+async function hydratePayloadDependencies(dependencies, options = {}) {
   const { path } = options;
 
   const registry = getLocalRegistryURL();
@@ -38,7 +38,7 @@ export async function hydratePayloadDependencies(dependencies, options = {}) {
   catch { }
 }
 
-export function* extractPackageVulnsFromSource(packageVulnerabilities) {
+function* extractPackageVulnsFromSource(packageVulnerabilities) {
   for (const vulnSource of packageVulnerabilities.via) {
     const { title, range, id, name, source, url, dependency, severity, version, vulnerableVersions } = vulnSource;
 

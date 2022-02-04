@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 import test from "tape";
 
 // Import Internal Dependencies
-import { SnykStrategy, hydratePayloadDependencies } from "../../src/strategies/snyk.js";
+import { SnykStrategy } from "../../src/strategies/snyk.js";
 import { readJsonFile } from "../../src/utils.js";
 import { standardizeVulnsPayload } from "../../src/strategies/vuln-payload/standardize.js";
 

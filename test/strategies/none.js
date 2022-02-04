@@ -13,9 +13,10 @@ test("NoneStrategy definition must return only two keys.", (tape) => {
 });
 
 test("none: hydratePayloadDependencies should not hydrate dependencies Map", async(tape) => {
+  const { hydratePayloadDependencies } = none.NoneStrategy();
   const dependencies = new Map();
 
-  await none.hydratePayloadDependencies(dependencies);
+  await hydratePayloadDependencies(dependencies);
   tape.strictEqual(dependencies.size, 0, "dependencies must be always empty with none strategy");
 
   tape.end();

@@ -22,7 +22,7 @@ export function SnykStrategy() {
   };
 }
 
-export async function hydratePayloadDependencies(dependencies, options = {}) {
+async function hydratePayloadDependencies(dependencies, options = {}) {
   try {
     const { targetFile, additionalFile } = await getDependenciesFiles(options.path);
     const { data } = await httpie.post(kSnykApiUrl, getRequestOptions(targetFile, additionalFile));

@@ -16,7 +16,7 @@ export function SonatypeStrategy() {
 }
 
 /**
- * @returns {PackageURL}, following the Package URL spec semantic
+ * @returns {PackageURL} package url, following the Package URL spec semantic
  * see: https://github.com/package-url/purl-spec
  */
 function toPackageURL(packageName, packageVersion) {
@@ -32,8 +32,6 @@ function createPackageURLCoordinates([dependencyName, dependencyPayload]) {
 
   return versions.map((version) => toPackageURL(dependencyName, version));
 }
-
-const kSonatypeApiUrl = "https://ossindex.sonatype.org/api/v3/component-report";
 
 async function fetchDataForPackageURLs(coordinates) {
   const requestOptions = {

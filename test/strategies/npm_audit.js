@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 import test from "tape";
 
 // Import Internal Dependencies
-import { NPMAuditStrategy, hydratePayloadDependencies } from "../../src/strategies/npm-audit.js";
+import { NPMAuditStrategy } from "../../src/strategies/npm-audit.js";
 import { NPM_VULNS_PAYLOADS } from "../fixtures/vuln-payload/payloads.js";
 
 // CONSTANTS
@@ -53,6 +53,7 @@ test("NPMAuditStrategy definition must return only two keys.", (tape) => {
 });
 
 test("npm strategy: hydratePayloadDependencies", async(tape) => {
+  const { hydratePayloadDependencies } = NPMAuditStrategy();
   const dependencies = new Map();
   dependencies.set("@npmcli/git", { vulnerabilities: [] });
 
@@ -71,6 +72,7 @@ test("npm strategy: hydratePayloadDependencies", async(tape) => {
 });
 
 test("npm strategy: hydratePayloadDependencies using NodeSecure standard format", async(tape) => {
+  const { hydratePayloadDependencies } = NPMAuditStrategy();
   const dependencies = new Map();
   dependencies.set("@npmcli/git", { vulnerabilities: [] });
 

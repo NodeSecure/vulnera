@@ -12,7 +12,7 @@ import { VULN_MODE, VULN_FILE_PATH, CACHE_DELAY } from "../constants.js";
 import * as cache from "../cache.js";
 import { standardizeVulnsPayload } from "./vuln-payload/standardize.js";
 
-export async function SecurityWGStrategy(options) {
+export async function SecurityWGStrategy(options = {}) {
   const { hydrateDatabase: udpDb = false } = options;
   if (udpDb) {
     try {
@@ -29,7 +29,7 @@ export async function SecurityWGStrategy(options) {
   };
 }
 
-export async function checkHydrateDB() {
+async function checkHydrateDB() {
   const localCache = cache.load();
   const ts = Math.abs(Date.now() - localCache.lastUpdated);
 
@@ -40,7 +40,7 @@ export async function checkHydrateDB() {
   }
 }
 
-export async function hydratePayloadDependencies(dependencies, options = {}) {
+async function hydratePayloadDependencies(dependencies, options = {}) {
   try {
     const vulnerabilities = await readJsonFile(VULN_FILE_PATH);
     if (vulnerabilities === null) {
@@ -72,7 +72,7 @@ export async function hydratePayloadDependencies(dependencies, options = {}) {
   catch { }
 }
 
-export async function hydrateDatabase() {
+async function hydrateDatabase() {
   const location = await download("nodejs.security-wg", { extract: true, branch: "main" });
   const vulnPath = path.join(location, "vuln", "npm");
 
@@ -104,7 +104,7 @@ export async function hydrateDatabase() {
   }
 }
 
-export function deleteDatabase() {
+function deleteDatabase() {
   try {
     unlinkSync(VULN_FILE_PATH);
   }

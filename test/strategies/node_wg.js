@@ -6,7 +6,7 @@ import test from "tape";
 
 // Import Internal Dependencies
 import { VULN_FILE_PATH, TMP_CACHE, VULN_MODE } from "../../src/constants.js";
-import { hydrateDatabase, hydratePayloadDependencies } from "../../src/strategies/security-wg.js";
+import { SecurityWGStrategy } from "../../src/strategies/security-wg.js";
 import { standardizeVulnsPayload } from "../../src/strategies/vuln-payload/standardize.js";
 
 function cleanupCache() {
@@ -44,6 +44,8 @@ function getSecurityWGExpectedPayload() {
 }
 
 test("node.js strategy: hydratePayloadDependencies", async(tape) => {
+  const { hydrateDatabase, hydratePayloadDependencies } = await SecurityWGStrategy();
+
   cleanupCache();
 
   // Re-download database!
@@ -69,6 +71,7 @@ test("node.js strategy: hydratePayloadDependencies", async(tape) => {
 });
 
 test("node.js strategy: hydratePayloadDependencies using standard format", async(tape) => {
+  const { hydrateDatabase, hydratePayloadDependencies } = await SecurityWGStrategy();
   cleanupCache();
 
   // Re-download database!

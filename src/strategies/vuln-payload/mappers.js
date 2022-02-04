@@ -65,11 +65,11 @@ function mapFromSnyk(vuln) {
   };
 }
 
-function mapFromSonatype(vuln, packageName) {
+function mapFromSonatype(vuln) {
   return {
     id: vuln.id,
     origin: VULN_MODE.SONATYPE,
-    package: "debug",
+    package: vuln.package,
     title: vuln.title,
     url: vuln.reference,
     description: vuln.description,

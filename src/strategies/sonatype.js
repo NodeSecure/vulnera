@@ -3,7 +3,7 @@ import * as httpie from "@myunisoft/httpie";
 
 // Import Internal Dependencies
 import { VULN_MODE } from "../constants.js";
-import { formatVulnerabilities } from "./vuln-payload/standardize.js";
+import { standardizeVulnsPayload } from "./vuln-payload/standardize.js";
 
 // Constants
 const kSonatypeApiURL = "https://ossindex.sonatype.org/api/v3/component-report";
@@ -74,6 +74,7 @@ function vulnWithPackageName(packageName) {
 }
 
 async function hydratePayloadDependencies(dependencies, options = {}) {
+  const formatVulnerabilities = standardizeVulnsPayload(options.useStandardFormat);
   const packageURLsFromDependencies = Array.from(dependencies)
     .flatMap(createPackageURLCoordinates);
 

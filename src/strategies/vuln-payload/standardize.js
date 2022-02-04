@@ -1,7 +1,7 @@
 // Import Internal Dependencies
 import { VULN_MAPPERS } from "./mappers.js";
 
-export function standardizeVulnsPayload(strategy, vulns) {
+function useStrategyVulnerabilityMapper(strategy, vulns) {
   if (!VULN_MAPPERS[strategy]) {
     return [];
   }
@@ -9,9 +9,16 @@ export function standardizeVulnsPayload(strategy, vulns) {
   return vulns.map(VULN_MAPPERS[strategy]);
 }
 
-export function formatVulnerabilities(strategy, vulnerabilities, useStandardFormat) {
-  return useStandardFormat ? standardizeVulnsPayload(
-    strategy, vulnerabilities
-  ) : vulnerabilities;
+export function standardizeVulnsPayload(useStandardFormat) {
+  return function formatVulnerabilities(strategy, vulnerabilities) {
+    if (useStandardFormat) {
+      return useStrategyVulnerabilityMapper(
+        strategy, vulnerabilities
+      );
+    }
+
+    // identity function
+    return vulnerabilities;
+  };
 }
 

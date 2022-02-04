@@ -78,6 +78,7 @@ test("node.js strategy: hydratePayloadDependencies using standard format", async
   await hydrateDatabase();
 
   try {
+    const formatVulnerabilities = standardizeVulnsPayload(true);
     const dependencies = new Map();
     // see: https://github.com/nodejs/security-wg/blob/main/vuln/npm/100.json
     dependencies.set("uri-js", {
@@ -88,7 +89,7 @@ test("node.js strategy: hydratePayloadDependencies using standard format", async
     await hydratePayloadDependencies(dependencies, { useStandardFormat: true });
 
     const vulns = dependencies.get("uri-js").vulnerabilities;
-    tape.deepEqual(vulns, standardizeVulnsPayload(VULN_MODE.SECURITY_WG, [getSecurityWGExpectedPayload()]));
+    tape.deepEqual(vulns, formatVulnerabilities(VULN_MODE.SECURITY_WG, [getSecurityWGExpectedPayload()]));
   }
   finally {
     cleanupCache();

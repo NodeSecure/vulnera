@@ -7,6 +7,7 @@ import * as httpie from "@myunisoft/httpie";
 
 // Import Internal Dependencies
 import { VULN_MODE, SNYK_ORG, SNYK_TOKEN } from "../constants.js";
+import { standardizeVulnsPayload } from "./vuln-payload/standardize.js";
 
 // Constants
 const kTargetFileName = "package.json";
@@ -26,7 +27,7 @@ async function hydratePayloadDependencies(dependencies, options = {}) {
   try {
     const { targetFile, additionalFile } = await getDependenciesFiles(options.path);
     const { data } = await httpie.post(kSnykApiUrl, getRequestOptions(targetFile, additionalFile));
-    extractSnykVulnerabilities(dependencies, data);
+    extractSnykVulnerabilities(dependencies, data, options);
   }
   catch { }
 }
@@ -70,12 +71,13 @@ function getRequestOptions(targetFile, additionalFile) {
   };
 }
 
-function extractSnykVulnerabilities(dependencies, snykAudit) {
+function extractSnykVulnerabilities(dependencies, snykAudit, options) {
   const { ok, issues } = snykAudit;
+  const { useStandardFormat } = options;
+  const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
+
   if (!ok) {
-    const vulnerabilities = options.useStandardFormat
-      ? standardizeVulnsPayload(VULN_MODE.SNYK, issues.vulnerabilities)
-      : issues.vulnerabilities;
+    const vulnerabilities = formatVulnerabilities(issues.vulnerabilities);
     for (const vuln of vulnerabilities) {
       const dependency = dependencies.get(vuln.package);
       if (dependency) {

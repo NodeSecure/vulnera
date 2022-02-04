@@ -47,6 +47,7 @@ async function hydratePayloadDependencies(dependencies, options = {}) {
       return;
     }
 
+    const formatVulnerabilities = standardizeVulnsPayload(options.useStandardFormat);
     const uniqueDependenciesName = new Set([...dependencies.keys()]);
     const filtered = new Set(
       Object.keys(vulnerabilities).filter((name) => uniqueDependenciesName.has(name))
@@ -63,9 +64,7 @@ async function hydratePayloadDependencies(dependencies, options = {}) {
       }
 
       if (detectedVulnerabilities.length > 0) {
-        dep.vulnerabilities = options.useStandardFormat
-          ? standardizeVulnsPayload(VULN_MODE.SECURITY_WG, detectedVulnerabilities)
-          : detectedVulnerabilities;
+        dep.vulnerabilities = formatVulnerabilities(VULN_MODE.SECURITY_WG, detectedVulnerabilities);
       }
     }
   }

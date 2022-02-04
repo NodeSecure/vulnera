@@ -3,7 +3,7 @@ import { SNYK_VULNERABILITY, NPM_VULNERABILITY, SECURITYWG_VULNERABILITY, SONATY
 export const NPM_VULNS_PAYLOADS = {
   inputVulnsPayload: {
     vulnerabilities: {
-      slashify: {
+      "@npmcli/git": {
         via: [NPM_VULNERABILITY]
       }
     }
@@ -16,7 +16,7 @@ export const NPM_VULNS_PAYLOADS = {
     url: NPM_VULNERABILITY.url,
     severity: "medium",
     vulnerableRanges: [NPM_VULNERABILITY.range],
-    vulnerableVersions: [NPM_VULNERABILITY.vulnerableVersions]
+    vulnerableVersions: []
   }
 };
 

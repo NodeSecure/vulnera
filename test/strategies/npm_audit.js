@@ -13,20 +13,6 @@ import { NPM_VULNS_PAYLOADS } from "../fixtures/vuln-payload/payloads.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const kFixturesDir = path.join(__dirname, "..", "fixtures");
 
-function getNPMAuditExpectedPayload() {
-  return {
-    title: "Arbitrary Command Injection due to Improper Command Sanitization",
-    name: "@npmcli/git",
-    source: 1005085,
-    url: "https://github.com/advisories/GHSA-hxwm-x553-x359",
-    dependency: "@npmcli/git",
-    severity: "moderate",
-    version: undefined,
-    vulnerableVersions: undefined,
-    range: "<2.0.8",
-    id: undefined
-  };
-}
 
 /**
  * @param {test.Test} tape
@@ -55,6 +41,19 @@ test("NPMAuditStrategy definition must return only two keys.", (tape) => {
 test("npm strategy: hydratePayloadDependencies", async(tape) => {
   const { hydratePayloadDependencies } = NPMAuditStrategy();
   const dependencies = new Map();
+  const NPMAuditExpectedPayload = {
+    title: "Arbitrary Command Injection due to Improper Command Sanitization",
+    name: "@npmcli/git",
+    source: 1005085,
+    url: "https://github.com/advisories/GHSA-hxwm-x553-x359",
+    dependency: "@npmcli/git",
+    severity: "moderate",
+    version: undefined,
+    vulnerableVersions: undefined,
+    range: "<2.0.8",
+    id: undefined
+  };
+
   dependencies.set("@npmcli/git", { vulnerabilities: [] });
 
   await hydratePayloadDependencies(dependencies, {
@@ -65,8 +64,10 @@ test("npm strategy: hydratePayloadDependencies", async(tape) => {
   const { vulnerabilities } = dependencies.get("@npmcli/git");
   tape.strictEqual(vulnerabilities.length, 1);
 
-  isAdvisory(tape, vulnerabilities[0]);
-  tape.deepEqual(vulnerabilities[0], getNPMAuditExpectedPayload());
+  const [npmcliVuln] = vulnerabilities;
+
+  isAdvisory(tape, npmcliVuln);
+  tape.deepEqual(npmcliVuln, NPMAuditExpectedPayload);
 
   tape.end();
 });
@@ -85,7 +86,6 @@ test("npm strategy: hydratePayloadDependencies using NodeSecure standard format"
   const { vulnerabilities } = dependencies.get("@npmcli/git");
   tape.strictEqual(vulnerabilities.length, 1);
 
-  tape.notDeepEqual(vulnerabilities[0], getNPMAuditExpectedPayload());
   tape.deepEqual(
     Object.keys(vulnerabilities[0]),
     Object.keys(NPM_VULNS_PAYLOADS.outputStandardizedPayload)

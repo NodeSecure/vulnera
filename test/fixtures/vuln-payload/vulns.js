@@ -1,13 +1,15 @@
 /* eslint-disable max-len */
 export const NPM_VULNERABILITY = {
-  source: 1622,
-  name: "slashify",
-  dependency: "slashify",
-  title: "Open Redirect",
-  url: "https://npmjs.com/advisories/1622",
+  title: "Arbitrary Command Injection due to Improper Command Sanitization",
+  name: "@npmcli/git",
+  source: 1005085,
+  url: "https://github.com/advisories/GHSA-hxwm-x553-x359",
+  dependency: "@npmcli/git",
   severity: "moderate",
-  range: ">=0.0.0",
-  vulnerableVersions: "*"
+  version: undefined,
+  vulnerableVersions: undefined,
+  range: "<2.0.8",
+  id: undefined
 };
 
 export const SNYK_VULNERABILITY = {

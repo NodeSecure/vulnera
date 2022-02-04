@@ -21,7 +21,7 @@ test("should convert NONE or unknown strategy into blank payload", (tape) => {
 test("should convert NPM strategy vulns payload into NodeSecure standard payload", (tape) => {
   const { vulnerabilities } = NPM_VULNS_PAYLOADS.inputVulnsPayload;
   const [fromNPMToStandardFormat] = formatVulnerabilities(
-    VULN_MODE.NPM_AUDIT, vulnerabilities.slashify.via
+    VULN_MODE.NPM_AUDIT, vulnerabilities["@npmcli/git"].via
   );
   tape.deepEqual(fromNPMToStandardFormat, NPM_VULNS_PAYLOADS.outputStandardizedPayload);
   tape.end();

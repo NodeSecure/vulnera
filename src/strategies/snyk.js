@@ -64,10 +64,9 @@ function getRequestOptions(targetFile, additionalFile) {
 
   return {
     headers: {
-      "Content-Type": "application/json; charset=utf-8",
       Authorization: kAuthHeader
     },
-    body: JSON.stringify(body)
+    body
   };
 }
 

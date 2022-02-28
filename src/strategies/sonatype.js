@@ -36,15 +36,15 @@ function createPackageURLCoordinates([dependencyName, dependencyPayload]) {
 async function fetchDataForPackageURLs(coordinates) {
   const requestOptions = {
     headers: {
-      "Content-Type": "application/json; charset=utf-8"
+      Accept: "application/json"
     },
-    body: JSON.stringify({ coordinates })
+    body: { coordinates }
   };
 
   try {
     const { data } = await httpie.post(kSonatypeApiURL, requestOptions);
 
-    return JSON.parse(data);
+    return data;
   }
   catch {
     return [];
@@ -52,8 +52,11 @@ async function fetchDataForPackageURLs(coordinates) {
 }
 
 /**
- * @param {PackageURL} purl, following the Package URL spec semantic
- * see: https://github.com/package-url/purl-spec
+ * @param {string} purl - A string representing the specific Package URL
+ * semantic.
+ * When targetting npm repositories, the specification is the following:
+ * pkg:npm/<package-name>@<package-version> such as: pkg:npm/foobar@12.3.1
+ * For further reading see: https://github.com/package-url/purl-spec
  */
 function extractNameFromPackageURL(purl) {
   const [, packageData] = purl.split("npm/");
@@ -65,7 +68,8 @@ function extractNameFromPackageURL(purl) {
 /**
  * Package's name is not part of the vulnerability description returned back
  * by Sonatype. Given that the package name is required in the NodeSecure
- * vulnerability standard format,
+ * vulnerability standard format, we must be sure to provide it back after
+ * reaching the API.
  */
 function vulnWithPackageName(packageName) {
   return function provideNameToVulnPayload(vuln) {

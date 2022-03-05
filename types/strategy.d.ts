@@ -4,7 +4,7 @@ import SnykStrategy from "./snyk-strategy";
 export = Strategy;
 
 declare namespace Strategy {
-  export type Kind = "npm" | "node" | "snyk" | "none";
+  export type Kind = "npm" | "node" | "snyk" | "sonatype" | "none";
 
   // Degraded version from scanner (only implement what we need).
   export interface VersionDescriptor {

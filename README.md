@@ -39,13 +39,13 @@ await definition.hydratePayloadDependencies(new Map());
 
 The default strategy is **NONE** which mean no strategy at all (we execute nothing).
 
-[NPM Audit](./docs/npm_audit.md) | [Node.js Security WG - Database](./docs/node_security_wg.md) | [**COMING SOON**] Snyk 
-:-------------------------:|:-------------------------:|:-------------------------:
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/1200px-Npm-logo.svg.png" width="300"> | <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1280px-Node.js_logo.svg.png" width="300"> | <img src="https://res.cloudinary.com/snyk/image/upload/v1537345894/press-kit/brand/logo-black.png" width="400"> 
+[NPM Audit](./docs/npm_audit.md) | [Node.js Security WG - Database](./docs/node_security_wg.md) | [Sonatype - OSS Index](./docs/sonatype.md) | [**COMING SOON**] Snyk 
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/1200px-Npm-logo.svg.png" width="300"> | <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1280px-Node.js_logo.svg.png" width="300"> | <img src="https://ossindex.sonatype.org/assets/images/sonatype-image.png" width="400"> | <img src="https://res.cloudinary.com/snyk/image/upload/v1537345894/press-kit/brand/logo-black.png" width="400"> 
 
 Those strategies are described as "string" **type** with the following TypeScript definition:
 ```ts
-type Kind = "npm" | "node" | "snyk" | "none";
+type Kind = "npm" | "node" | "sonatype" | "snyk" | "none";
 ```
 
 To add a strategy or better understand how the code works, please consult [the following guide](./docs/adding_new_strategy.md).
@@ -61,6 +61,7 @@ function getStrategy(): Promise<Strategy.Definition>;
 const strategies: {
   SECURITY_WG: "node";
   NPM_AUDIT: "npm";
+  SONATYPE: "sonatype";
   SNYK: "snyk";
   NONE: "none";
 };

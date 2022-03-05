@@ -13,6 +13,7 @@ declare const strategies: {
   SECURITY_WG: "node";
   NPM_AUDIT: "npm";
   SNYK: "snyk";
+  SONATYPE: "sonatype";
   NONE: "none";
 };
 declare const defaultStrategyName: string;

@@ -2,12 +2,13 @@
 import { NPMAuditStrategy } from "./npm-audit.js";
 import { SecurityWGStrategy } from "./security-wg.js";
 import { SnykStrategy } from "./snyk.js";
+import { SonatypeStrategy } from "./sonatype.js";
 import { NoneStrategy } from "./none.js";
 
 // CONSTANTS
 import { VULN_MODE } from "../constants.js";
 
-export { NPMAuditStrategy, SecurityWGStrategy, SnykStrategy };
+export { NPMAuditStrategy, SecurityWGStrategy, SnykStrategy, SonatypeStrategy };
 
 export async function initStrategy(strategy, options) {
   switch (strategy) {
@@ -19,6 +20,9 @@ export async function initStrategy(strategy, options) {
 
     case VULN_MODE.SNYK:
       return Object.seal(SnykStrategy());
+
+    case VULN_MODE.SONATYPE:
+      return Object.seal(SonatypeStrategy());
   }
 
   return Object.seal(NoneStrategy());

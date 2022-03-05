@@ -13,9 +13,10 @@ export function NPMAuditStrategy() {
   };
 }
 
-export async function hydratePayloadDependencies(dependencies, options = {}) {
-  const { path } = options;
+async function hydratePayloadDependencies(dependencies, options = {}) {
+  const { path, useStandardFormat } = options;
 
+  const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
   const registry = getLocalRegistryURL();
   const arborist = new Arborist({ ...NPM_TOKEN, registry, path });
 
@@ -29,16 +30,17 @@ export async function hydratePayloadDependencies(dependencies, options = {}) {
 
       const dependenciesVulnerabilities = dependencies.get(packageName).vulnerabilities;
       dependenciesVulnerabilities.push(
-        ...options.useStandardFormat
-          ? standardizeVulnsPayload(VULN_MODE.NPM_AUDIT, packageVulns.via)
-          : extractPackageVulnsFromSource(packageVulns)
+        ...formatVulnerabilities(
+          VULN_MODE.NPM_AUDIT,
+          [...extractPackageVulnsFromSource(packageVulns)]
+        )
       );
     }
   }
   catch { }
 }
 
-export function* extractPackageVulnsFromSource(packageVulnerabilities) {
+function* extractPackageVulnsFromSource(packageVulnerabilities) {
   for (const vulnSource of packageVulnerabilities.via) {
     const { title, range, id, name, source, url, dependency, severity, version, vulnerableVersions } = vulnSource;
 

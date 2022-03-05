@@ -8,6 +8,6 @@ export function NoneStrategy() {
   };
 }
 
-export async function hydratePayloadDependencies(dependencies) {
+async function hydratePayloadDependencies(dependencies) {
   // Do nothing
 }

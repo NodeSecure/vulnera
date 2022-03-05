@@ -6,7 +6,7 @@ import test from "tape";
 
 // Import Internal Dependencies
 import { VULN_FILE_PATH, TMP_CACHE, VULN_MODE } from "../../src/constants.js";
-import { hydrateDatabase, hydratePayloadDependencies } from "../../src/strategies/security-wg.js";
+import { SecurityWGStrategy } from "../../src/strategies/security-wg.js";
 import { standardizeVulnsPayload } from "../../src/strategies/vuln-payload/standardize.js";
 
 function cleanupCache() {
@@ -44,6 +44,8 @@ function getSecurityWGExpectedPayload() {
 }
 
 test("node.js strategy: hydratePayloadDependencies", async(tape) => {
+  const { hydrateDatabase, hydratePayloadDependencies } = await SecurityWGStrategy();
+
   cleanupCache();
 
   // Re-download database!
@@ -69,12 +71,14 @@ test("node.js strategy: hydratePayloadDependencies", async(tape) => {
 });
 
 test("node.js strategy: hydratePayloadDependencies using standard format", async(tape) => {
+  const { hydrateDatabase, hydratePayloadDependencies } = await SecurityWGStrategy();
   cleanupCache();
 
   // Re-download database!
   await hydrateDatabase();
 
   try {
+    const formatVulnerabilities = standardizeVulnsPayload(true);
     const dependencies = new Map();
     // see: https://github.com/nodejs/security-wg/blob/main/vuln/npm/100.json
     dependencies.set("uri-js", {
@@ -85,7 +89,7 @@ test("node.js strategy: hydratePayloadDependencies using standard format", async
     await hydratePayloadDependencies(dependencies, { useStandardFormat: true });
 
     const vulns = dependencies.get("uri-js").vulnerabilities;
-    tape.deepEqual(vulns, standardizeVulnsPayload(VULN_MODE.SECURITY_WG, [getSecurityWGExpectedPayload()]));
+    tape.deepEqual(vulns, formatVulnerabilities(VULN_MODE.SECURITY_WG, [getSecurityWGExpectedPayload()]));
   }
   finally {
     cleanupCache();

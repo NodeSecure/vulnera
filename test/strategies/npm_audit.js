@@ -44,7 +44,7 @@ test("npm strategy: hydratePayloadDependencies", async(tape) => {
   const NPMAuditExpectedPayload = {
     title: "Arbitrary Command Injection due to Improper Command Sanitization",
     name: "@npmcli/git",
-    source: 1005085,
+    source: 1007471,
     url: "https://github.com/advisories/GHSA-hxwm-x553-x359",
     dependency: "@npmcli/git",
     severity: "moderate",

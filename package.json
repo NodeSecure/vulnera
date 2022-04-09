@@ -50,7 +50,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@myunisoft/httpie": "^1.4.1",
+    "@myunisoft/httpie": "^1.5.0",
     "@nodesecure/npm-registry-sdk": "^1.3.0",
     "@npmcli/arborist": "^5.0.0",
     "@slimio/github": "^1.0.0",

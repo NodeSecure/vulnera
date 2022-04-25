@@ -30,7 +30,7 @@ function toPackageURL(packageName, packageVersion) {
 function createPackageURLCoordinates([dependencyName, dependencyPayload]) {
   const { versions } = dependencyPayload;
 
-  return versions.map((version) => toPackageURL(dependencyName, version));
+  return Object.keys(versions).map((version) => toPackageURL(dependencyName, version));
 }
 
 async function fetchDataForPackageURLs(coordinates) {

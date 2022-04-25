@@ -10,8 +10,15 @@ import { SONATYPE_VULNS_PAYLOADS } from "../fixtures/vuln-payload/payloads.js";
 test("SonatypeStrategy definition must return only two keys.", (tape) => {
   const definition = SonatypeStrategy();
 
-  tape.strictEqual(definition.strategy, "sonatype", "strategy property must equal 'sonatype'");
-  tape.deepEqual(Object.keys(definition).sort(), ["strategy", "hydratePayloadDependencies"].sort());
+  tape.strictEqual(
+    definition.strategy,
+    "sonatype",
+    "strategy property must equal 'sonatype'"
+  );
+  tape.deepEqual(
+    Object.keys(definition).sort(),
+    ["strategy", "hydratePayloadDependencies"].sort()
+  );
 
   tape.end();
 });
@@ -22,13 +29,21 @@ test("sonatype strategy: hydratePayloadDependencies using NodeSecure standard fo
 
   dependencies.set("debug", {
     vulnerabilities: [],
-    versions: ["3.0.1"]
+    versions: {
+      "3.0.1": {
+        id: 10,
+        description: "package description"
+      }
+    }
   });
 
-  await hydratePayloadDependencies(dependencies, {
-  });
+  await hydratePayloadDependencies(dependencies);
 
-  tape.strictEqual(dependencies.size, 1, "hydratePayloadDependencies must not add new dependencies by itself");
+  tape.strictEqual(
+    dependencies.size,
+    1,
+    "hydratePayloadDependencies must not add new dependencies by itself"
+  );
   const { vulnerabilities } = dependencies.get("debug");
   tape.strictEqual(vulnerabilities.length, 1);
 
@@ -41,18 +56,30 @@ test("sonatype strategy: hydratePayloadDependencies using NodeSecure standard fo
 
   dependencies.set("debug", {
     vulnerabilities: [],
-    versions: ["3.0.1"]
+    versions: {
+      "3.0.1": {
+        id: 10,
+        description: "package description"
+      }
+    }
   });
 
   await hydratePayloadDependencies(dependencies, { useStandardFormat: true });
 
-  tape.strictEqual(dependencies.size, 1, "hydratePayloadDependencies must not add new dependencies by itself");
+  tape.strictEqual(
+    dependencies.size,
+    1,
+    "hydratePayloadDependencies must not add new dependencies by itself"
+  );
   const { vulnerabilities } = dependencies.get("debug");
   tape.strictEqual(vulnerabilities.length, 1);
 
   const [standardizedVulnFromSonatype] = vulnerabilities;
 
-  tape.deepEqual(standardizedVulnFromSonatype, SONATYPE_VULNS_PAYLOADS.outputStandardizedPayload);
+  tape.deepEqual(
+    standardizedVulnFromSonatype,
+    SONATYPE_VULNS_PAYLOADS.outputStandardizedPayload
+  );
 
   tape.end();
 });

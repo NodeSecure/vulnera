@@ -29,8 +29,7 @@ export function isNodeSecureStandardVulnerabilityPayload(tape, payload) {
     "package",
     "title",
     "vulnerableVersions",
-    "vulnerableRanges",
-    "cves"
+    "vulnerableRanges"
   ];
 
   // Check that the mandatory properties are present in the payload
@@ -46,6 +45,7 @@ export function isNodeSecureStandardVulnerabilityPayload(tape, payload) {
     "url",
     "description",
     "severity",
+    "cves",
     "cvssVector",
     "cvssScore",
     "patches",

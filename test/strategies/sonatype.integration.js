@@ -3,6 +3,7 @@ import test from "tape";
 
 // Import Internal Dependencies
 import { SonatypeStrategy } from "../../src/strategies/sonatype.js";
+import { isNodeSecureStandardVulnerabilityPayload } from "./utils.js";
 
 // CONSTANTS
 /**
@@ -26,7 +27,7 @@ test("sonatype strategy: hydrating the payload dependencies using the API", asyn
     }
   });
 
-  await hydratePayloadDependencies(dependencies);
+  await hydratePayloadDependencies(dependencies, { useStandardFormat: true });
 
   tape.strictEqual(
     dependencies.size,
@@ -41,9 +42,7 @@ test("sonatype strategy: hydrating the payload dependencies using the API", asyn
 
   const [vulnerability] = vulnerabilities;
 
-  tape.true("id" in vulnerability);
-  tape.true("package" in vulnerability);
-  tape.true("cvssScore" in vulnerability);
+  isNodeSecureStandardVulnerabilityPayload(tape, vulnerability);
 
   tape.end();
 });

@@ -8,11 +8,17 @@ import test from "tape";
 // Import Internal Dependencies
 import { SnykStrategy } from "../../src/strategies/snyk.js";
 import { readJsonFile } from "../../src/utils.js";
-import { standardizeVulnsPayload } from "../../src/strategies/vuln-payload/standardize.js";
+import {
+  isNodeSecureStandardVulnerabilityPayload,
+  kHttpClientHeaders,
+  setupHttpAgentMock
+} from "./utils.js";
 
 // CONSTANTS
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const kFixturesDir = path.join(__dirname, "..", "fixtures");
+const kSnykOrigin = "https://snyk.io";
+const kSnykApiPath = "/api/v1/test/npm?org=undefined";
 
 /**
  * @param {test.Test} tape
@@ -24,55 +30,105 @@ function isAdvisory(tape, data) {
   tape.true("url" in data, "advisory must have a 'url' property");
   tape.true("title" in data, "advisory must have a 'title' property");
   tape.true("package" in data, "advisory must have a 'package' property");
-  tape.true("isPatchable" in data, "advisory must have a 'isPatchable' property");
+  tape.true(
+    "isPatchable" in data,
+    "advisory must have a 'isPatchable' property"
+  );
   tape.true("patches" in data, "advisory must have a 'patches' property");
-  tape.true("upgradePath" in data, "advisory must have a 'upgradePath' property");
+  tape.true(
+    "upgradePath" in data,
+    "advisory must have a 'upgradePath' property"
+  );
   tape.true("severity" in data, "advisory must have a 'severity' property");
 }
 
 test("SnykStrategy definition must return only two keys.", (tape) => {
   const definition = SnykStrategy();
 
-  tape.strictEqual(definition.strategy, "snyk", "strategy property must equal 'snyk'");
-  tape.deepEqual(Object.keys(definition).sort(), ["strategy", "hydratePayloadDependencies"].sort());
+  tape.strictEqual(
+    definition.strategy,
+    "snyk",
+    "strategy property must equal 'snyk'"
+  );
+  tape.deepEqual(
+    Object.keys(definition).sort(),
+    ["strategy", "hydratePayloadDependencies"].sort()
+  );
 
   tape.end();
 });
 
-// test("snyk strategy: hydratePayloadDependencies", async (tape) => {
-//   const dependencies = new Map();
-//   dependencies.set("node-uuid", { vulnerabilities: [] });
+test("snyk strategy: hydratePayloadDependencies", async(tape) => {
+  const { hydratePayloadDependencies } = SnykStrategy();
+  const dependencies = new Map();
+  const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
+  const mockedHttpClient = mockedHttpAgent.get(kSnykOrigin);
+  const responseBody = await readJsonFile(
+    path.join(kFixturesDir, "snyk/responseBody.json")
+  );
 
-//   await hydratePayloadDependencies(dependencies, {
-//     path: path.join(kFixturesDir, "snyk")
-//   });
+  mockedHttpClient
+    .intercept({
+      path: kSnykApiPath,
+      method: "POST"
+    })
+    .reply(200, responseBody, kHttpClientHeaders);
 
-//   tape.strictEqual(dependencies.size, 1, "hydratePayloadDependencies must not add new dependencies by itself");
-//   const { vulnerabilities } = dependencies.get("node-uuid");
-//   tape.strictEqual(vulnerabilities.length, 1);
+  dependencies.set("node-uuid", { vulnerabilities: [] });
 
-//   isAdvisory(tape, vulnerabilities[0]);
+  await hydratePayloadDependencies(dependencies, {
+    path: path.join(kFixturesDir, "snyk")
+  });
 
-//   const responseBody = await readJsonFile(path.join(kFixturesDir, "snyk/responseBody.json"));
-//   tape.deepEqual(vulnerabilities[0], responseBody.issues.vulnerabilities[0]);
+  tape.strictEqual(
+    dependencies.size,
+    1,
+    "hydratePayloadDependencies must not add new dependencies by itself"
+  );
+  const { vulnerabilities } = dependencies.get("node-uuid");
+  tape.strictEqual(vulnerabilities.length, 1);
 
-//   tape.end();
-// });
+  const nodeUUIDVulnerability = vulnerabilities[0];
+  isAdvisory(tape, nodeUUIDVulnerability);
+  tape.deepEqual(nodeUUIDVulnerability, responseBody.issues.vulnerabilities[0]);
 
-// test("snyk strategy: hydratePayloadDependencies using NodeSecure standard format", async (tape) => {
-//   const dependencies = new Map();
-//   dependencies.set("node-uuid", { vulnerabilities: [] });
+  restoreHttpAgent();
+  tape.end();
+});
 
-//   await hydratePayloadDependencies(dependencies, {
-//     path: path.join(kFixturesDir, "snyk"),
-//     useStandardFormat: true
-//   });
+test("snyk strategy: hydratePayloadDependencies using NodeSecure standard format", async(tape) => {
+  const { hydratePayloadDependencies } = SnykStrategy();
+  const dependencies = new Map();
+  const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
+  const mockedHttpClient = mockedHttpAgent.get(kSnykOrigin);
+  const responseBody = await readJsonFile(
+    path.join(kFixturesDir, "snyk/responseBody.json")
+  );
 
-//   const { vulnerabilities } = dependencies.get("node-uuid");
-//   const { issues } = await readJsonFile(path.join(kFixturesDir, "snyk/responseBody.json"));
+  mockedHttpClient
+    .intercept({
+      path: kSnykApiPath,
+      method: "POST"
+    })
+    .reply(200, responseBody, kHttpClientHeaders);
 
-//   // when Snyk API can be reached, uncomment line below
-//   // tape.deepEqual(vulnerabilities[0], standardizeVulnsPayload(issues.vulnerabilities));
+  dependencies.set("node-uuid", { vulnerabilities: [] });
 
-//   tape.end();
-// });
+  await hydratePayloadDependencies(dependencies, {
+    path: path.join(kFixturesDir, "snyk"),
+    useStandardFormat: true
+  });
+
+  tape.strictEqual(
+    dependencies.size,
+    1,
+    "hydratePayloadDependencies must not add new dependencies by itself"
+  );
+
+  const { vulnerabilities } = dependencies.get("node-uuid");
+  tape.strictEqual(vulnerabilities.length, 1);
+  isNodeSecureStandardVulnerabilityPayload(tape, vulnerabilities[0]);
+
+  restoreHttpAgent();
+  tape.end();
+});

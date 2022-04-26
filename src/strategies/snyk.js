@@ -76,7 +76,7 @@ function extractSnykVulnerabilities(dependencies, snykAudit, options) {
   const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
 
   if (!ok) {
-    const vulnerabilities = formatVulnerabilities(issues.vulnerabilities);
+    const vulnerabilities = formatVulnerabilities(VULN_MODE.SNYK, issues.vulnerabilities);
     for (const vuln of vulnerabilities) {
       const dependency = dependencies.get(vuln.package);
       if (dependency) {

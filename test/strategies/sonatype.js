@@ -1,14 +1,13 @@
 // Import Third-party Dependencies
 import test from "tape";
-import * as httpie from "@myunisoft/httpie";
 
 // Import Internal Dependencies
 import { SonatypeStrategy } from "../../src/strategies/sonatype.js";
+import { kHttpClientHeaders, setupHttpAgentMock } from "./utils.js";
 
 // CONSTANTS
 const kSonatypeOrigin = "https://ossindex.sonatype.org";
 const kSonatypeApiPath = "/api/v3/component-report";
-const kHttpClientHeaders = { headers: { "content-type": "application/json" } };
 const kSonatypeVulnComponent = {
   coordinates: "pkg:npm/fake-npm-package@3.0.1",
   vulnerabilities: [{ id: "1617", cvssScore: 7.5 }]
@@ -31,21 +30,6 @@ test("SonatypeStrategy definition must return only two keys.", (tape) => {
   tape.end();
 });
 
-function setupHttpAgentMock() {
-  const httpDispatcher = httpie.getGlobalDispatcher();
-  const mockedHttpAgent = new httpie.MockAgent();
-
-  mockedHttpAgent.disableNetConnect();
-  httpie.setGlobalDispatcher(mockedHttpAgent);
-
-  return [
-    mockedHttpAgent,
-    () => {
-      mockedHttpAgent.enableNetConnect();
-      httpie.setGlobalDispatcher(httpDispatcher);
-    }
-  ];
-}
 
 test("sonatype strategy: hydratePayloadDependencies", async(tape) => {
   const { hydratePayloadDependencies } = SonatypeStrategy();
@@ -137,7 +121,7 @@ test("sonatype strategy: hydratePayloadDependencies when using NodeSecure standa
     cvssScore
   };
 
-  tape.isEquivalent(partialPackageData, {
+  tape.deepEqual(partialPackageData, {
     package: "fake-npm-package",
     origin: "sonatype",
     id: "1617",

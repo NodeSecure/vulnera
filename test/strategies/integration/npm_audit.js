@@ -6,12 +6,12 @@ import { fileURLToPath } from "url";
 import test from "tape";
 
 // Import Internal Dependencies
-import { NPMAuditStrategy } from "../../src/strategies/npm-audit.js";
-import { isNodeSecureStandardVulnerabilityPayload } from "./utils.js";
+import { NPMAuditStrategy } from "../../../src/strategies/npm-audit.js";
+import { isNodeSecureStandardVulnerabilityPayload } from "../utils.js";
 
 // CONSTANTS
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const kFixturesDir = path.join(__dirname, "..", "fixtures");
+const kFixturesDir = path.join(__dirname, "..", "..", "fixtures");
 
 
 /**

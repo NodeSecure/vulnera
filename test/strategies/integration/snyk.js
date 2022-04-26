@@ -2,8 +2,8 @@
 import test from "tape";
 
 // Import Internal Dependencies
-import { SnykStrategy } from "../../src/strategies/snyk.js";
-import { isNodeSecureStandardVulnerabilityPayload } from "./utils.js";
+import { SnykStrategy } from "../../../src/strategies/snyk.js";
+import { isNodeSecureStandardVulnerabilityPayload } from "../utils.js";
 
 // When a test environment will be available for skip, unskip this test.
 test.skip("snyk strategy: hydratePayloadDependencies when using the API", async(tape) => {

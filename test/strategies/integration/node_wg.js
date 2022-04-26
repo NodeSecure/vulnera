@@ -5,9 +5,9 @@ import { rmSync } from "fs";
 import test from "tape";
 
 // Import Internal Dependencies
-import { VULN_FILE_PATH, TMP_CACHE, VULN_MODE } from "../../src/constants.js";
-import { SecurityWGStrategy } from "../../src/strategies/security-wg.js";
-import { standardizeVulnsPayload } from "../../src/strategies/vuln-payload/standardize.js";
+import { VULN_FILE_PATH, TMP_CACHE, VULN_MODE } from "../../../src/constants.js";
+import { SecurityWGStrategy } from "../../../src/strategies/security-wg.js";
+import { standardizeVulnsPayload } from "../../../src/strategies/vuln-payload/standardize.js";
 
 
 // CONSTANTS

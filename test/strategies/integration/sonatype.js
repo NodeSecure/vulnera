@@ -2,8 +2,8 @@
 import test from "tape";
 
 // Import Internal Dependencies
-import { SonatypeStrategy } from "../../src/strategies/sonatype.js";
-import { isNodeSecureStandardVulnerabilityPayload } from "./utils.js";
+import { SonatypeStrategy } from "../../../src/strategies/sonatype.js";
+import { isNodeSecureStandardVulnerabilityPayload } from "../utils.js";
 
 // CONSTANTS
 /**

@@ -6,8 +6,12 @@
   "scripts": {
     "lint": "cross-env eslint index.js",
     "test-only": "cross-env esm-tape-runner 'test/**/*.js' | tap-monkey",
+    "unit-test-only": "cross-env esm-tape-runner 'test/**/!(*.integration).js' | tap-monkey",
+    "integration-test-only": "cross-env esm-tape-runner 'test/**/*.integration.js' | tap-monkey",
     "test:typescript": "tsd",
     "test": "npm run lint && npm run test-only",
+    "test:unit": "npm run lint && npm run unit-test-only",
+    "test:integration": "npm run lint && npm run integration-test-only",
     "coverage": "c8 -r html npm test"
   },
   "repository": {

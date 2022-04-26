@@ -70,8 +70,6 @@ test("npm strategy: hydratePayloadDependencies using NodeSecure standard format"
   const { vulnerabilities } = dependencies.get("@npmcli/git");
   tape.strictEqual(vulnerabilities.length, 1);
 
-  console.log(vulnerabilities[0]);
-
   isNodeSecureStandardVulnerabilityPayload(tape, vulnerabilities[0]);
 
   tape.end();

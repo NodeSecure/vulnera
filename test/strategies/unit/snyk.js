@@ -6,17 +6,17 @@ import { fileURLToPath } from "url";
 import test from "tape";
 
 // Import Internal Dependencies
-import { SnykStrategy } from "../../src/strategies/snyk.js";
-import { readJsonFile } from "../../src/utils.js";
+import { SnykStrategy } from "../../../src/strategies/snyk.js";
+import { readJsonFile } from "../../../src/utils.js";
 import {
   isNodeSecureStandardVulnerabilityPayload,
   kHttpClientHeaders,
   setupHttpAgentMock
-} from "./utils.js";
+} from "../utils.js";
 
 // CONSTANTS
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const kFixturesDir = path.join(__dirname, "..", "fixtures");
+const kFixturesDir = path.join(__dirname, "..", "..", "fixtures");
 const kSnykOrigin = "https://snyk.io";
 const kSnykApiPath = "/api/v1/test/npm?org=undefined";
 

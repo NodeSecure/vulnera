@@ -2,7 +2,7 @@
 import test from "tape";
 
 // Import Internal Dependencies
-import { NPMAuditStrategy } from "../../src/strategies/npm-audit.js";
+import { NPMAuditStrategy } from "../../../src/strategies/npm-audit.js";
 
 test("NPMAuditStrategy definition must return only two keys.", (tape) => {
   const definition = NPMAuditStrategy();

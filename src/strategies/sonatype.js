@@ -5,7 +5,7 @@ import * as httpie from "@myunisoft/httpie";
 import { VULN_MODE } from "../constants.js";
 import { standardizeVulnsPayload } from "./vuln-payload/standardize.js";
 
-// Constants
+// CONSTANTS
 const kSonatypeApiURL = "https://ossindex.sonatype.org/api/v3/component-report";
 
 export function SonatypeStrategy() {
@@ -16,11 +16,24 @@ export function SonatypeStrategy() {
 }
 
 /**
- * @returns {PackageURL} package url, following the Package URL spec semantic
- * see: https://github.com/package-url/purl-spec
+ * If the package name contains a scope, it must be percent encoded to be spec
+ * compliant.
+ * Otherwise, the Package URL is simply <package-name>@<package-version>.
+ * See: https://github.com/package-url/purl-spec
+ * @returns {PackageURL} standard Package URL string.
  */
-function toPackageURL(packageName, packageVersion) {
-  return `pkg:npm/${packageName}@${packageVersion}`;
+function toPackageURL(fullPackageName, packageVersion) {
+  const isPackageNameScoped = fullPackageName.includes("/");
+
+  if (isPackageNameScoped) {
+    const [scope, packageName] = fullPackageName.split("/");
+    // Each scope segment must be a percent-encoded string
+    const scopeEncoded = encodeURIComponent(scope);
+
+    return `pkg:npm/${scopeEncoded}/${packageName}@${packageVersion}`;
+  }
+
+  return `pkg:npm/${fullPackageName}@${packageVersion}`;
 }
 
 /**
@@ -36,7 +49,7 @@ function createPackageURLCoordinates([dependencyName, dependencyPayload]) {
 async function fetchDataForPackageURLs(coordinates) {
   const requestOptions = {
     headers: {
-      Accept: "application/json"
+      accept: "application/json"
     },
     body: { coordinates }
   };
@@ -52,8 +65,7 @@ async function fetchDataForPackageURLs(coordinates) {
 }
 
 /**
- * @param {string} purl - A string representing the specific Package URL
- * semantic.
+ * @param {PackageURL} - string representing the Package URL spec.
  * When targetting npm repositories, the specification is the following:
  * pkg:npm/<package-name>@<package-version> such as: pkg:npm/foobar@12.3.1
  * For further reading see: https://github.com/package-url/purl-spec
@@ -62,7 +74,7 @@ function extractNameFromPackageURL(purl) {
   const [, packageData] = purl.split("npm/");
   const [packageName] = packageData.split("@");
 
-  return packageName;
+  return decodeURIComponent(packageName);
 }
 
 /**
@@ -78,13 +90,21 @@ function vulnWithPackageName(packageName) {
 }
 
 async function hydratePayloadDependencies(dependencies, options = {}) {
-  const formatVulnerabilities = standardizeVulnsPayload(options.useStandardFormat);
-  const packageURLsFromDependencies = Array.from(dependencies)
-    .flatMap(createPackageURLCoordinates);
+  const formatVulnerabilities = standardizeVulnsPayload(
+    options.useStandardFormat
+  );
+  const packageURLsFromDependencies = Array.from(dependencies).flatMap(
+    createPackageURLCoordinates
+  );
 
-  const packageURLsData = await fetchDataForPackageURLs(packageURLsFromDependencies);
+  const packageURLsData = await fetchDataForPackageURLs(
+    packageURLsFromDependencies
+  );
 
-  for (const { coordinates, vulnerabilities: sonatypeVulns } of packageURLsData) {
+  for (const {
+    coordinates,
+    vulnerabilities: sonatypeVulns
+  } of packageURLsData) {
     const packageName = extractNameFromPackageURL(coordinates);
     const formattedVulnerabilities = formatVulnerabilities(
       VULN_MODE.SONATYPE,

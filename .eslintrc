@@ -1,10 +1,11 @@
 {
-    "extends": "@nodesecure/eslint-config",
-    "parserOptions": {
-        "sourceType": "module",
-        "requireConfigFile": false
-    },
-    "rules": {
-        "no-empty": "off"
-    }
+  "extends": "@nodesecure/eslint-config",
+  "parserOptions": {
+    "sourceType": "module",
+    "requireConfigFile": false
+  },
+  "rules": {
+    "no-empty": "off",
+    "id-length": "off"
+  }
 }

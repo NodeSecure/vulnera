@@ -11,7 +11,6 @@ import { standardizeVulnsPayload } from "../../../src/strategies/vuln-payload/st
 
 
 // CONSTANTS
-// eslint-disable-next-line id-length
 const kSecurityWGVulnerabilityArbitrarilyChosen = {
   id: 100,
   created_at: "2016-04-15",

@@ -22,7 +22,6 @@ export function setupHttpAgentMock() {
   ];
 }
 
-// eslint-disable-next-line id-length
 export function isNodeSecureStandardVulnerabilityPayload(tape, payload) {
   const mandatoryStandardFormatKeys = [
     "origin",

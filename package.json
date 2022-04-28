@@ -54,7 +54,7 @@
     "@nodesecure/npm-registry-sdk": "^1.3.0",
     "@npmcli/arborist": "^5.0.0",
     "@slimio/github": "^1.0.0",
-    "semver": "^7.3.5"
+    "semver": "^7.3.6"
   },
   "tsd": {
     "directory": "test/types",

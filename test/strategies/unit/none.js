@@ -1,7 +1,7 @@
 // Import Third-party Dependencies
 import test from "tape";
 
-import * as none from "../../src/strategies/none.js";
+import * as none from "../../../src/strategies/none.js";
 
 test("NoneStrategy definition must return only two keys.", (tape) => {
   const definition = none.NoneStrategy();

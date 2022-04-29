@@ -29,14 +29,21 @@ declare namespace Strategy {
     /** Name of the strategy **/
     strategy: Kind;
     /** Method to hydrate (insert/push) vulnerabilities in the dependencies retrieved by the Scanner **/
-    hydratePayloadDependencies: (dependencies: Dependencies, options?: HydratePayloadDependenciesOptions) => Promise<void>;
+    hydratePayloadDependencies: (
+      dependencies: Dependencies,
+      options?: HydratePayloadDependenciesOptions
+    ) => Promise<void>;
     /** Hydrate local database (if the strategy need one obviously) **/
     hydrateDatabase?: () => Promise<void>;
     /** Method to delete the local vulnerabilities database (if available) **/
     deleteDatabase?: () => Promise<void>;
   }
 
-  export type Severity = Exclude<NpmStrategy.Vulnerability['severity'] | SnykStrategy.Vulnerability['severity'], "moderate">;
+  export type Severity = Exclude<
+    | NpmStrategy.Vulnerability["severity"]
+    | SnykStrategy.Vulnerability["severity"],
+    "moderate"
+  >;
 
   export interface Patch {
     id: string;
@@ -64,7 +71,7 @@ declare namespace Strategy {
     /** Vulnerability severity levels given the strategy **/
     severity?: Severity;
     /** Common Vulnerabilities and Exposures dictionary */
-    cves: string[];
+    cves?: string[];
     /** Common Vulnerability Scoring System (CVSS) provides a way to capture the principal characteristics of a vulnerability, and produce a numerical score reflecting its severity, as well as a textual representation of that score. **/
     cvssVector?: string;
     /** CVSS Score **/
@@ -78,5 +85,4 @@ declare namespace Strategy {
     /** Overview of available patches to get rid of listed vulnerabilities **/
     patches?: Patch[];
   }
-
 }

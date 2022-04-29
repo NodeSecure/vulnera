@@ -1,12 +1,12 @@
 import test from "tape";
-import { VULN_MODE } from "../../../src/constants.js";
-import { standardizeVulnsPayload } from "../../../src/strategies/vuln-payload/standardize.js";
+import { VULN_MODE } from "../../../../src/constants.js";
+import { standardizeVulnsPayload } from "../../../../src/strategies/vuln-payload/standardize.js";
 import {
   NPM_VULNS_PAYLOADS,
   SECURITYWG_VULNS_PAYLOADS,
   SNYK_VULNS_PAYLOADS,
   SONATYPE_VULNS_PAYLOADS
-} from "../../fixtures/vuln-payload/payloads.js";
+} from "../../../fixtures/vuln-payload/payloads.js";
 
 const formatVulnerabilities = standardizeVulnsPayload(true);
 

@@ -6,12 +6,12 @@ import { fileURLToPath } from "url";
 import test from "tape";
 
 // Import Internal Dependencies
-import { NPMAuditStrategy } from "../../src/strategies/npm-audit.js";
-import { NPM_VULNS_PAYLOADS } from "../fixtures/vuln-payload/payloads.js";
+import { NPMAuditStrategy } from "../../../src/strategies/npm-audit.js";
+import { isNodeSecureStandardVulnerabilityPayload } from "../utils.js";
 
 // CONSTANTS
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const kFixturesDir = path.join(__dirname, "..", "fixtures");
+const kFixturesDir = path.join(__dirname, "..", "..", "fixtures");
 
 
 /**
@@ -41,19 +41,6 @@ test("NPMAuditStrategy definition must return only two keys.", (tape) => {
 test("npm strategy: hydratePayloadDependencies", async(tape) => {
   const { hydratePayloadDependencies } = NPMAuditStrategy();
   const dependencies = new Map();
-  const NPMAuditExpectedPayload = {
-    title: "Arbitrary Command Injection due to Improper Command Sanitization",
-    name: "@npmcli/git",
-    source: 1007471,
-    url: "https://github.com/advisories/GHSA-hxwm-x553-x359",
-    dependency: "@npmcli/git",
-    severity: "moderate",
-    version: undefined,
-    vulnerableVersions: undefined,
-    range: "<2.0.8",
-    id: undefined
-  };
-
   dependencies.set("@npmcli/git", { vulnerabilities: [] });
 
   await hydratePayloadDependencies(dependencies, {
@@ -64,10 +51,7 @@ test("npm strategy: hydratePayloadDependencies", async(tape) => {
   const { vulnerabilities } = dependencies.get("@npmcli/git");
   tape.strictEqual(vulnerabilities.length, 1);
 
-  const [npmcliVuln] = vulnerabilities;
-
-  isAdvisory(tape, npmcliVuln);
-  tape.deepEqual(npmcliVuln, NPMAuditExpectedPayload);
+  isAdvisory(tape, vulnerabilities[0]);
 
   tape.end();
 });
@@ -86,9 +70,7 @@ test("npm strategy: hydratePayloadDependencies using NodeSecure standard format"
   const { vulnerabilities } = dependencies.get("@npmcli/git");
   tape.strictEqual(vulnerabilities.length, 1);
 
-  tape.deepEqual(
-    Object.keys(vulnerabilities[0]),
-    Object.keys(NPM_VULNS_PAYLOADS.outputStandardizedPayload)
-  );
+  isNodeSecureStandardVulnerabilityPayload(tape, vulnerabilities[0]);
+
   tape.end();
 });

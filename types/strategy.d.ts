@@ -33,6 +33,8 @@ declare namespace Strategy {
       dependencies: Dependencies,
       options?: HydratePayloadDependenciesOptions
     ) => Promise<void>;
+    /** Method to get vulnerabilities using the current strategy **/
+    getVulnerabilities: (path: string) => Promise<any>;
     /** Hydrate local database (if the strategy need one obviously) **/
     hydrateDatabase?: () => Promise<void>;
     /** Method to delete the local vulnerabilities database (if available) **/

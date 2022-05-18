@@ -9,8 +9,20 @@ import { standardizeVulnsPayload } from "./vuln-payload/standardize.js";
 export function NPMAuditStrategy() {
   return {
     strategy: VULN_MODE.NPM_AUDIT,
-    hydratePayloadDependencies
+    hydratePayloadDependencies,
+    getVulnerabilities
   };
+}
+
+async function getVulnerabilities(path) {
+  const arborist = new Arborist({ ...NPM_TOKEN, path });
+
+  try {
+    return (await arborist.audit()).toJSON().vulnerabilities;
+  }
+  catch (error) {
+    return error;
+  }
 }
 
 async function hydratePayloadDependencies(dependencies, options = {}) {

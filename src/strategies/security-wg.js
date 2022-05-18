@@ -25,8 +25,13 @@ export async function SecurityWGStrategy(options = {}) {
     strategy: VULN_MODE.SECURITY_WG,
     hydratePayloadDependencies,
     hydrateDatabase,
-    deleteDatabase
+    deleteDatabase,
+    getVulnerabilities
   };
+}
+
+async function getVulnerabilities() {
+  throw new Error("Not Yet Implemented");
 }
 
 async function checkHydrateDB() {

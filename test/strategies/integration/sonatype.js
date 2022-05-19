@@ -91,3 +91,16 @@ test("sonatype strategy: fetching a package with a name that should be percent-e
 
   tape.end();
 });
+
+test("sonatype strategy: getVulnerabilities", async(tape) => {
+  const { getVulnerabilities } = SonatypeStrategy();
+
+  try {
+    await getVulnerabilities();
+  }
+  catch (error) {
+    tape.strictEqual(error.message, "Not Yet Implemented");
+  }
+
+  tape.end();
+});

@@ -29,3 +29,16 @@ test.skip("snyk strategy: hydratePayloadDependencies when using the API", async(
 
   tape.end();
 });
+
+test("snyk strategy: getVulnerabilities", async(tape) => {
+  const { getVulnerabilities } = SnykStrategy();
+
+  try {
+    await getVulnerabilities();
+  }
+  catch (error) {
+    tape.strictEqual(error.message, "Not Yet Implemented");
+  }
+
+  tape.end();
+});

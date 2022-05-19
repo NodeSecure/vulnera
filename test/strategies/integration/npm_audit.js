@@ -29,11 +29,11 @@ function isAdvisory(tape, data) {
   tape.true("range" in data, "advisory must have a 'range' property");
 }
 
-test("NPMAuditStrategy definition must return only two keys.", (tape) => {
+test("NPMAuditStrategy definition must return only three keys.", (tape) => {
   const definition = NPMAuditStrategy();
 
   tape.strictEqual(definition.strategy, "npm", "strategy property must equal 'npm'");
-  tape.deepEqual(Object.keys(definition).sort(), ["strategy", "hydratePayloadDependencies"].sort());
+  tape.deepEqual(Object.keys(definition).sort(), ["strategy", "hydratePayloadDependencies", "getVulnerabilities"].sort());
 
   tape.end();
 });
@@ -71,6 +71,15 @@ test("npm strategy: hydratePayloadDependencies using NodeSecure standard format"
   tape.strictEqual(vulnerabilities.length, 1);
 
   isNodeSecureStandardVulnerabilityPayload(tape, vulnerabilities[0]);
+
+  tape.end();
+});
+
+test("npm strategy: getVulnerabilities", async(tape) => {
+  const { getVulnerabilities } = NPMAuditStrategy();
+  const vulnerabilities = await getVulnerabilities(path.join(kFixturesDir, "audit"));
+
+  tape.equal(Object.values(vulnerabilities).length, 17);
 
   tape.end();
 });

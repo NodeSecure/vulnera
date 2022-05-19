@@ -42,7 +42,7 @@ function isAdvisory(tape, data) {
   tape.true("severity" in data, "advisory must have a 'severity' property");
 }
 
-test("SnykStrategy definition must return only two keys.", (tape) => {
+test("SnykStrategy definition must return only three keys.", (tape) => {
   const definition = SnykStrategy();
 
   tape.strictEqual(
@@ -52,7 +52,7 @@ test("SnykStrategy definition must return only two keys.", (tape) => {
   );
   tape.deepEqual(
     Object.keys(definition).sort(),
-    ["strategy", "hydratePayloadDependencies"].sort()
+    ["strategy", "hydratePayloadDependencies", "getVulnerabilities"].sort()
   );
 
   tape.end();

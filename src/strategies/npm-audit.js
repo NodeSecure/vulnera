@@ -14,15 +14,19 @@ export function NPMAuditStrategy() {
   };
 }
 
-async function getVulnerabilities(path) {
+async function getVulnerabilities(path, options = {}) {
+  const { useStandardFormat } = options;
+
+  const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
   const arborist = new Arborist({ ...NPM_TOKEN, path });
 
-  try {
-    return (await arborist.audit()).toJSON().vulnerabilities;
+  const { vulnerabilities } = (await arborist.audit()).toJSON();
+
+  if (useStandardFormat) {
+    return formatVulnerabilities(VULN_MODE.NPM_AUDIT, Object.values(vulnerabilities));
   }
-  catch (error) {
-    return error;
-  }
+
+  return vulnerabilities;
 }
 
 async function hydratePayloadDependencies(dependencies, options = {}) {

@@ -29,3 +29,34 @@ await definition.hydratePayloadDependencies(dependencies, {
 ```
 
 Note that it is important to call `loadRegistryURLFromLocalSystem` before running `hydratePayloadDependencies` method. The internal method will retrieve the correct URL for the registry (could be useful if the developer use a private registry for example).
+
+## Audit a specific manifest 
+
+For audit a specific manifest (package.json, lock-file or nodes_modules), there is the getVulnerabilities function that takes the path of the manifest and returns the vulnerabilities.
+
+Same as `hydratePayloadDependencies` Under the hood we use @npmcli/arborist to fetch vulnerabilities (directly as JSON).
+
+```js
+/**
+ * @param {string} path
+ * @return Promise<{ [keys: string]: any }[]> | TypeError
+ */
+async function getVulnerabilities(path) {
+  const arborist = new Arborist({ ...NPM_TOKEN, path });
+
+  try {
+    return (await arborist.audit()).toJSON().vulnerabilities;
+  }
+  catch (error) {
+    return error;
+  }
+}
+```
+
+Example:
+```js
+import * as vuln from "@nodesecure/vuln";
+
+const definition = await vuln.setStrategy(vuln.strategies.NPM_AUDIT);
+const vulnerabilites = await definition.getVulnerabilities('./package.json');
+```

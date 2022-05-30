@@ -19,8 +19,13 @@ const kEncoding = "base64";
 export function SnykStrategy() {
   return {
     strategy: VULN_MODE.SNYK,
-    hydratePayloadDependencies
+    hydratePayloadDependencies,
+    getVulnerabilities
   };
+}
+
+async function getVulnerabilities() {
+  throw new Error("Not Yet Implemented");
 }
 
 async function hydratePayloadDependencies(dependencies, options = {}) {

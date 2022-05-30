@@ -11,8 +11,13 @@ const kSonatypeApiURL = "https://ossindex.sonatype.org/api/v3/component-report";
 export function SonatypeStrategy() {
   return {
     strategy: VULN_MODE.SONATYPE,
-    hydratePayloadDependencies
+    hydratePayloadDependencies,
+    getVulnerabilities
   };
+}
+
+async function getVulnerabilities() {
+  throw new Error("Not Yet Implemented");
 }
 
 /**

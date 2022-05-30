@@ -14,7 +14,7 @@ const kSonatypeVulnComponent = {
 };
 const kFakePackageURL = "pkg:npm/fake-npm-package@3.0.1";
 
-test("SonatypeStrategy definition must return only two keys.", (tape) => {
+test("SonatypeStrategy definition must return only three keys.", (tape) => {
   const definition = SonatypeStrategy();
 
   tape.strictEqual(
@@ -24,7 +24,7 @@ test("SonatypeStrategy definition must return only two keys.", (tape) => {
   );
   tape.deepEqual(
     Object.keys(definition).sort(),
-    ["strategy", "hydratePayloadDependencies"].sort()
+    ["strategy", "hydratePayloadDependencies", "getVulnerabilities"].sort()
   );
 
   tape.end();

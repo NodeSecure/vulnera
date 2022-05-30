@@ -104,3 +104,16 @@ test("node.js strategy: hydratePayloadDependencies using standard format", async
     tape.end();
   }
 });
+
+test("node.js strategy: getVulnerabilities", async(tape) => {
+  const { getVulnerabilities } = await SecurityWGStrategy();
+
+  try {
+    await getVulnerabilities();
+  }
+  catch (error) {
+    tape.strictEqual(error.message, "Not Yet Implemented");
+  }
+
+  tape.end();
+});

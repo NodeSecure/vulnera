@@ -1,6 +1,6 @@
 {
   "name": "@nodesecure/vuln",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "NodeSecure vulnerabilities strategies",
   "exports": "./index.js",
   "scripts": {

@@ -6,7 +6,7 @@
 [![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/NodeSecure/vuln/blob/master/LICENSE)
 ![build](https://img.shields.io/github/workflow/status/NodeSecure/vuln/Node.js%20CI)
 
-NodeSecure vulnerabilities strategies built for NodeSecure scanner.
+Programmatically fetch security vulnerabilities with one or many strategies. Originally designed to run and analyze [Scanner](https://github.com/NodeSecure/scanner) dependencies it now also runs independently from an npm Manifest.
 
 ## Requirements
 - [Node.js](https://nodejs.org/en/) v16 or higher
@@ -32,7 +32,10 @@ await vuln.setStrategy(vuln.strategies.NPM_AUDIT);
 const definition = await vuln.getStrategy();
 console.log(definition.strategy);
 
-await definition.hydratePayloadDependencies(new Map());
+const vulnerabilities = await definition.getVulnerabilities(process.cwd(), {
+  useStandardFormat: true
+});
+console.log(vulnerabilities);
 ```
 
 ## Available strategy
@@ -84,6 +87,11 @@ export interface HydratePayloadDependenciesOptions {
    * Useful to NPM Audit strategy
    **/
   path?: string;
+  useStandardFormat?: boolean;
+}
+
+export interface GetVulnerabilitiesOptions {
+  useStandardFormat?: boolean;
 }
 
 export interface Definition<T> {
@@ -95,7 +103,10 @@ export interface Definition<T> {
     options?: HydratePayloadDependenciesOptions
   ) => Promise<void>;
   /** Method to get vulnerabilities using the current strategy **/
-  getVulnerabilities: (path: string, options?: GetVulnerabilitiesOptions) => Promise<T | StandardVulnerability>;
+  getVulnerabilities: (
+    path: string,
+    options?: GetVulnerabilitiesOptions
+  ) => Promise<T | StandardVulnerability>;
   /** Hydrate local database (if the strategy need one obviously) **/
   hydrateDatabase?: () => Promise<void>;
   /** Method to delete the local vulnerabilities database (if available) **/
@@ -106,6 +117,42 @@ export interface Definition<T> {
 Where `dependencies` is the dependencies **Map()** object of the scanner.
 
 > Note: the option **hydrateDatabase** is only useful for some of the strategy (like Node.js Security WG).
+
+### Standard vulnerability format
+We provide an high level format that work for all available strategy. It can be activated with the option `useStandardFormat`.
+
+```ts
+export interface StandardVulnerability {
+  /** Unique identifier for the vulnerability **/
+  id?: string;
+  /** Vulnerability origin, either Snyk, NPM or NodeSWG **/
+  origin: Origin;
+  /** Package associated with the vulnerability **/
+  package: string;
+  /** Vulnerability title **/
+  title: string;
+  /** Vulnerability description **/
+  description?: string;
+  /** Vulnerability link references on origin's website **/
+  url?: string;
+  /** Vulnerability severity levels given the strategy **/
+  severity?: Severity;
+  /** Common Vulnerabilities and Exposures dictionary */
+  cves?: string[];
+  /** Common Vulnerability Scoring System (CVSS) provides a way to capture the principal characteristics of a vulnerability, and produce a numerical score reflecting its severity, as well as a textual representation of that score. **/
+  cvssVector?: string;
+  /** CVSS Score **/
+  cvssScore?: number;
+  /** The range of vulnerable versions provided when too many versions are vulnerables */
+  vulnerableRanges: string[];
+  /** The set of versions that are vulnerable **/
+  vulnerableVersions: string[];
+  /** The set of versions that are patched **/
+  patchedVersions?: string;
+  /** Overview of available patches to get rid of listed vulnerabilities **/
+  patches?: Patch[];
+}
+```
 
 ## Contributors ✨
 

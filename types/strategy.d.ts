@@ -22,10 +22,16 @@ declare namespace Strategy {
   export interface HydratePayloadDependenciesOptions {
     /** Absolute path to the location to analyze (with a package.json and/or package-lock.json for NPM Audit for example) **/
     path?: string;
+    /**
+     * @default false
+     */
     useStandardFormat?: boolean;
   }
 
   export interface GetVulnerabilitiesOptions {
+    /**
+     * @default false
+     */
     useStandardFormat?: boolean;
   }
 
@@ -38,7 +44,10 @@ declare namespace Strategy {
       options?: HydratePayloadDependenciesOptions
     ) => Promise<void>;
     /** Method to get vulnerabilities using the current strategy **/
-    getVulnerabilities: (path: string, options?: GetVulnerabilitiesOptions) => Promise<T | StandardVulnerability>;
+    getVulnerabilities: (
+      path: string,
+      options?: GetVulnerabilitiesOptions
+    ) => Promise<T | StandardVulnerability>;
     /** Hydrate local database (if the strategy need one obviously) **/
     hydrateDatabase?: () => Promise<void>;
     /** Method to delete the local vulnerabilities database (if available) **/

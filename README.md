@@ -1,12 +1,26 @@
-# Vulnerabilities strategies
-![version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/NodeSecure/vulnera/master/package.json&query=$.version&label=Version)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/NodeSecure/vulnera/commit-activity)
-[![Security Responsible Disclosure](https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg)](https://github.com/nodejs/security-wg/blob/master/processes/responsible_disclosure_template.md
-)
-[![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/NodeSecure/vulnera/blob/master/LICENSE)
-![build](https://img.shields.io/github/workflow/status/NodeSecure/vulnera/Node.js%20CI)
+<p align="center">
+  <img alt="vulnera" src="https://user-images.githubusercontent.com/43391199/180091156-9cf883b3-05bc-4c69-9943-3d1168818fab.png" width="650">
+</p>
 
-Programmatically fetch security vulnerabilities with one or many strategies. Originally designed to run and analyze [Scanner](https://github.com/NodeSecure/scanner) dependencies it now also runs independently from an npm Manifest.
+<p align="center">
+  <a href="https://github.com/NodeSecure/vulnera">
+    <img alt="Version" src="https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/NodeSecure/vulnera/master/package.json&query=$.version&label=Version"/>
+  </a>
+  <a href="https://github.com/NodeSecure/vulnera/commit-activity">
+    <img alt="Maintenace" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg"/>
+  </a>
+  <a href="https://github.com/nodejs/security-wg/blob/master/processes/responsible_disclosure_template.md">
+    <img alt="Security Responsible Disclosure" src="https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg"/>
+  </a>
+  <a href="https://github.com/NodeSecure/vulnera/blob/master/LICENSE">
+    <img alt="mit" src="https://img.shields.io/github/license/Naereen/StrapDown.js.svg"/>
+  </a>
+  <a href="https://img.shields.io/github/workflow/status/NodeSecure/vulnera/Node.js%20CI">
+    <img alt="build" src="https://img.shields.io/github/workflow/status/NodeSecure/vulnera/Node.js%20CI"/>
+  </a>
+</p>
+
+The **vuln-*era*** has begun! Programmatically fetch security vulnerabilities with one or many strategies. Originally designed to run and analyze [Scanner](https://github.com/NodeSecure/scanner) dependencies it now also runs independently from an npm Manifest.
 
 ## Requirements
 - [Node.js](https://nodejs.org/en/) v16 or higher

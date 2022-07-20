@@ -12,7 +12,7 @@ This strategy doesn't require the synchronization of a local database.
 > ⚠️ This strategy currently only work with a local project analysis (with a package.json/package-lock.json) ⚠️
 
 ```js
-import * as vuln from "@nodesecure/vuln";
+import * as vulnera from "@nodesecure/vulnera";
 import { loadRegistryURLFromLocalSystem } from "@nodesecure/npm-registry-sdk";
 
 // Before walking the dependency tree (at runtime)
@@ -21,7 +21,7 @@ loadRegistryURLFromLocalSystem();
 const dependencies = new Map();
 // ...do work on dependencies...
 
-const definition = await vuln.setStrategy(vuln.strategies.NPM_AUDIT);
+const definition = await vulnera.setStrategy(vulnera.strategies.NPM_AUDIT);
 await definition.hydratePayloadDependencies(dependencies, {
   // path where we have to run npm audit (default equal to process.cwd())
   path: process.cwd()
@@ -57,8 +57,8 @@ async function getVulnerabilities(path, options = {}) {
 
 Example with Standard NodeSecure format:
 ```js
-import * as vuln from "@nodesecure/vuln";
+import * as vulnera from "@nodesecure/vulnera";
 
-const definition = await vuln.setStrategy(vuln.strategies.NPM_AUDIT);
+const definition = await vulnera.setStrategy(vulnera.strategies.NPM_AUDIT);
 const vulnerabilites = await definition.getVulnerabilities('./package.json', { useStandardFormat: true });
 ```

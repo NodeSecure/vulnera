@@ -1,10 +1,10 @@
 # Vulnerabilities strategies
-![version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/NodeSecure/vuln/master/package.json&query=$.version&label=Version)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/NodeSecure/vuln/commit-activity)
+![version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/NodeSecure/vulnera/master/package.json&query=$.version&label=Version)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/NodeSecure/vulnera/commit-activity)
 [![Security Responsible Disclosure](https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg)](https://github.com/nodejs/security-wg/blob/master/processes/responsible_disclosure_template.md
 )
-[![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/NodeSecure/vuln/blob/master/LICENSE)
-![build](https://img.shields.io/github/workflow/status/NodeSecure/vuln/Node.js%20CI)
+[![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/NodeSecure/vulnera/blob/master/LICENSE)
+![build](https://img.shields.io/github/workflow/status/NodeSecure/vulnera/Node.js%20CI)
 
 Programmatically fetch security vulnerabilities with one or many strategies. Originally designed to run and analyze [Scanner](https://github.com/NodeSecure/scanner) dependencies it now also runs independently from an npm Manifest.
 
@@ -16,20 +16,20 @@ Programmatically fetch security vulnerabilities with one or many strategies. Ori
 This package is available in the Node Package Repository and can be easily installed with [npm](https://docs.npmjs.com/getting-started/what-is-npm) or [yarn](https://yarnpkg.com).
 
 ```bash
-$ npm i @nodesecure/vuln
+$ npm i @nodesecure/vulnera
 # or
-$ yarn add @nodesecure/vuln
+$ yarn add @nodesecure/vulnera
 ```
 
 ## Usage example
 
 ```js
-import * as vuln from "@nodesecure/vuln";
+import * as vulnera from "@nodesecure/vulnera";
 
 // Default strategy is currently "none".
-await vuln.setStrategy(vuln.strategies.NPM_AUDIT);
+await vulnera.setStrategy(vulnera.strategies.NPM_AUDIT);
 
-const definition = await vuln.getStrategy();
+const definition = await vulnera.getStrategy();
 console.log(definition.strategy);
 
 const vulnerabilities = await definition.getVulnerabilities(process.cwd(), {
@@ -167,11 +167,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://www.linkedin.com/in/thomas-gentilhomme/"><img src="https://avatars.githubusercontent.com/u/4438263?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gentilhomme</b></sub></a><br /><a href="https://github.com/NodeSecure/vuln/commits?author=fraxken" title="Code">💻</a> <a href="https://github.com/NodeSecure/vuln/commits?author=fraxken" title="Documentation">📖</a> <a href="https://github.com/NodeSecure/vuln/pulls?q=is%3Apr+reviewed-by%3Afraxken" title="Reviewed Pull Requests">👀</a> <a href="#security-fraxken" title="Security">🛡️</a> <a href="https://github.com/NodeSecure/vuln/issues?q=author%3Afraxken" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="http://tonygo.dev"><img src="https://avatars.githubusercontent.com/u/22824417?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tony Gorez</b></sub></a><br /><a href="https://github.com/NodeSecure/vuln/commits?author=tony-go" title="Code">💻</a> <a href="https://github.com/NodeSecure/vuln/pulls?q=is%3Apr+reviewed-by%3Atony-go" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/NodeSecure/vuln/issues?q=author%3Atony-go" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://antoinecoulon.me/"><img src="https://avatars.githubusercontent.com/u/43391199?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Antoine</b></sub></a><br /><a href="https://github.com/NodeSecure/vuln/commits?author=antoine-coulon" title="Code">💻</a> <a href="https://github.com/NodeSecure/vuln/issues?q=author%3Aantoine-coulon" title="Bug reports">🐛</a> <a href="https://github.com/NodeSecure/vuln/commits?author=antoine-coulon" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/OlehSych"><img src="https://avatars.githubusercontent.com/u/34604102?v=4?s=100" width="100px;" alt=""/><br /><sub><b>OlehSych</b></sub></a><br /><a href="https://github.com/NodeSecure/vuln/commits?author=OlehSych" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/Mathieuka"><img src="https://avatars.githubusercontent.com/u/34446722?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mathieu</b></sub></a><br /><a href="https://github.com/NodeSecure/vuln/commits?author=Mathieuka" title="Code">💻</a></td>
+    <td align="center"><a href="https://www.linkedin.com/in/thomas-gentilhomme/"><img src="https://avatars.githubusercontent.com/u/4438263?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gentilhomme</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=fraxken" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/commits?author=fraxken" title="Documentation">📖</a> <a href="https://github.com/NodeSecure/vulnera/pulls?q=is%3Apr+reviewed-by%3Afraxken" title="Reviewed Pull Requests">👀</a> <a href="#security-fraxken" title="Security">🛡️</a> <a href="https://github.com/NodeSecure/vulnera/issues?q=author%3Afraxken" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="http://tonygo.dev"><img src="https://avatars.githubusercontent.com/u/22824417?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tony Gorez</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=tony-go" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/pulls?q=is%3Apr+reviewed-by%3Atony-go" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/NodeSecure/vulnera/issues?q=author%3Atony-go" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://antoinecoulon.me/"><img src="https://avatars.githubusercontent.com/u/43391199?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Antoine</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=antoine-coulon" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/issues?q=author%3Aantoine-coulon" title="Bug reports">🐛</a> <a href="https://github.com/NodeSecure/vulnera/commits?author=antoine-coulon" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/OlehSych"><img src="https://avatars.githubusercontent.com/u/34604102?v=4?s=100" width="100px;" alt=""/><br /><sub><b>OlehSych</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=OlehSych" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/Mathieuka"><img src="https://avatars.githubusercontent.com/u/34446722?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mathieu</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=Mathieuka" title="Code">💻</a></td>
   </tr>
 </table>
 

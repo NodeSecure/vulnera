@@ -7,11 +7,11 @@ source database of the Sonatype OSS Index to hydrate NodeSecure dependencies pay
 The database for **npm** is accessible [here](https://ossindex.sonatype.org/browse/npm?page=0)
 
 ```js
-import * as vuln from "@nodesecure/vuln";
+import * as vulnera from "@nodesecure/vulnera";
 
 const dependencies = new Map();
 // ...retrieve all dependencies using shrinkwraps
 
-const definition = await vuln.setStrategy(vuln.strategies.SONATYPE);
+const definition = await vulnera.setStrategy(vulnera.strategies.SONATYPE);
 await definition.hydratePayloadDependencies(dependencies);
 ```

@@ -15,10 +15,10 @@ Not all strategies are the same and do not work in the same way. It is therefore
 Dependencies is a `Map` object described in the scanner.
 
 ```js
-const vulnStrategy = await vuln.getStrategy();
-vulnStrategy.hydratePayloadDependencies(payload.dependencies);
+const vulneraStrategy = await vulnera.getStrategy();
+vulneraStrategy.hydratePayloadDependencies(payload.dependencies);
 
-payload.vulnerabilityStrategy = vulnStrategy.strategy;
+payload.vulnerabilityStrategy = vulneraStrategy.strategy;
 ```
 
 <details><summary>see the complete definition of dependencies</summary>

@@ -5,9 +5,9 @@ Using the open database of the Node.js security WG github repository to hydrate 
 To exploit this database we clone it (extract the .tar.gz) locally, read and bundle all JSON files into one .JSON database.
 
 ```js
-import * as vuln from "@nodesecure/vuln";
+import * as vulnera from "@nodesecure/vulnera";
 
-const definition = await vuln.setStrategy(vuln.strategies.SECURITY_WG, {
+const definition = await vulnera.setStrategy(vulnera.strategies.SECURITY_WG, {
   // Force the update of the local database
   hydrateDatabase: true
 });
@@ -24,6 +24,6 @@ The database should be updated before the scanner is run. When required the meth
 const dependencies = new Map();
 // ...do work on dependencies...
 
-const definition = await vuln.getStrategy();
+const definition = await vulnera.getStrategy();
 await definition.hydratePayloadDependencies(dependencies);
 ```

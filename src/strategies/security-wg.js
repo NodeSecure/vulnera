@@ -3,7 +3,7 @@ import path from "path";
 import { unlinkSync, promises as fs } from "fs";
 
 // Import Third-party Dependencies
-import download from "@slimio/github";
+import { downloadAndExtract } from "@nodesecure/github";
 import semver from "semver";
 
 // Import Internal Dependencies
@@ -77,7 +77,7 @@ async function hydratePayloadDependencies(dependencies, options = {}) {
 }
 
 async function hydrateDatabase() {
-  const location = await download("nodejs.security-wg", { extract: true, branch: "main" });
+  const { location } = await downloadAndExtract("nodejs.security-wg", { branch: "main" });
   const vulnPath = path.join(location, "vuln", "npm");
 
   try {

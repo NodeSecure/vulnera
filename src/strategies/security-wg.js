@@ -1,6 +1,7 @@
 // Import Node.js Dependencies
 import path from "path";
 import { unlinkSync, promises as fs } from "fs";
+import { emitWarning } from 'process';
 
 // Import Third-party Dependencies
 import { downloadAndExtract } from "@nodesecure/github";
@@ -13,6 +14,11 @@ import * as cache from "../cache.js";
 import { standardizeVulnsPayload } from "./vuln-payload/standardize.js";
 
 export async function SecurityWGStrategy(options = {}) {
+  emitWarning('Node.js Security WG DB is deprecated and will be removed soon.', {
+    code: 'DEPRECATED',
+    detail: 'See https://nodejs.medium.com/node-js-ecosystem-vulnerability-reporting-program-winding-down-591d9a8cd2c7 for details.'
+  });
+
   const { hydrateDatabase: udpDb = false } = options;
   if (udpDb) {
     try {

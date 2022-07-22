@@ -1,5 +1,7 @@
 # Node.js strategy
 
+# ⚠️ Node.js Security WG DB is deprecated. [Here is why](nodejs.medium.com/node-js-ecosystem-vulnerability-reporting-program-winding-down-591d9a8cd2c7).
+
 Using the open database of the Node.js security WG github repository to hydrate NodeSecure dependencies payloads. This database is accessible [here](https://github.com/nodejs/security-wg/tree/main/vuln).
 
 To exploit this database we clone it (extract the .tar.gz) locally, read and bundle all JSON files into one .JSON database.

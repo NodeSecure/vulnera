@@ -49,8 +49,8 @@
     "@small-tech/tap-monkey": "^1.4.0",
     "c8": "^7.12.0",
     "cross-env": "^7.0.3",
-    "tape": "^5.5.3",
-    "tsd": "^0.22.0"
+    "tape": "^5.6.0",
+    "tsd": "^0.23.0"
   },
   "type": "module",
   "dependencies": {

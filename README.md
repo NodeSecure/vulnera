@@ -9,9 +9,6 @@
   <a href="https://github.com/NodeSecure/vulnera/commit-activity">
     <img alt="Maintenace" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg"/>
   </a>
-  <a href="https://github.com/nodejs/security-wg/blob/master/processes/responsible_disclosure_template.md">
-    <img alt="Security Responsible Disclosure" src="https://img.shields.io/badge/Security-Responsible%20Disclosure-yellow.svg"/>
-  </a>
   <a href="https://github.com/NodeSecure/vulnera/blob/master/LICENSE">
     <img alt="mit" src="https://img.shields.io/github/license/Naereen/StrapDown.js.svg"/>
   </a>

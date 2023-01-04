@@ -52,6 +52,22 @@ function createPackageURLCoordinates([dependencyName, dependencyPayload]) {
 }
 
 async function fetchDataForPackageURLs(coordinates) {
+  if(coordinates.length > 128) {
+  const perChunk = 128 
+
+  coordinates = coordinates.reduce((finalArray, item, index) => { 
+    const chunkIndex = Math.floor(index/perChunk)
+  
+    if(!finalArray[chunkIndex]) {
+      resultArray[chunkIndex] = [] 
+    }
+  
+    finalArray[chunkIndex].push(item)
+  
+    return finalArray
+  }, [])
+}
+
   const requestOptions = {
     headers: {
       accept: "application/json"
@@ -60,9 +76,20 @@ async function fetchDataForPackageURLs(coordinates) {
   };
 
   try {
-    const { data } = await httpie.post(kSonatypeApiURL, requestOptions);
+    if(requestOptions.body.length === 1) {
+      const { data } = await httpie.post(kSonatypeApiURL, requestOptions);
 
-    return data;
+      return data;
+    }
+
+    const { dataArray } = await coordinatesArray.map(elem => httpie.post(kSonatypeApiURL, {
+      headers: {
+        accept: "application/json"
+      },
+      body: elem
+    }));
+
+    return dataArray
   }
   catch {
     return [];

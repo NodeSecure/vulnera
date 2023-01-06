@@ -7,7 +7,7 @@
 [![OpenSSF
 Scorecard](https://api.securityscorecards.dev/projects/github.com/NodeSecure/vulnera/badge)](https://api.securityscorecards.dev/projects/github.com/NodeSecure/vulnera)
 [![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/NodeSecure/vulnera/blob/master/LICENSE)
-![build](https://img.shields.io/github/actions/workflow/status/NodeSecure/vulnera/node.js.yml)
+![build](https://img.shields.io/github/actions/workflow/status/NodeSecure/vulnera/main.yml)
 
 The **vuln-*era*** has begun! Programmatically fetch security vulnerabilities with one or many strategies. Originally designed to run and analyze [Scanner](https://github.com/NodeSecure/scanner) dependencies it now also runs independently from an npm Manifest.
 

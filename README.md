@@ -2,20 +2,12 @@
   <img alt="vulnera" src="https://user-images.githubusercontent.com/43391199/180091156-9cf883b3-05bc-4c69-9943-3d1168818fab.png" width="650">
 </p>
 
-<p align="center">
-  <a href="https://github.com/NodeSecure/vulnera">
-    <img alt="Version" src="https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/NodeSecure/vulnera/master/package.json&query=$.version&label=Version"/>
-  </a>
-  <a href="https://github.com/NodeSecure/vulnera/commit-activity">
-    <img alt="Maintenace" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg"/>
-  </a>
-  <a href="https://github.com/NodeSecure/vulnera/blob/master/LICENSE">
-    <img alt="mit" src="https://img.shields.io/github/license/Naereen/StrapDown.js.svg"/>
-  </a>
-  <a href="https://img.shields.io/github/workflow/status/NodeSecure/vulnera/Node.js%20CI">
-    <img alt="build" src="https://img.shields.io/github/workflow/status/NodeSecure/vulnera/Node.js%20CI"/>
-  </a>
-</p>
+![version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/NodeSecure/vulnera/master/package.json&query=$.version&label=Version)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/NodeSecure/vulnera/commit-activity)
+[![OpenSSF
+Scorecard](https://api.securityscorecards.dev/projects/github.com/NodeSecure/vulnera/badge)](https://api.securityscorecards.dev/projects/github.com/NodeSecure/vulnera)
+[![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/NodeSecure/vulnera/blob/master/LICENSE)
+![build](https://img.shields.io/github/actions/workflow/status/NodeSecure/vulnera/main.yml)
 
 The **vuln-*era*** has begun! Programmatically fetch security vulnerabilities with one or many strategies. Originally designed to run and analyze [Scanner](https://github.com/NodeSecure/scanner) dependencies it now also runs independently from an npm Manifest.
 

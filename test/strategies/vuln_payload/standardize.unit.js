@@ -6,7 +6,7 @@ import {
   SECURITYWG_VULNS_PAYLOADS,
   SNYK_VULNS_PAYLOADS,
   SONATYPE_VULNS_PAYLOADS
-} from "../../fixtures/vuln-payload/payloads.js";
+} from "../../fixtures/vuln_payload/payloads.js";
 
 const formatVulnerabilities = standardizeVulnsPayload(true);
 

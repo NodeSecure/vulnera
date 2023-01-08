@@ -3,7 +3,7 @@ import test from "tape";
 
 // Import Internal Dependencies
 import { SonatypeStrategy } from "../../../src/strategies/sonatype.js";
-import { isNodeSecureStandardVulnerabilityPayload } from "../utils.js";
+import { expectVulnToBeNodeSecureStandardCompliant } from "../utils.js";
 
 
 test("sonatype strategy: fetching a package with a vulnerability using the API", async(tape) => {
@@ -41,7 +41,7 @@ test("sonatype strategy: fetching a package with a vulnerability using the API",
 
   const [vulnerability] = vulnerabilities;
 
-  isNodeSecureStandardVulnerabilityPayload(tape, vulnerability);
+  expectVulnToBeNodeSecureStandardCompliant(tape, vulnerability);
 
   tape.end();
 });

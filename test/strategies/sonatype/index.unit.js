@@ -3,7 +3,7 @@ import test from "tape";
 
 // Import Internal Dependencies
 import { SonatypeStrategy } from "../../../src/strategies/sonatype.js";
-import { isNodeSecureStandardVulnerabilityPayload, kHttpClientHeaders, setupHttpAgentMock } from "../utils.js";
+import { expectVulnToBeNodeSecureStandardCompliant, kHttpClientHeaders, setupHttpAgentMock } from "../utils.js";
 
 // CONSTANTS
 const kSonatypeOrigin = "https://ossindex.sonatype.org";
@@ -121,7 +121,7 @@ test("sonatype strategy: hydratePayloadDependencies when using NodeSecure standa
     cvssScore
   };
 
-  isNodeSecureStandardVulnerabilityPayload(tape, vulnerability);
+  expectVulnToBeNodeSecureStandardCompliant(tape, vulnerability);
   tape.deepEqual(partialPackageData, {
     package: "fake-npm-package",
     origin: "sonatype",

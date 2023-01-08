@@ -22,7 +22,7 @@ export function setupHttpAgentMock() {
   ];
 }
 
-export function isNodeSecureStandardVulnerabilityPayload(tape, payload) {
+export function expectVulnToBeNodeSecureStandardCompliant(tape, vuln) {
   const mandatoryStandardFormatKeys = [
     "origin",
     "package",
@@ -34,7 +34,7 @@ export function isNodeSecureStandardVulnerabilityPayload(tape, payload) {
   // Check that the mandatory properties are present in the payload
   mandatoryStandardFormatKeys.forEach((standardProperty) => {
     tape.true(
-      standardProperty in payload,
+      standardProperty in vuln,
       `the payload is missing the '${standardProperty}' standard property`
     );
   });
@@ -53,7 +53,7 @@ export function isNodeSecureStandardVulnerabilityPayload(tape, payload) {
 
   // Check that every other property of the payload is part of the optional
   // properties (sort of schema validation) or part of the standard format
-  Object.keys(payload).forEach((payloadProperty) => {
+  Object.keys(vuln).forEach((payloadProperty) => {
     // Mandatory properties were already verified so we don't want to check it again
     if (!mandatoryStandardFormatKeys.includes(payloadProperty)) {
       tape.true(

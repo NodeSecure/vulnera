@@ -51,6 +51,16 @@ function createPackageURLCoordinates([dependencyName, dependencyPayload]) {
   return Object.keys(versions).map((version) => toPackageURL(dependencyName, version));
 }
 
+export function chunkArray(arr, chunkSize) {
+  let chunkedArr = [];
+
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    chunkedArr.push(arr.slice(i, i + chunkSize));
+  }
+
+  return chunkedArr;
+}
+
 async function fetchDataForPackageURLs(coordinates) {
   const requestOptions = {
     headers: {
@@ -61,6 +71,8 @@ async function fetchDataForPackageURLs(coordinates) {
 
   try {
     const { data } = await httpie.post(kSonatypeApiURL, requestOptions);
+
+    console.log(data)
 
     return data;
   }
@@ -120,3 +132,32 @@ async function hydratePayloadDependencies(dependencies, options = {}) {
     vulnerabilities.push(...formattedVulnerabilities);
   }
 }
+
+
+
+
+
+
+// async function fetchDataForPackageURLs(coordinates) {
+//   console.log(coordinates)
+//   const  chunkedCoordinates = chunkArray(coordinates, 128)
+//   console.log(chunkedCoordinates.map(elm => elm[0]))
+
+//   try {
+//       const data = await Promise.all(chunkedCoordinates.map( elm => {
+//           return httpie.post(kSonatypeApiURL, {
+//             headers : {
+//               accept: "application/json"
+//             },
+//             body: elm
+//           });
+//         })) 
+
+//         console.log(data)
+//     return  data;
+//     }
+
+//   catch {
+//     return [];
+//   }
+// }

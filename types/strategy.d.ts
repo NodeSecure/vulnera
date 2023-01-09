@@ -1,5 +1,5 @@
-import NpmStrategy from "./npm-strategy";
-import SnykStrategy from "./snyk-strategy";
+import NpmStrategy from "./npm-strategy.js";
+import SnykStrategy from "./snyk-strategy.js";
 
 export = Strategy;
 

@@ -1,17 +1,21 @@
-import cache from "./types/cache";
+import cache from "./types/cache.js";
 
-import { setStrategy, getStrategy, strategies, defaultStrategyName } from "./types/api";
+import {
+  setStrategy,
+  getStrategy,
+  strategies,
+  defaultStrategyName,
+} from "./types/api.js";
 
-import NpmStrategy from "./types/npm-strategy";
-import NodeStrategy from "./types/node-strategy";
-import SnykStrategy from "./types/snyk-strategy";
-import SonatypeStrategy from "./types/sonatype-strategy";
-import Strategy from "./types/strategy";
+import NpmStrategy from "./types/npm-strategy.js";
+import NodeStrategy from "./types/node-strategy.js";
+import SnykStrategy from "./types/snyk-strategy.js";
+import SonatypeStrategy from "./types/sonatype-strategy.js";
+import Strategy from "./types/strategy.js";
 
 export {
   // Api
   cache,
-
   setStrategy,
   getStrategy,
   strategies,
@@ -22,5 +26,5 @@ export {
   NpmStrategy,
   SnykStrategy,
   SonatypeStrategy,
-  Strategy
+  Strategy,
 };

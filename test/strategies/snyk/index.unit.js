@@ -9,7 +9,7 @@ import test from "tape";
 import { SnykStrategy } from "../../../src/strategies/snyk.js";
 import { readJsonFile } from "../../../src/utils.js";
 import {
-  isNodeSecureStandardVulnerabilityPayload,
+  expectVulnToBeNodeSecureStandardCompliant,
   kHttpClientHeaders,
   setupHttpAgentMock
 } from "../utils.js";
@@ -127,7 +127,7 @@ test("snyk strategy: hydratePayloadDependencies using NodeSecure standard format
 
   const { vulnerabilities } = dependencies.get("node-uuid");
   tape.strictEqual(vulnerabilities.length, 1);
-  isNodeSecureStandardVulnerabilityPayload(tape, vulnerabilities[0]);
+  expectVulnToBeNodeSecureStandardCompliant(tape, vulnerabilities[0]);
 
   restoreHttpAgent();
   tape.end();

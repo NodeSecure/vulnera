@@ -67,6 +67,15 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "fabnguess",
+      "name": "Kouadio Fabrice Nguessan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/72697416?v=4",
+      "profile": "https://github.com/fabnguess",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -74,5 +83,6 @@
   "projectOwner": "NodeSecure",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "angular"
 }

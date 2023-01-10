@@ -2,12 +2,20 @@
   <img alt="vulnera" src="https://user-images.githubusercontent.com/43391199/180091156-9cf883b3-05bc-4c69-9943-3d1168818fab.png" width="650">
 </p>
 
-![version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/NodeSecure/vulnera/master/package.json&query=$.version&label=Version)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/NodeSecure/vulnera/commit-activity)
-[![OpenSSF
-Scorecard](https://api.securityscorecards.dev/projects/github.com/NodeSecure/vulnera/badge)](https://api.securityscorecards.dev/projects/github.com/NodeSecure/vulnera)
-[![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/NodeSecure/vulnera/blob/master/LICENSE)
-![build](https://img.shields.io/github/actions/workflow/status/NodeSecure/vulnera/main.yml)
+<p align="center">
+    <a href="https://github.com/NodeSecure/vulnera">
+      <img src="https://img.shields.io/github/package-json/v/NodeSecure/vulnera?style=for-the-badge" alt="npm version">
+    </a>
+    <a href="https://github.com/NodeSecure/vulnera">
+      <img src="https://img.shields.io/github/license/NodeSecure/vulnera?style=for-the-badge" alt="license">
+    </a>
+    <a href="https://api.securityscorecards.dev/projects/github.com/NodeSecure/vulnera">
+      <img src="https://api.securityscorecards.dev/projects/github.com/NodeSecure/vulnera/badge?style=for-the-badge" alt="ossf scorecard">
+    </a>
+    <a href="https://github.com/NodeSecure/vulnera/actions?query=workflow%3A%22Node.js+CI%22">
+      <img src="https://img.shields.io/github/actions/workflow/status/NodeSecure/vulnera/main.yml?style=for-the-badge" alt="github ci workflow">
+    </a>
+</p>
 
 The **vuln-*era*** has begun! Programmatically fetch security vulnerabilities with one or many strategies. Originally designed to run and analyze [Scanner](https://github.com/NodeSecure/scanner) dependencies it now also runs independently from an npm Manifest.
 

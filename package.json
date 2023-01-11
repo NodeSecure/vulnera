@@ -58,6 +58,7 @@
     "@nodesecure/github": "^1.2.0",
     "@nodesecure/npm-registry-sdk": "^1.4.1",
     "@npmcli/arborist": "^6.1.5",
+    "@pnpm/audit": "^6.0.6",
     "semver": "^7.3.8"
   },
   "tsd": {

@@ -61,20 +61,35 @@ export function chunkArray(arr, chunkSize) {
   return chunkedArr;
 }
 
-async function fetchDataForPackageURLs(coordinates) {
+export async function fetchDataForPackageURLs(coordinates) {
+  const chunkSize = 128;
+
   const requestOptions = {
     headers: {
       accept: "application/json"
     },
-    body: { coordinates }
+    body:  { coordinates }
   };
 
   try {
-    const { data } = await httpie.post(kSonatypeApiURL, requestOptions);
+    if(coordinates.length < chunkSize) {
+      const { data } = await httpie.post(kSonatypeApiURL, requestOptions);
+      return data 
+    }
 
-    console.log(data)
+    const chunks = chunkArray(coordinates, chunkSize)
 
-    return data;
+    const { data } = chunks.map(chunk => {
+      return httpie.post(kSonatypeApiURL, {
+        headers: {
+          accept: "application/json"
+        },
+        body: { coordinates: chunk }
+      });
+    })
+   
+    return await Promise.all(data)
+
   }
   catch {
     return [];
@@ -132,32 +147,3 @@ async function hydratePayloadDependencies(dependencies, options = {}) {
     vulnerabilities.push(...formattedVulnerabilities);
   }
 }
-
-
-
-
-
-
-// async function fetchDataForPackageURLs(coordinates) {
-//   console.log(coordinates)
-//   const  chunkedCoordinates = chunkArray(coordinates, 128)
-//   console.log(chunkedCoordinates.map(elm => elm[0]))
-
-//   try {
-//       const data = await Promise.all(chunkedCoordinates.map( elm => {
-//           return httpie.post(kSonatypeApiURL, {
-//             headers : {
-//               accept: "application/json"
-//             },
-//             body: elm
-//           });
-//         })) 
-
-//         console.log(data)
-//     return  data;
-//     }
-
-//   catch {
-//     return [];
-//   }
-// }

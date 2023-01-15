@@ -1,13 +1,11 @@
-import Strategy from "./strategy";
+import Strategy from "./strategy.js";
 
-export {
-  setStrategy,
-  getStrategy,
-  strategies,
-  defaultStrategyName
-}
+export { setStrategy, getStrategy, strategies, defaultStrategyName };
 
-declare function setStrategy<T>(name?: Strategy.Kind, options?: Strategy.Options): Promise<Strategy.Definition<T>>;
+declare function setStrategy<T>(
+  name?: Strategy.Kind,
+  options?: Strategy.Options
+): Promise<Strategy.Definition<T>>;
 declare function getStrategy<T>(): Promise<Strategy.Definition<T>>;
 declare const strategies: {
   SECURITY_WG: "node";
@@ -17,4 +15,3 @@ declare const strategies: {
   NONE: "none";
 };
 declare const defaultStrategyName: string;
-

@@ -2,12 +2,20 @@
   <img alt="vulnera" src="https://user-images.githubusercontent.com/43391199/180091156-9cf883b3-05bc-4c69-9943-3d1168818fab.png" width="650">
 </p>
 
-![version](https://img.shields.io/badge/dynamic/json.svg?url=https://raw.githubusercontent.com/NodeSecure/vulnera/master/package.json&query=$.version&label=Version)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/NodeSecure/vulnera/commit-activity)
-[![OpenSSF
-Scorecard](https://api.securityscorecards.dev/projects/github.com/NodeSecure/vulnera/badge)](https://api.securityscorecards.dev/projects/github.com/NodeSecure/vulnera)
-[![mit](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/NodeSecure/vulnera/blob/master/LICENSE)
-![build](https://img.shields.io/github/actions/workflow/status/NodeSecure/vulnera/main.yml)
+<p align="center">
+    <a href="https://github.com/NodeSecure/vulnera">
+      <img src="https://img.shields.io/github/package-json/v/NodeSecure/vulnera?style=for-the-badge" alt="npm version">
+    </a>
+    <a href="https://github.com/NodeSecure/vulnera">
+      <img src="https://img.shields.io/github/license/NodeSecure/vulnera?style=for-the-badge" alt="license">
+    </a>
+    <a href="https://api.securityscorecards.dev/projects/github.com/NodeSecure/vulnera">
+      <img src="https://api.securityscorecards.dev/projects/github.com/NodeSecure/vulnera/badge?style=for-the-badge" alt="ossf scorecard">
+    </a>
+    <a href="https://github.com/NodeSecure/vulnera/actions?query=workflow%3A%22Node.js+CI%22">
+      <img src="https://img.shields.io/github/actions/workflow/status/NodeSecure/vulnera/main.yml?style=for-the-badge" alt="github ci workflow">
+    </a>
+</p>
 
 The **vuln-*era*** has begun! Programmatically fetch security vulnerabilities with one or many strategies. Originally designed to run and analyze [Scanner](https://github.com/NodeSecure/scanner) dependencies it now also runs independently from an npm Manifest.
 
@@ -160,7 +168,7 @@ export interface StandardVulnerability {
 ## Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -169,14 +177,17 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
 <table>
-  <tr>
-    <td align="center"><a href="https://www.linkedin.com/in/thomas-gentilhomme/"><img src="https://avatars.githubusercontent.com/u/4438263?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Gentilhomme</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=fraxken" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/commits?author=fraxken" title="Documentation">📖</a> <a href="https://github.com/NodeSecure/vulnera/pulls?q=is%3Apr+reviewed-by%3Afraxken" title="Reviewed Pull Requests">👀</a> <a href="#security-fraxken" title="Security">🛡️</a> <a href="https://github.com/NodeSecure/vulnera/issues?q=author%3Afraxken" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="http://tonygo.dev"><img src="https://avatars.githubusercontent.com/u/22824417?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tony Gorez</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=tony-go" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/pulls?q=is%3Apr+reviewed-by%3Atony-go" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/NodeSecure/vulnera/issues?q=author%3Atony-go" title="Bug reports">🐛</a></td>
-    <td align="center"><a href="https://antoinecoulon.me/"><img src="https://avatars.githubusercontent.com/u/43391199?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Antoine</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=antoine-coulon" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/issues?q=author%3Aantoine-coulon" title="Bug reports">🐛</a> <a href="https://github.com/NodeSecure/vulnera/commits?author=antoine-coulon" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/OlehSych"><img src="https://avatars.githubusercontent.com/u/34604102?v=4?s=100" width="100px;" alt=""/><br /><sub><b>OlehSych</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=OlehSych" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/Mathieuka"><img src="https://avatars.githubusercontent.com/u/34446722?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mathieu</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=Mathieuka" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/PierreDemailly"><img src="https://avatars.githubusercontent.com/u/39910767?v=4?s=100" width="100px;" alt=""/><br /><sub><b>PierreD</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=PierreDemailly" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/commits?author=PierreDemailly" title="Documentation">📖</a></td>
-  </tr>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://www.linkedin.com/in/thomas-gentilhomme/"><img src="https://avatars.githubusercontent.com/u/4438263?v=4?s=100" width="100px;" alt="Gentilhomme"/><br /><sub><b>Gentilhomme</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=fraxken" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/commits?author=fraxken" title="Documentation">📖</a> <a href="https://github.com/NodeSecure/vulnera/pulls?q=is%3Apr+reviewed-by%3Afraxken" title="Reviewed Pull Requests">👀</a> <a href="#security-fraxken" title="Security">🛡️</a> <a href="https://github.com/NodeSecure/vulnera/issues?q=author%3Afraxken" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://tonygo.dev"><img src="https://avatars.githubusercontent.com/u/22824417?v=4?s=100" width="100px;" alt="Tony Gorez"/><br /><sub><b>Tony Gorez</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=tony-go" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/pulls?q=is%3Apr+reviewed-by%3Atony-go" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/NodeSecure/vulnera/issues?q=author%3Atony-go" title="Bug reports">🐛</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://antoinecoulon.me/"><img src="https://avatars.githubusercontent.com/u/43391199?v=4?s=100" width="100px;" alt="Antoine"/><br /><sub><b>Antoine</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=antoine-coulon" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/issues?q=author%3Aantoine-coulon" title="Bug reports">🐛</a> <a href="https://github.com/NodeSecure/vulnera/commits?author=antoine-coulon" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/OlehSych"><img src="https://avatars.githubusercontent.com/u/34604102?v=4?s=100" width="100px;" alt="OlehSych"/><br /><sub><b>OlehSych</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=OlehSych" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Mathieuka"><img src="https://avatars.githubusercontent.com/u/34446722?v=4?s=100" width="100px;" alt="Mathieu"/><br /><sub><b>Mathieu</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=Mathieuka" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/PierreDemailly"><img src="https://avatars.githubusercontent.com/u/39910767?v=4?s=100" width="100px;" alt="PierreD"/><br /><sub><b>PierreD</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=PierreDemailly" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/commits?author=PierreDemailly" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/fabnguess"><img src="https://avatars.githubusercontent.com/u/72697416?v=4?s=100" width="100px;" alt="Kouadio Fabrice Nguessan"/><br /><sub><b>Kouadio Fabrice Nguessan</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=fabnguess" title="Code">💻</a></td>
+    </tr>
+  </tbody>
 </table>
 
 <!-- markdownlint-restore -->

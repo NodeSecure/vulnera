@@ -1,16 +1,19 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-trailing-spaces */
 /* eslint-disable no-multiple-empty-lines */
 /* eslint-disable brace-style */
 /* eslint-disable comma-dangle */
 // Import Third-party Dependencies
 import Arborist from "@npmcli/arborist";
-import { audit } from "@pnpm/audit";
+import { readWantedLockfile } from "@pnpm/lockfile-file";
 import { getLocalRegistryURL } from "@nodesecure/npm-registry-sdk";
+import { audit } from "@pnpm/audit";
 import fs from "fs";
 
 // Import Internal Dependencies
 import { VULN_MODE, NPM_TOKEN } from "../constants.js";
 import { standardizeVulnsPayload } from "./vuln-payload/standardize.js";
+import { throws } from "assert";
 
 export function NPMAuditStrategy() {
   return {
@@ -27,32 +30,34 @@ async function checkIfProjectUsePnpm(path) {
         resolve(false);
       } else {
         console.log("Project use pnpm");
-        console.log("path", path);
         resolve(true);
       }
     });
   });
 }
 
-async function launchPnpmAudit(path, includeToAudit) {
+async function launchPnpmAudit(path) {
   console.log("launch Pnpm Audit");
-
-  const options = {
-    include: { dependancies: true, devDependancies: true, optionDependancies: false },
+  const opts = { 
+    include: { dependencies: true, devDependencies: true, optionalDependencies: false },
+    lockfileDir: path,
+    registry: "https://registry.npmjs.org",
   };
-  const lockFile = `${path}/pnpm-lock.yaml`;
-  let auditReport;
-  try {
-    auditReport = await audit(lockFile, {}, options);
-    console.log("Audit report : ", auditReport);
-  } catch (error) {
-    console.log("error pnpm -> ", error);
-  }
+  
+  readWantedLockfile(path, {})
+    .then((lockfile) => { 
+      console.log("Lockfile ok");
+      audit(lockfile, { registry: "https://registry.npmjs.org" }, opts); })
+    .then((auditResult) => {
+      console.log("Audit result -> ", JSON.stringify(auditResult, null, 2));
 
-  return auditReport.vulnerabilities;
+      return auditResult; 
+    })
+    .catch((err) => {
+      console.log("Error -> ", err);
+      throw err;
+    });
 }
-
-
 
 async function getVulnerabilities(path, options = {}) {
   const { useStandardFormat } = options;
@@ -60,7 +65,7 @@ async function getVulnerabilities(path, options = {}) {
   const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
   const arborist = new Arborist({ ...NPM_TOKEN, path });
   const { vulnerabilities } = isPnpmProject
-    ? await launchPnpmAudit(path, ["dependencies", "devDependencies"])
+    ? await launchPnpmAudit(path)
     : (await arborist.audit()).toJSON();
 
   if (useStandardFormat) {
@@ -69,6 +74,8 @@ async function getVulnerabilities(path, options = {}) {
       Object.values(vulnerabilities)
     );
   }
+
+  console.log("Vulnerabilities -> ", vulnerabilities);
 
   return vulnerabilities;
 }

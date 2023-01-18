@@ -2,12 +2,13 @@
 import test from "tape";
 
 // Import Internal Dependencies
-import { SonatypeStrategy } from "../../../src/strategies/sonatype.js";
+import { fetchDataForPackageURLs, SonatypeStrategy } from "../../../src/strategies/sonatype.js";
 import { expectVulnToBeNodeSecureStandardCompliant, kHttpClientHeaders, setupHttpAgentMock } from "../utils.js";
 
 // CONSTANTS
 const kSonatypeOrigin = "https://ossindex.sonatype.org";
 const kSonatypeApiPath = "/api/v3/component-report";
+
 const kSonatypeVulnComponent = {
   coordinates: "pkg:npm/fake-npm-package@3.0.1",
   vulnerabilities: [{ id: "1617", cvssScore: 7.5 }]
@@ -128,6 +129,33 @@ test("sonatype strategy: hydratePayloadDependencies when using NodeSecure standa
     id: "1617",
     cvssScore: 7.5
   });
+
+  restoreHttpAgent();
+  tape.end();
+});
+
+
+test("sonatype strategy: fetchDataForPackageURLs with chunked coordinates", async(tape) => {
+  const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
+  const mockedHttpClient = mockedHttpAgent.get(kSonatypeOrigin);
+
+  let chunkedCoordinates = []
+  for (let i = 0; i < 200; i++) {
+    chunkedCoordinates.push(kFakePackageURL)
+  }
+
+  mockedHttpClient
+    .intercept({
+      path: kSonatypeApiPath,
+      method: "POST"
+    })
+    .reply(200);
+
+  const pendingInterceptors = mockedHttpAgent.pendingInterceptors()
+
+  await fetchDataForPackageURLs(chunkedCoordinates)  
+
+  tape.equal(pendingInterceptors[0].times, 2)
 
   restoreHttpAgent();
   tape.end();

@@ -51,18 +51,44 @@ function createPackageURLCoordinates([dependencyName, dependencyPayload]) {
   return Object.keys(versions).map((version) => toPackageURL(dependencyName, version));
 }
 
-async function fetchDataForPackageURLs(coordinates) {
+export function chunkArray(arr, chunkSize) {
+  let chunkedArr = [];
+
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    chunkedArr.push(arr.slice(i, i + chunkSize));
+  }
+
+  return chunkedArr;
+}
+
+export async function fetchDataForPackageURLs(coordinates) {
+  const chunkSize = 128;
+
   const requestOptions = {
     headers: {
       accept: "application/json"
     },
-    body: { coordinates }
+    body:  { coordinates }
   };
 
   try {
-    const { data } = await httpie.post(kSonatypeApiURL, requestOptions);
+    if(coordinates.length < chunkSize) {
+      const { data } = await httpie.post(kSonatypeApiURL, requestOptions);
+      return data 
+    }
 
-    return data;
+    const chunks = chunkArray(coordinates, chunkSize);
+
+    const { data } = chunks.map(chunk => {
+      return httpie.post(kSonatypeApiURL, {
+        headers: {
+          accept: "application/json"
+        },
+        body: { coordinates: chunk }
+      });
+    })
+   
+    return await Promise.all(data)
   }
   catch {
     return [];

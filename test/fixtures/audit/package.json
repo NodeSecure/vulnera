@@ -89,7 +89,7 @@
     "@npmcli/arborist": "^2.2.6",
     "@polka/send-type": "^0.5.2",
     "@slimio/async-cli-spinner": "^0.5.2",
-    "@slimio/github": "^0.5.0",
+    "@slimio/github": "^1.0.0",
     "@slimio/is": "^1.5.1",
     "@slimio/lock": "^0.5.0",
     "@slimio/npm-registry": "^0.7.0",

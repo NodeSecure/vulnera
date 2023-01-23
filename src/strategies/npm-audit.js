@@ -1,8 +1,3 @@
-/* eslint-disable consistent-return */
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable no-multiple-empty-lines */
-/* eslint-disable brace-style */
-/* eslint-disable comma-dangle */
 // Import Third-party Dependencies
 import Arborist from "@npmcli/arborist";
 import { readWantedLockfile } from "@pnpm/lockfile-file";
@@ -28,7 +23,8 @@ async function checkIfProjectUsePnpm(path) {
     fs.access(`${path}/pnpm-lock.yaml`, fs.constants.F_OK, (err) => {
       if (err) {
         resolve(false);
-      } else {
+      }
+      else {
         console.log("Project use pnpm");
         resolve(true);
       }
@@ -38,20 +34,21 @@ async function checkIfProjectUsePnpm(path) {
 
 async function launchPnpmAudit(path) {
   console.log("launch Pnpm Audit");
-  const opts = { 
+  const opts = {
     include: { dependencies: true, devDependencies: true, optionalDependencies: false },
     lockfileDir: path,
-    registry: "https://registry.npmjs.org",
+    registry: "https://registry.npmjs.org"
   };
-  
+
   readWantedLockfile(path, {})
-    .then((lockfile) => { 
+    .then((lockfile) => {
       console.log("Lockfile ok");
-      audit(lockfile, { registry: "https://registry.npmjs.org" }, opts); })
+      audit(lockfile, { registry: "https://registry.npmjs.org" }, opts);
+    })
     .then((auditResult) => {
       console.log("Audit result -> ", JSON.stringify(auditResult, null, 2));
 
-      return auditResult; 
+      return auditResult;
     })
     .catch((err) => {
       console.log("Error -> ", err);
@@ -99,11 +96,12 @@ async function hydratePayloadDependencies(dependencies, options = {}) {
         dependencies.get(packageName).vulnerabilities;
       dependenciesVulnerabilities.push(
         ...formatVulnerabilities(VULN_MODE.NPM_AUDIT, [
-          ...extractPackageVulnsFromSource(packageVulns),
+          ...extractPackageVulnsFromSource(packageVulns)
         ])
       );
     }
-  } catch {}
+  }
+  catch {}
 }
 
 function* extractPackageVulnsFromSource(packageVulnerabilities) {
@@ -118,7 +116,7 @@ function* extractPackageVulnsFromSource(packageVulnerabilities) {
       dependency,
       severity,
       version,
-      vulnerableVersions,
+      vulnerableVersions
     } = vulnSource;
 
     yield {
@@ -131,7 +129,7 @@ function* extractPackageVulnsFromSource(packageVulnerabilities) {
       version,
       vulnerableVersions,
       range,
-      id,
+      id
     };
   }
 }

@@ -19,17 +19,18 @@ export function NPMAuditStrategy() {
 }
 
 async function checkIfProjectUsePnpm(path) {
-  return new Promise((resolve) => {
-    fs.access(`${path}/pnpm-lock.yaml`, fs.constants.F_OK, (err) => {
-      if (err) {
-        resolve(false);
-      }
-      else {
-        console.log("Project use pnpm");
-        resolve(true);
-      }
-    });
-  });
+  try {
+    let lockfileFound = false;
+    const tryToFindLockfile = await fs.promises.readFile(`${path}/pnpm-lock.yaml`);
+    if (tryToFindLockfile) {
+      lockfileFound = true;
+    }
+
+    return lockfileFound;
+  }
+  catch (error) {
+    return false;
+  }
 }
 
 async function launchPnpmAudit(path) {
@@ -42,7 +43,6 @@ async function launchPnpmAudit(path) {
 
   try {
     const lockfile = await readWantedLockfile(path, {});
-    console.log("Lockfile ok");
     const auditResult = await audit(lockfile, { registry: "https://registry.npmjs.org" }, opts);
     console.log("Audit result -> ", JSON.stringify(auditResult, null, 2));
 
@@ -59,6 +59,7 @@ async function getVulnerabilities(path, options = {}) {
   const isPnpmProject = await checkIfProjectUsePnpm(path);
   const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
   const arborist = new Arborist({ ...NPM_TOKEN, path });
+
   const { vulnerabilities } = isPnpmProject
     ? await launchPnpmAudit(path)
     : (await arborist.audit()).toJSON();

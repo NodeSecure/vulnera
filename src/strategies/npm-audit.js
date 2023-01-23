@@ -40,20 +40,18 @@ async function launchPnpmAudit(path) {
     registry: "https://registry.npmjs.org"
   };
 
-  readWantedLockfile(path, {})
-    .then((lockfile) => {
-      console.log("Lockfile ok");
-      audit(lockfile, { registry: "https://registry.npmjs.org" }, opts);
-    })
-    .then((auditResult) => {
-      console.log("Audit result -> ", JSON.stringify(auditResult, null, 2));
+  try {
+    const lockfile = await readWantedLockfile(path, {});
+    console.log("Lockfile ok");
+    const auditResult = await audit(lockfile, { registry: "https://registry.npmjs.org" }, opts);
+    console.log("Audit result -> ", JSON.stringify(auditResult, null, 2));
 
-      return auditResult;
-    })
-    .catch((err) => {
-      console.log("Error -> ", err);
-      throw err;
-    });
+    return auditResult;
+  }
+  catch (error) {
+    console.log("Error -> ", error);
+    throw error;
+  }
 }
 
 async function getVulnerabilities(path, options = {}) {

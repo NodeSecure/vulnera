@@ -8,6 +8,6 @@
     "url": "https://github.com/Snyk/shallow-goof"
   },
   "dependencies": {
-    "node-uuid": "1.4.0"
+    "node-uuid": "1.4.8"
   }
 }

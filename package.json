@@ -44,7 +44,7 @@
   "homepage": "https://github.com/NodeSecure/vulnera#readme",
   "devDependencies": {
     "@nodesecure/eslint-config": "^1.6.0",
-    "@slimio/is": "^1.5.1",
+    "@slimio/is": "^2.0.0",
     "@small-tech/esm-tape-runner": "^2.0.0",
     "@small-tech/tap-monkey": "^1.4.0",
     "c8": "^7.12.0",

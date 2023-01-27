@@ -81,7 +81,7 @@
     "jest": "^26.6.3",
     "list.js": "^2.3.1",
     "pkg-ok": "^3.0.0",
-    "pretty-bytes": "^5.5.0",
+    "pretty-bytes": "^6.0.0",
     "size-satisfies": "^1.0.0",
     "vis-network": "^9.0.2"
   },

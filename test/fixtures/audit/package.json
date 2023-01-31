@@ -73,7 +73,7 @@
   },
   "homepage": "https://github.com/ES-Community/nsecure#readme",
   "devDependencies": {
-    "@slimio/eslint-config": "^4.1.0",
+    "@slimio/eslint-config": "^5.0.0",
     "@types/node": "^18.11.18",
     "esbuild": "^0.9.5",
     "eslint": "^7.20.0",

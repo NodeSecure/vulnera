@@ -90,7 +90,7 @@
     "@polka/send-type": "^0.5.2",
     "@slimio/async-cli-spinner": "^0.5.2",
     "@slimio/github": "^0.5.0",
-    "@slimio/is": "^1.5.1",
+    "@slimio/is": "^2.0.0",
     "@slimio/lock": "^1.0.0",
     "@slimio/npm-registry": "^0.7.0",
     "builtins": "^3.0.1",

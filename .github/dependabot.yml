@@ -3,19 +3,22 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: daily
+      interval: monthly
 
   - package-ecosystem: npm
     directory: /
+    versioning-strategy: widen
     schedule:
-      interval: daily
+      interval: weekly
 
   - package-ecosystem: npm
     directory: /test/fixtures/audit
+    versioning-strategy: widen
     schedule:
-      interval: daily
+      interval: weekly
 
   - package-ecosystem: npm
     directory: /test/fixtures/snyk
+    versioning-strategy: widen
     schedule:
-      interval: daily
+      interval: weekly

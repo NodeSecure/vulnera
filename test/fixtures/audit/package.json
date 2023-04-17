@@ -101,7 +101,7 @@
     "filenamify": "^4.2.0",
     "httpie": "^1.1.2",
     "is-minified-code": "^2.0.0",
-    "itertools": "^1.6.1",
+    "itertools": "^2.1.1",
     "js-x-ray": "^3.2.0",
     "kleur": "^4.1.4",
     "klona": "^2.0.4",

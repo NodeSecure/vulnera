@@ -94,7 +94,7 @@
     "@slimio/lock": "^1.0.0",
     "@slimio/npm-registry": "^0.7.0",
     "builtins": "^3.0.1",
-    "cacache": "^15.0.5",
+    "cacache": "^17.1.0",
     "cliui": "^8.0.1",
     "combine-async-iterators": "^2.0.0",
     "dotenv": "^8.2.0",

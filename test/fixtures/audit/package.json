@@ -97,7 +97,7 @@
     "cacache": "^15.0.5",
     "cliui": "^8.0.1",
     "combine-async-iterators": "^2.0.0",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.1.4",
     "filenamify": "^4.2.0",
     "httpie": "^1.1.2",
     "is-minified-code": "^2.0.0",

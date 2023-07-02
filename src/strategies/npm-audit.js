@@ -21,9 +21,11 @@ async function getVulnerabilities(path, options = {}) {
   const arborist = new Arborist({ ...NPM_TOKEN, path });
 
   const { vulnerabilities } = (await arborist.audit()).toJSON();
+  const advisories = Object.values(vulnerabilities)
+    .flatMap((vuln) => (Array.isArray(vuln.via) && typeof vuln.via[0] === "object" ? vuln.via : []));
 
   if (useStandardFormat) {
-    return formatVulnerabilities(VULN_MODE.NPM_AUDIT, Object.values(vulnerabilities));
+    return formatVulnerabilities(VULN_MODE.NPM_AUDIT, advisories);
   }
 
   return vulnerabilities;

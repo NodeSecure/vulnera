@@ -78,7 +78,7 @@ test("npm strategy: hydratePayloadDependencies using NodeSecure standard format"
 test("npm strategy: getVulnerabilities in NPM format", async(tape) => {
   const { getVulnerabilities } = NPMAuditStrategy();
   const vulnerabilities = await getVulnerabilities(path.join(kFixturesDir, "audit"));
-  tape.equal(Object.values(vulnerabilities).length, 18);
+  tape.equal(Object.values(vulnerabilities).length, 62);
 
   tape.end();
 });
@@ -87,15 +87,15 @@ test("npm strategy: getVulnerabilities in the standard NodeSecure format", async
   const { getVulnerabilities } = NPMAuditStrategy();
   const vulnerabilities = await getVulnerabilities(path.join(kFixturesDir, "audit"), { useStandardFormat: true });
 
-  tape.equal(vulnerabilities.length, 18);
+  tape.equal(vulnerabilities.length, 30);
   tape.deepEqual(vulnerabilities[0], {
     id: undefined,
     origin: "npm",
-    package: "@npmcli/arborist",
-    title: undefined,
-    url: undefined,
-    severity: "high",
-    vulnerableRanges: ["<=2.8.1"],
+    package: "@npmcli/git",
+    title: "Arbitrary Command Injection due to Improper Command Sanitization",
+    url: "https://github.com/advisories/GHSA-hxwm-x553-x359",
+    severity: "medium",
+    vulnerableRanges: ["<2.0.8"],
     vulnerableVersions: []
   });
 

@@ -106,3 +106,5 @@ dist
 # IDE files
 .idea/
 .vscode/
+
+temp/

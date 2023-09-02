@@ -15,8 +15,8 @@ test("sonatype strategy: fetching a package with a vulnerability using the API",
  * This might break the test at some point if Sonatype databases changes.
  */
   const packageWithVulnerability = {
-    package: "debug",
-    version: "3.0.1"
+    package: "undici",
+    version: "3.0.0"
   };
 
   dependencies.set(packageWithVulnerability.package, {
@@ -37,7 +37,7 @@ test("sonatype strategy: fetching a package with a vulnerability using the API",
   const { vulnerabilities } = dependencies.get(
     packageWithVulnerability.package
   );
-  tape.strictEqual(vulnerabilities.length, 1);
+  tape.strictEqual(vulnerabilities.length, 3);
 
   const [vulnerability] = vulnerabilities;
 

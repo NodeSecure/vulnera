@@ -23,11 +23,12 @@ test("node-secure load cache", (tape) => {
   rmSync(TMP_CACHE, { force: true });
 
   {
-    const payload = cache.load();
-    tape.strictEqual("lastUpdated" in payload, true, "cache must contain a 'lastUpdated' property");
+    const now = Date.now();
+    const payload = cache.load(void 0, () => now);
+    const delay = (now - CACHE_DELAY) - payload.lastUpdated;
 
-    const delay = (Date.now() - CACHE_DELAY) - payload.lastUpdated;
-    tape.true(delay >= 0 && delay <= 1);
+    tape.strictEqual("lastUpdated" in payload, true, "cache must contain a 'lastUpdated' property");
+    tape.true(delay >= 0 && delay <= 1, "delay must be between 0 and 1");
   }
 
   const fakePayload = { foo: "bar" };
@@ -40,18 +41,33 @@ test("node-secure load cache", (tape) => {
   tape.end();
 });
 
+test("node-secure load cache (with default payload)", (tape) => {
+  rmSync(TMP_CACHE, { force: true });
+
+  const now = Date.now();
+  const fakePayload = { foo: "bar" };
+
+  const payload = cache.load(fakePayload, () => now);
+  tape.deepEqual(payload, {
+    ...fakePayload,
+    lastUpdated: now - CACHE_DELAY
+  });
+
+  tape.end();
+});
+
 test("node-secure refresh cache", (tape) => {
   rmSync(TMP_CACHE, { force: true });
 
-  writeFileSync(TMP_CACHE, JSON.stringify({ foo: "bar" }));
-  cache.refresh();
+  const now = Date.now();
+  cache.refresh(now);
 
   {
     const payload = cache.load();
-    tape.strictEqual("lastUpdated" in payload, true, "cache must contain a 'lastUpdated' property");
+    const delay = now - payload.lastUpdated;
 
-    const delay = Date.now() - payload.lastUpdated;
-    tape.true(delay >= 0 && delay <= 1);
+    tape.strictEqual("lastUpdated" in payload, true, "cache must contain a 'lastUpdated' property");
+    tape.true(delay >= 0 && delay <= 1, "delay must be between 0 and 1");
   }
 
   tape.end();

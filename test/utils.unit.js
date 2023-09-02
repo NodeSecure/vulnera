@@ -6,7 +6,11 @@ import { fileURLToPath } from "url";
 import test from "tape";
 
 // Import Internal Dependencies
-import { readJsonFile } from "../src/utils.js";
+import {
+  readJsonFile,
+  standardizeNpmSeverity,
+  fromMaybeStringToArray
+} from "../src/utils.js";
 
 // CONSTANTS
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -23,6 +27,45 @@ test("readJsonFile (file that exists)", async(tape) => {
 test("readJsonFile (file that does not exist)", async(tape) => {
   const data = await readJsonFile(path.join(kFixturesDir, "blezkdcklerje.txt"));
   tape.strictEqual(data, null, "asking to read a file not on the local system should return null");
+
+  tape.end();
+});
+
+test("standardizeNpmSeverity", (tape) => {
+  tape.strictEqual(
+    standardizeNpmSeverity("moderate"),
+    "medium",
+    "should transform moderate to medium"
+  );
+
+  tape.strictEqual(
+    standardizeNpmSeverity("low"),
+    "low",
+    "should not transform function input and return the same primitive value"
+  );
+
+  tape.end();
+});
+
+test("fromMaybeStringToArray", (tape) => {
+  tape.deepEqual(
+    fromMaybeStringToArray("foobar"),
+    ["foobar"],
+    "should add the given primitive string to an Array and return it"
+  );
+
+  tape.deepEqual(
+    fromMaybeStringToArray(null),
+    [],
+    "should return empty array if the provided input is falsy (undefined, null, ...)"
+  );
+
+  const inputArr = ["foobar"];
+  tape.deepEqual(
+    fromMaybeStringToArray(inputArr),
+    inputArr,
+    "should return the same Array (ref) if provided as input"
+  );
 
   tape.end();
 });

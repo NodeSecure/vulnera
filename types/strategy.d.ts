@@ -35,7 +35,7 @@ declare namespace Strategy {
     useStandardFormat?: boolean;
   }
 
-  export interface Definition<T> {
+  export interface Definition<T = StandardVulnerability> {
     /** Name of the strategy **/
     strategy: Kind;
     /** Method to hydrate (insert/push) vulnerabilities in the dependencies retrieved by the Scanner **/
@@ -47,7 +47,7 @@ declare namespace Strategy {
     getVulnerabilities: (
       path: string,
       options?: GetVulnerabilitiesOptions
-    ) => Promise<T | StandardVulnerability>;
+    ) => Promise<T>;
     /** Hydrate local database (if the strategy need one obviously) **/
     hydrateDatabase?: () => Promise<void>;
     /** Method to delete the local vulnerabilities database (if available) **/

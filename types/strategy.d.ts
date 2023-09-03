@@ -1,10 +1,10 @@
-import NpmStrategy from "./npm-strategy.js";
+import GitHubAdvisoryStrategy from "./github-strategy.js";
 import SnykStrategy from "./snyk-strategy.js";
 
 export = Strategy;
 
 declare namespace Strategy {
-  export type Kind = "npm" | "node" | "snyk" | "sonatype" | "none";
+  export type Kind = "github-advisory" | "node" | "snyk" | "sonatype" | "none";
 
   // Degraded version from scanner (only implement what we need).
   export interface VersionDescriptor {
@@ -55,7 +55,7 @@ declare namespace Strategy {
   }
 
   export type Severity = Exclude<
-    | NpmStrategy.Vulnerability["severity"]
+    | GitHubAdvisoryStrategy.Vulnerability["severity"]
     | SnykStrategy.Vulnerability["severity"],
     "moderate"
   >;
@@ -73,7 +73,7 @@ declare namespace Strategy {
   export interface StandardVulnerability {
     /** Unique identifier for the vulnerability **/
     id?: string;
-    /** Vulnerability origin, either Snyk, NPM or NodeSWG **/
+    /** Vulnerability origin, either Snyk, Sonatype, GitHub or NodeSWG **/
     origin: Origin;
     /** Package associated with the vulnerability **/
     package: string;

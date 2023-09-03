@@ -78,7 +78,9 @@ You must add a new constant in variable `VULN_MODE`
 ```js
 export const VULN_MODE = Object.freeze({
   SECURITY_WG: "node",
-  NPM_AUDIT: "npm",
+  GITHUB_ADVISORY: "github-advisory",
+  SNYK: "snyk",
+  SONATYPE: "sonatype",
   NONE: "none",
   MY_NEW_STRATEGY: "foobar" // <-- here
 });
@@ -93,7 +95,7 @@ Also think to update the type definition of **VULN_MODE** in `types/api.d.ts`.
 It is necessary to add the name of your strategy in the exported type definitions.
 ```ts
 declare namespace Strategy {
-  export type Kind = "npm" | "node" | "none" | "foobar"; // <-- add the name here
+  export type Kind = "github-advisory" | "node" | "snyk" | "sonatype" | "none" | "foobar"; // <-- add the name here
 ```
 
 </details>
@@ -104,7 +106,7 @@ This is the file we use to export and manage the initialization of a strategy.
 
 The first line to update is the one who export all strategies at once.
 ```js
-export { NPMAuditStrategy, SecurityWGStrategy, FooBarStrategy }; // <-- add yours here
+export { GitHubAuditStrategy, SecurityWGStrategy, FooBarStrategy }; // <-- add yours here
 ```
 
 And then it will be necessary to modify the function initStrategy to add a new case for your strategy.
@@ -115,8 +117,8 @@ export async function initStrategy(strategy, options) {
     case VULN_MODE.SECURITY_WG:
       return Object.seal(await SecurityWGStrategy(options));
 
-    case VULN_MODE.NPM_AUDIT:
-      return Object.seal(NPMAuditStrategy());
+    case VULN_MODE.GITHUB_ADVISORY:
+      return Object.seal(GitHubAuditStrategy());
     
     /** Add it at the end **/
     case VULN_MODE.MY_NEW_STRATEGY:
@@ -159,7 +161,7 @@ export async function hydratePayloadDependencies(dependencies, options = {}) {
 
 --- 
 
-If your strategy returns information that does not match the other strategies or the standard format you will need to add definitions for this new format in `./types` (like `node-strategy.d.ts` and `npm-strategy.d.ts`).
+If your strategy returns information that does not match the other strategies or the standard format you will need to add definitions for this new format in `./types` (like `node-strategy.d.ts` and `github-strategy.d.ts`).
 
 ```ts
 export = FooBarStrategy;

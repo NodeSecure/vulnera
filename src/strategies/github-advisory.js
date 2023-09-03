@@ -12,28 +12,35 @@ import { audit } from "@pnpm/audit";
 import { VULN_MODE, NPM_TOKEN } from "../constants.js";
 import { standardizeVulnsPayload } from "./vuln-payload/standardize.js";
 
-export function NPMAuditStrategy() {
+export function GitHubAuditStrategy() {
   return {
-    strategy: VULN_MODE.NPM_AUDIT,
+    strategy: VULN_MODE.GITHUB_ADVISORY,
     hydratePayloadDependencies,
     getVulnerabilities
   };
 }
 
-async function getVulnerabilities(path, options = {}) {
+async function getVulnerabilities(lockDirOrManifestPath, options = {}) {
   const { useStandardFormat } = options;
 
   const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
   const registry = getLocalRegistryURL();
-  const isPnpm = await hasPnpmLockFile(path);
+
+  const lockfileDir = path.extname(lockDirOrManifestPath) === "" ?
+    lockDirOrManifestPath :
+    path.dirname(lockDirOrManifestPath);
+
+  const isPnpm = await hasPnpmLockFile(
+    lockfileDir
+  );
 
   const vulnerabilities = isPnpm ?
-    await pnpmAudit(path, registry) :
-    await npmAudit(path, registry);
+    await pnpmAudit(lockfileDir, registry) :
+    await npmAudit(lockDirOrManifestPath, registry);
 
   if (useStandardFormat) {
     return formatVulnerabilities(
-      isPnpm ? VULN_MODE.NPM_AUDIT + "_pnpm" : VULN_MODE.NPM_AUDIT,
+      isPnpm ? VULN_MODE.GITHUB_ADVISORY + "_pnpm" : VULN_MODE.GITHUB_ADVISORY,
       vulnerabilities
     );
   }
@@ -63,7 +70,7 @@ async function hydratePayloadDependencies(dependencies, options = {}) {
       const dependenciesVulnerabilities = dependencies.get(packageName).vulnerabilities;
       dependenciesVulnerabilities.push(
         ...formatVulnerabilities(
-          isPnpm ? VULN_MODE.NPM_AUDIT + "_pnpm" : VULN_MODE.NPM_AUDIT,
+          isPnpm ? VULN_MODE.GITHUB_ADVISORY + "_pnpm" : VULN_MODE.GITHUB_ADVISORY,
           [packageVulns]
         )
       );

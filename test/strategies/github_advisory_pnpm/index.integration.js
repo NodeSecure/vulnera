@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import test from "tape";
 
 // Import Internal Dependencies
-import { NPMAuditStrategy } from "../../../src/strategies/npm-audit.js";
+import { GitHubAuditStrategy } from "../../../src/strategies/github-advisory.js";
 import { expectVulnToBeNodeSecureStandardCompliant } from "../utils.js";
 
 // CONSTANTS
@@ -27,8 +27,8 @@ function expectNpmVulnToBePnpmAdvisory(tape, vuln) {
   tape.true("severity" in vuln, "pnpm advisory must have a 'severity' property");
 }
 
-test("npm (pnpm) strategy: hydratePayloadDependencies", async(tape) => {
-  const { hydratePayloadDependencies } = NPMAuditStrategy();
+test("github (pnpm) strategy: hydratePayloadDependencies", async(tape) => {
+  const { hydratePayloadDependencies } = GitHubAuditStrategy();
   const dependencies = new Map();
   dependencies.set("semver", { vulnerabilities: [] });
 
@@ -46,8 +46,8 @@ test("npm (pnpm) strategy: hydratePayloadDependencies", async(tape) => {
   tape.end();
 });
 
-test("npm (pnpm) strategy: hydratePayloadDependencies using NodeSecure standard format", async(tape) => {
-  const { hydratePayloadDependencies } = NPMAuditStrategy();
+test("github (pnpm) strategy: hydratePayloadDependencies using NodeSecure standard format", async(tape) => {
+  const { hydratePayloadDependencies } = GitHubAuditStrategy();
   const dependencies = new Map();
   dependencies.set("semver", { vulnerabilities: [] });
 
@@ -66,8 +66,8 @@ test("npm (pnpm) strategy: hydratePayloadDependencies using NodeSecure standard 
   tape.end();
 });
 
-test("npm (pnpm) strategy: getVulnerabilities in PNPM format", async(tape) => {
-  const { getVulnerabilities } = NPMAuditStrategy();
+test("github (pnpm) strategy: getVulnerabilities in PNPM format", async(tape) => {
+  const { getVulnerabilities } = GitHubAuditStrategy();
   const vulnerabilities = await getVulnerabilities(path.join(kFixturesDir, "audit_pnpm"));
   const vulnerabilitiesAsIterable = Object.values(
     vulnerabilities
@@ -78,8 +78,8 @@ test("npm (pnpm) strategy: getVulnerabilities in PNPM format", async(tape) => {
   tape.end();
 });
 
-test("npm (pnpm) strategy: getVulnerabilities in the standard NodeSecure format", async(tape) => {
-  const { getVulnerabilities } = NPMAuditStrategy();
+test("github (pnpm) strategy: getVulnerabilities in the standard NodeSecure format", async(tape) => {
+  const { getVulnerabilities } = GitHubAuditStrategy();
   const vulnerabilities = await getVulnerabilities(
     path.join(kFixturesDir, "audit_pnpm"),
     { useStandardFormat: true }
@@ -90,4 +90,17 @@ test("npm (pnpm) strategy: getVulnerabilities in the standard NodeSecure format"
 
   tape.end();
 });
+
+test("github (pnpm) strategy: getVulnerabilities should work even if we provide a path to a package.json", async(tape) => {
+  const { getVulnerabilities } = GitHubAuditStrategy();
+  const vulnerabilities = await getVulnerabilities(
+    path.join(kFixturesDir, "audit_pnpm", "package.json"),
+    { useStandardFormat: true }
+  );
+
+  tape.equal(vulnerabilities.length > 0, true);
+
+  tape.end();
+});
+
 

@@ -10,7 +10,7 @@ export const NPM_VULNS_PAYLOADS = {
   },
   outputStandardizedPayload: {
     id: 1005085,
-    origin: "npm",
+    origin: "github-advisory",
     package: NPM_VULNERABILITY.name,
     title: NPM_VULNERABILITY.title,
     url: NPM_VULNERABILITY.url,

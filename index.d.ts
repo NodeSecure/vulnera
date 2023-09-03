@@ -7,7 +7,7 @@ import {
   defaultStrategyName,
 } from "./types/api.js";
 
-import NpmStrategy from "./types/npm-strategy.js";
+import GitHubAdvisoryStrategy from "./types/github-strategy.js";
 import NodeStrategy from "./types/node-strategy.js";
 import SnykStrategy from "./types/snyk-strategy.js";
 import SonatypeStrategy from "./types/sonatype-strategy.js";
@@ -23,7 +23,7 @@ export {
 
   // Interfaces
   NodeStrategy,
-  NpmStrategy,
+  GitHubAdvisoryStrategy,
   SnykStrategy,
   SonatypeStrategy,
   Strategy,

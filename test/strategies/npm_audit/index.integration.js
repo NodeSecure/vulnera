@@ -1,6 +1,6 @@
 // Import Node.js Dependencies
-import path from "path";
-import { fileURLToPath } from "url";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 // Import Third-party Dependencies
 import test from "tape";
@@ -12,7 +12,6 @@ import { expectVulnToBeNodeSecureStandardCompliant } from "../utils.js";
 // CONSTANTS
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const kFixturesDir = path.join(__dirname, "..", "..", "fixtures");
-
 
 /**
  * @param {test.Test} tape
@@ -87,7 +86,10 @@ test("npm strategy: getVulnerabilities in NPM format", async(tape) => {
 
 test("npm strategy: getVulnerabilities in the standard NodeSecure format", async(tape) => {
   const { getVulnerabilities } = NPMAuditStrategy();
-  const vulnerabilities = await getVulnerabilities(path.join(kFixturesDir, "audit"), { useStandardFormat: true });
+  const vulnerabilities = await getVulnerabilities(
+    path.join(kFixturesDir, "audit"),
+    { useStandardFormat: true }
+  );
 
   tape.equal(vulnerabilities.length > 0, true);
   vulnerabilities.forEach((vuln) => expectVulnToBeNodeSecureStandardCompliant(tape, vuln));

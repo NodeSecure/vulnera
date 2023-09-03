@@ -1,5 +1,5 @@
 // Import Node.js Dependencies
-import { readFile } from "fs/promises";
+import { readFile } from "node:fs/promises";
 
 export async function readJsonFile(path) {
   try {
@@ -10,4 +10,20 @@ export async function readJsonFile(path) {
   catch {
     return null;
   }
+}
+
+export function fromMaybeStringToArray(value) {
+  if (Array.isArray(value)) {
+    return value;
+  }
+
+  return value ? [value] : [];
+}
+
+export function standardizeNpmSeverity(severity) {
+  if (severity === "moderate") {
+    return "medium";
+  }
+
+  return severity;
 }

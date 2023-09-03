@@ -1,6 +1,12 @@
+// Import Node.js Dependencies
+import fs from "node:fs/promises";
+import path from "node:path";
+
 // Import Third-party Dependencies
 import Arborist from "@npmcli/arborist";
 import { getLocalRegistryURL } from "@nodesecure/npm-registry-sdk";
+import { readWantedLockfile } from "@pnpm/lockfile-file";
+import { audit } from "@pnpm/audit";
 
 // Import Internal Dependencies
 import { VULN_MODE, NPM_TOKEN } from "../constants.js";
@@ -18,14 +24,18 @@ async function getVulnerabilities(path, options = {}) {
   const { useStandardFormat } = options;
 
   const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
-  const arborist = new Arborist({ ...NPM_TOKEN, path });
+  const registry = getLocalRegistryURL();
+  const isPnpm = await hasPnpmLockFile(path);
 
-  const { vulnerabilities } = (await arborist.audit()).toJSON();
-  const advisories = Object.values(vulnerabilities)
-    .flatMap((vuln) => (Array.isArray(vuln.via) && typeof vuln.via[0] === "object" ? vuln.via : []));
+  const vulnerabilities = isPnpm ?
+    await pnpmAudit(path, registry) :
+    await npmAudit(path, registry);
 
   if (useStandardFormat) {
-    return formatVulnerabilities(VULN_MODE.NPM_AUDIT, advisories);
+    return formatVulnerabilities(
+      isPnpm ? VULN_MODE.NPM_AUDIT + "_pnpm" : VULN_MODE.NPM_AUDIT,
+      vulnerabilities
+    );
   }
 
   return vulnerabilities;
@@ -36,12 +46,16 @@ async function hydratePayloadDependencies(dependencies, options = {}) {
 
   const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
   const registry = getLocalRegistryURL();
-  const arborist = new Arborist({ ...NPM_TOKEN, registry, path });
 
   try {
-    const { vulnerabilities } = (await arborist.audit()).toJSON();
+    const isPnpm = await hasPnpmLockFile(path);
 
-    for (const [packageName, packageVulns] of Object.entries(vulnerabilities)) {
+    const vulnerabilities = isPnpm ?
+      await pnpmAudit(path, registry) :
+      await npmAudit(path, registry);
+
+    for (const packageVulns of vulnerabilities) {
+      const packageName = packageVulns.name || packageVulns.module_name;
       if (!dependencies.has(packageName)) {
         continue;
       }
@@ -49,8 +63,8 @@ async function hydratePayloadDependencies(dependencies, options = {}) {
       const dependenciesVulnerabilities = dependencies.get(packageName).vulnerabilities;
       dependenciesVulnerabilities.push(
         ...formatVulnerabilities(
-          VULN_MODE.NPM_AUDIT,
-          [...extractPackageVulnsFromSource(packageVulns)]
+          isPnpm ? VULN_MODE.NPM_AUDIT + "_pnpm" : VULN_MODE.NPM_AUDIT,
+          [packageVulns]
         )
       );
     }
@@ -58,12 +72,42 @@ async function hydratePayloadDependencies(dependencies, options = {}) {
   catch { }
 }
 
-function* extractPackageVulnsFromSource(packageVulnerabilities) {
-  for (const vulnSource of packageVulnerabilities.via) {
-    const { title, range, id, name, source, url, dependency, severity, version, vulnerableVersions } = vulnSource;
+async function npmAudit(path, registry) {
+  const arborist = new Arborist({ ...NPM_TOKEN, registry, path });
+  const { vulnerabilities } = (await arborist.audit()).toJSON();
 
-    yield {
-      title, name, source, url, dependency, severity, version, vulnerableVersions, range, id
-    };
+  return Object.values(vulnerabilities)
+    .flatMap((vuln) => (Array.isArray(vuln.via) && typeof vuln.via[0] === "object" ? vuln.via : []));
+}
+
+async function pnpmAudit(lockfileDir, registry) {
+  const auditOptions = {
+    include: { dependencies: true, devDependencies: true, optionalDependencies: false },
+    lockfileDir,
+    registry
+  };
+
+  const lockfile = await readWantedLockfile(lockfileDir, {});
+
+  // eslint-disable-next-line
+  const getAuthHeader = () => ({});
+  const { advisories } = await audit(
+    lockfile, getAuthHeader, auditOptions
+  );
+
+  return Object.values(advisories);
+}
+
+async function hasPnpmLockFile(lockfileDir) {
+  try {
+    await fs.access(
+      path.join(lockfileDir, "pnpm-lock.yaml"),
+      fs.constants.F_OK
+    );
+
+    return true;
+  }
+  catch {
+    return false;
   }
 }

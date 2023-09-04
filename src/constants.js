@@ -1,6 +1,6 @@
 // Import Node.js Dependencies
-import path from "path";
-import os from "os";
+import path from "node:path";
+import os from "node:os";
 
 export const NPM_TOKEN = typeof process.env.NODE_SECURE_TOKEN === "string" ? { token: process.env.NODE_SECURE_TOKEN } : {};
 export const SNYK_ORG = process.env.SNYK_ORG;
@@ -8,7 +8,7 @@ export const SNYK_TOKEN = process.env.SNYK_TOKEN;
 
 export const VULN_MODE = Object.freeze({
   SECURITY_WG: "node",
-  NPM_AUDIT: "npm",
+  GITHUB_ADVISORY: "github-advisory",
   SNYK: "snyk",
   SONATYPE: "sonatype",
   NONE: "none"

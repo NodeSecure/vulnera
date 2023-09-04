@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import test from "tape";
 
 // Import Internal Dependencies
-import { NPMAuditStrategy } from "../../../src/strategies/npm-audit.js";
+import { GitHubAuditStrategy } from "../../../src/strategies/github-advisory.js";
 import { expectVulnToBeNodeSecureStandardCompliant } from "../utils.js";
 
 // CONSTANTS
@@ -17,7 +17,7 @@ const kFixturesDir = path.join(__dirname, "..", "..", "fixtures");
  * @param {test.Test} tape
  * @param {any} data
  */
-function expectNpmVulnToBeAdvisory(tape, vuln) {
+function expectNpmAuditVulnToBeGithubAdvisory(tape, vuln) {
   // Assert property
   tape.true("source" in vuln, "advisory must have a 'source' property");
   tape.true("name" in vuln, "advisory must have a 'name' property");
@@ -28,17 +28,17 @@ function expectNpmVulnToBeAdvisory(tape, vuln) {
   tape.true("range" in vuln, "advisory must have a 'range' property");
 }
 
-test("NPMAuditStrategy definition must return only three keys.", (tape) => {
-  const definition = NPMAuditStrategy();
+test("GitHubAuditStrategy definition must return only three keys.", (tape) => {
+  const definition = GitHubAuditStrategy();
 
-  tape.strictEqual(definition.strategy, "npm", "strategy property must equal 'npm'");
+  tape.strictEqual(definition.strategy, "github-advisory", "strategy property must equal 'github-advisory'");
   tape.deepEqual(Object.keys(definition).sort(), ["strategy", "hydratePayloadDependencies", "getVulnerabilities"].sort());
 
   tape.end();
 });
 
 test("npm strategy: hydratePayloadDependencies", async(tape) => {
-  const { hydratePayloadDependencies } = NPMAuditStrategy();
+  const { hydratePayloadDependencies } = GitHubAuditStrategy();
   const dependencies = new Map();
   dependencies.set("@npmcli/git", { vulnerabilities: [] });
 
@@ -49,13 +49,13 @@ test("npm strategy: hydratePayloadDependencies", async(tape) => {
   tape.strictEqual(dependencies.size, 1, "hydratePayloadDependencies must not add new dependencies by itself");
   const { vulnerabilities } = dependencies.get("@npmcli/git");
   tape.strictEqual(vulnerabilities.length, 1);
-  expectNpmVulnToBeAdvisory(tape, vulnerabilities[0]);
+  expectNpmAuditVulnToBeGithubAdvisory(tape, vulnerabilities[0]);
 
   tape.end();
 });
 
 test("npm strategy: hydratePayloadDependencies using NodeSecure standard format", async(tape) => {
-  const { hydratePayloadDependencies } = NPMAuditStrategy();
+  const { hydratePayloadDependencies } = GitHubAuditStrategy();
   const dependencies = new Map();
   dependencies.set("@npmcli/git", { vulnerabilities: [] });
 
@@ -73,7 +73,7 @@ test("npm strategy: hydratePayloadDependencies using NodeSecure standard format"
 });
 
 test("npm strategy: getVulnerabilities in NPM format", async(tape) => {
-  const { getVulnerabilities } = NPMAuditStrategy();
+  const { getVulnerabilities } = GitHubAuditStrategy();
   const vulnerabilities = await getVulnerabilities(path.join(kFixturesDir, "audit"));
   const vulnerabilitiesAsIterable = Object.values(
     vulnerabilities
@@ -85,7 +85,7 @@ test("npm strategy: getVulnerabilities in NPM format", async(tape) => {
 });
 
 test("npm strategy: getVulnerabilities in the standard NodeSecure format", async(tape) => {
-  const { getVulnerabilities } = NPMAuditStrategy();
+  const { getVulnerabilities } = GitHubAuditStrategy();
   const vulnerabilities = await getVulnerabilities(
     path.join(kFixturesDir, "audit"),
     { useStandardFormat: true }

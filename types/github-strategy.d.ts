@@ -1,9 +1,9 @@
 import { AuditAdvisory } from "@pnpm/audit";
 
-export = NpmStrategy;
+export = GitHubAdvisoryStrategy;
 
-declare namespace NpmStrategy {
-  export type NpmVulnerability = {
+declare namespace GitHubAdvisoryStrategy {
+  export type NpmAuditAdvisory = {
     /** The unique cache key for this vuln or metavuln. **/
     id?: string;
     /** The name of the package that this vulnerability is about**/
@@ -26,8 +26,8 @@ declare namespace NpmStrategy {
     vulnerableVersions?: string[];
   }
 
-  export type PnpmVulnerability = AuditAdvisory;
-  export type Vulnerability = PnpmVulnerability | NpmVulnerability;
+  export type PnpmAuditAdvisory= AuditAdvisory;
+  export type Vulnerability = PnpmAuditAdvisory | NpmAuditAdvisory;
 
   export interface Cvss {
     score: number;

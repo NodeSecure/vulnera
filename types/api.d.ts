@@ -9,7 +9,7 @@ declare function setStrategy<T>(
 declare function getStrategy<T>(): Promise<Strategy.Definition<T>>;
 declare const strategies: {
   SECURITY_WG: "node";
-  NPM_AUDIT: "npm";
+  GITHUB_ADVISORY: "github-advisory",
   SNYK: "snyk";
   SONATYPE: "sonatype";
   NONE: "none";

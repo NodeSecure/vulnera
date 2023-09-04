@@ -23,7 +23,7 @@ function mapFromNPM(vuln) {
 
   return {
     id: vuln.id || vuln.source,
-    origin: VULN_MODE.NPM_AUDIT,
+    origin: VULN_MODE.GITHUB_ADVISORY,
     package: vuln.name,
     title: vuln.title,
     url: vuln.url,
@@ -42,7 +42,7 @@ function mapFromPnpm(vuln) {
 
   return {
     id: vuln.id,
-    origin: VULN_MODE.NPM_AUDIT,
+    origin: VULN_MODE.GITHUB_ADVISORY,
     package: vuln.module_name,
     title: vuln.title,
     description: vuln.overview,
@@ -99,8 +99,8 @@ function mapFromSonatype(vuln) {
 }
 
 export const VULN_MAPPERS = {
-  [VULN_MODE.NPM_AUDIT]: mapFromNPM,
-  [VULN_MODE.NPM_AUDIT + "_pnpm"]: mapFromPnpm,
+  [VULN_MODE.GITHUB_ADVISORY]: mapFromNPM,
+  [VULN_MODE.GITHUB_ADVISORY + "_pnpm"]: mapFromPnpm,
   [VULN_MODE.SECURITY_WG]: mapFromSecurityWG,
   [VULN_MODE.SNYK]: mapFromSnyk,
   [VULN_MODE.SONATYPE]: mapFromSonatype

@@ -53,7 +53,7 @@ console.log(vulnerabilities);
 
 The default strategy is **NONE** which mean no strategy at all (we execute nothing).
 
-[GitHub Advisory](./docs/npm_audit.md) | [Sonatype - OSS Index](./docs/sonatype.md) | Snyk | [**DEPRECATED**] [Node.js Security WG - Database](./docs/node_security_wg.md)
+[GitHub Advisory](./docs/github_advisory.md) | [Sonatype - OSS Index](./docs/sonatype.md) | Snyk | [**DEPRECATED**] [Node.js Security WG - Database](./docs/node_security_wg.md)
 :-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/1200px-Npm-logo.svg.png" width="300"> | <img src="https://ossindex.sonatype.org/assets/images/sonatype-image.png" width="400"> | <img src="https://res.cloudinary.com/snyk/image/upload/v1537345894/press-kit/brand/logo-black.png" width="400"> | <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1280px-Node.js_logo.svg.png" width="300">
 

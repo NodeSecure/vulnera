@@ -57,7 +57,7 @@
     "@myunisoft/httpie": "^2.0.1",
     "@nodesecure/github": "^1.2.0",
     "@nodesecure/npm-registry-sdk": "^1.4.1",
-    "@npmcli/arborist": "^6.1.5",
+    "@npmcli/arborist": "^7.0.0",
     "@pnpm/audit": "^7.0.12",
     "@pnpm/lockfile-file": "^8.1.2",
     "semver": "^7.3.8"

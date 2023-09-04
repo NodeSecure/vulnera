@@ -2,11 +2,13 @@
 import * as httpie from "@myunisoft/httpie";
 
 // Import Internal Dependencies
+import * as utils from "../utils.js";
 import { VULN_MODE } from "../constants.js";
 import { standardizeVulnsPayload } from "./vuln-payload/standardize.js";
 
 // CONSTANTS
 const kSonatypeApiURL = "https://ossindex.sonatype.org/api/v3/component-report";
+const kRatelimitChunkSize = 128;
 
 export function SonatypeStrategy() {
   return {
@@ -51,18 +53,26 @@ function createPackageURLCoordinates([dependencyName, dependencyPayload]) {
   return Object.keys(versions).map((version) => toPackageURL(dependencyName, version));
 }
 
-async function fetchDataForPackageURLs(coordinates) {
+export async function fetchDataForPackageURLs(unchunkedCoordinates) {
   const requestOptions = {
     headers: {
       accept: "application/json"
-    },
-    body: { coordinates }
+    }
   };
 
   try {
-    const { data } = await httpie.post(kSonatypeApiURL, requestOptions);
+    const chunkedCoordinates = [
+      ...utils.chunkArray(unchunkedCoordinates, kRatelimitChunkSize)
+    ];
 
-    return data;
+    const rawHttpPromises = chunkedCoordinates.map((coordinates) => httpie.post(kSonatypeApiURL, {
+      ...requestOptions,
+      body: { coordinates }
+    }));
+
+    return (
+      await Promise.all(rawHttpPromises)
+    ).flatMap((requestResponse) => requestResponse.data);
   }
   catch {
     return [];

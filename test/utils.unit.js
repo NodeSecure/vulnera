@@ -9,7 +9,8 @@ import test from "tape";
 import {
   readJsonFile,
   standardizeNpmSeverity,
-  fromMaybeStringToArray
+  fromMaybeStringToArray,
+  chunkArray
 } from "../src/utils.js";
 
 // CONSTANTS
@@ -66,6 +67,20 @@ test("fromMaybeStringToArray", (tape) => {
     inputArr,
     "should return the same Array (ref) if provided as input"
   );
+
+  tape.end();
+});
+
+test("chunkArray", (tape) => {
+  const groupedArr = [1, 2, 3, 4, 5, 6];
+  const chunkedArr = [...chunkArray(groupedArr, 2)];
+
+  tape.strictEqual(chunkedArr.length, 3);
+  tape.deepEqual(chunkedArr, [
+    [1, 2],
+    [3, 4],
+    [5, 6]
+  ]);
 
   tape.end();
 });

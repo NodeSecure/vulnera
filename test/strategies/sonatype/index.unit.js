@@ -2,8 +2,14 @@
 import test from "tape";
 
 // Import Internal Dependencies
-import { SonatypeStrategy } from "../../../src/strategies/sonatype.js";
-import { expectVulnToBeNodeSecureStandardCompliant, kHttpClientHeaders, setupHttpAgentMock } from "../utils.js";
+import {
+  SonatypeStrategy
+} from "../../../src/strategies/sonatype.js";
+import {
+  expectVulnToBeNodeSecureStandardCompliant,
+  kHttpClientHeaders,
+  setupHttpAgentMock
+} from "../utils.js";
 
 // CONSTANTS
 const kSonatypeOrigin = "https://ossindex.sonatype.org";
@@ -29,7 +35,6 @@ test("SonatypeStrategy definition must return only three keys.", (tape) => {
 
   tape.end();
 });
-
 
 test("sonatype strategy: hydratePayloadDependencies", async(tape) => {
   const { hydratePayloadDependencies } = SonatypeStrategy();
@@ -128,6 +133,42 @@ test("sonatype strategy: hydratePayloadDependencies when using NodeSecure standa
     id: "1617",
     cvssScore: 7.5
   });
+
+  restoreHttpAgent();
+  tape.end();
+});
+
+test("sonatype strategy: fetchDataForPackageURLs with coordinates exceeding the ratelimit", async(tape) => {
+  const { hydratePayloadDependencies } = SonatypeStrategy();
+  const chunkSizeApiLimit = 128;
+  const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
+  const mockedHttpClient = mockedHttpAgent.get(kSonatypeOrigin);
+  const fakeDependencyPayload = {
+    vulnerabilities: [],
+    versions: {
+      "3.0.1": {
+        id: 10,
+        description: "package description"
+      }
+    }
+  };
+  const dependencies = new Map();
+
+  mockedHttpClient
+    .intercept({
+      path: kSonatypeApiPath,
+      method: "POST"
+    })
+    .reply(200, [kSonatypeVulnComponent], kHttpClientHeaders)
+    .times(2);
+
+  dependencies.set("fake-npm-package", fakeDependencyPayload);
+
+  Array.from({ length: chunkSizeApiLimit + 1 }, (_, index) => dependencies.set(`fake-npm-${index}`, fakeDependencyPayload));
+
+  await hydratePayloadDependencies(dependencies);
+
+  mockedHttpAgent.assertNoPendingInterceptors();
 
   restoreHttpAgent();
   tape.end();

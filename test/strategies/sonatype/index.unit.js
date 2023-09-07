@@ -2,8 +2,15 @@
 import test from "tape";
 
 // Import Internal Dependencies
-import { SonatypeStrategy, fetchDataForPackageURLs } from "../../../src/strategies/sonatype.js";
-import { expectVulnToBeNodeSecureStandardCompliant, kHttpClientHeaders, setupHttpAgentMock } from "../utils.js";
+import {
+  SonatypeStrategy,
+  fetchDataForPackageURLs
+} from "../../../src/strategies/sonatype.js";
+import {
+  expectVulnToBeNodeSecureStandardCompliant,
+  kHttpClientHeaders,
+  setupHttpAgentMock
+} from "../utils.js";
 
 // CONSTANTS
 const kSonatypeOrigin = "https://ossindex.sonatype.org";
@@ -29,7 +36,6 @@ test("SonatypeStrategy definition must return only three keys.", (tape) => {
 
   tape.end();
 });
-
 
 test("sonatype strategy: hydratePayloadDependencies", async(tape) => {
   const { hydratePayloadDependencies } = SonatypeStrategy();
@@ -146,13 +152,11 @@ test("sonatype strategy: fetchDataForPackageURLs with coordinates exceeding the 
     .reply(200, [kSonatypeVulnComponent], kHttpClientHeaders)
     .times(2);
 
-  // Note: pendingInterceptor.timesInvoked always equal O ?
-  const [pendingInterceptor] = mockedHttpAgent.pendingInterceptors();
   const response = await fetchDataForPackageURLs(coordinates);
 
+  mockedHttpAgent.assertNoPendingInterceptors();
   tape.equal(response.length, 2);
   tape.deepEqual(response, [kSonatypeVulnComponent, kSonatypeVulnComponent]);
-  tape.equal(pendingInterceptor.times, 2);
 
   restoreHttpAgent();
   tape.end();

@@ -53,7 +53,7 @@ function createPackageURLCoordinates([dependencyName, dependencyPayload]) {
   return Object.keys(versions).map((version) => toPackageURL(dependencyName, version));
 }
 
-export async function fetchDataForPackageURLs(unchunkedCoordinates) {
+async function fetchDataForPackageURLs(unchunkedCoordinates) {
   const requestOptions = {
     headers: {
       accept: "application/json"

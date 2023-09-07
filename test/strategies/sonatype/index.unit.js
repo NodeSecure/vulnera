@@ -3,8 +3,7 @@ import test from "tape";
 
 // Import Internal Dependencies
 import {
-  SonatypeStrategy,
-  fetchDataForPackageURLs
+  SonatypeStrategy
 } from "../../../src/strategies/sonatype.js";
 import {
   expectVulnToBeNodeSecureStandardCompliant,
@@ -140,10 +139,21 @@ test("sonatype strategy: hydratePayloadDependencies when using NodeSecure standa
 });
 
 test("sonatype strategy: fetchDataForPackageURLs with coordinates exceeding the ratelimit", async(tape) => {
+  const { hydratePayloadDependencies } = SonatypeStrategy();
+  const chunkSizeApiLimit = 128;
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
   const mockedHttpClient = mockedHttpAgent.get(kSonatypeOrigin);
+  const fakeDependencyPayload = {
+    vulnerabilities: [],
+    versions: {
+      "3.0.1": {
+        id: 10,
+        description: "package description"
+      }
+    }
+  };
+  const dependencies = new Map();
 
-  const coordinates = Array.from({ length: 200 }, () => kFakePackageURL);
   mockedHttpClient
     .intercept({
       path: kSonatypeApiPath,
@@ -152,11 +162,13 @@ test("sonatype strategy: fetchDataForPackageURLs with coordinates exceeding the 
     .reply(200, [kSonatypeVulnComponent], kHttpClientHeaders)
     .times(2);
 
-  const response = await fetchDataForPackageURLs(coordinates);
+  dependencies.set("fake-npm-package", fakeDependencyPayload);
+
+  Array.from({ length: chunkSizeApiLimit + 1 }, (_, index) => dependencies.set(`fake-npm-${index}`, fakeDependencyPayload));
+
+  await hydratePayloadDependencies(dependencies);
 
   mockedHttpAgent.assertNoPendingInterceptors();
-  tape.equal(response.length, 2);
-  tape.deepEqual(response, [kSonatypeVulnComponent, kSonatypeVulnComponent]);
 
   restoreHttpAgent();
   tape.end();

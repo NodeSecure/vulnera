@@ -2,13 +2,16 @@
   "name": "@nodesecure/vulnera",
   "version": "1.8.0",
   "description": "NodeSecure vulnerabilities strategies",
-  "exports": "./index.js",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "lint": "cross-env eslint index.js",
-    "test-only": "cross-env esm-tape-runner 'test/**/*.js' | tap-monkey",
-    "unit-test-only": "cross-env esm-tape-runner 'test/**/*.unit.js' | tap-monkey",
-    "integration-test-only": "cross-env esm-tape-runner 'test/**/*.integration.js' | tap-monkey",
-    "test:typescript": "tsd",
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
+    "lint": "cross-env eslint src/**/*.ts",
+    "test-only": "glob -c \"tsx --test\" \"./test/**/*.spec.ts\"",
+    "unit-test-only": "glob -c \"tsx --test\" \"./test/**/*.unit.spec.ts\"",
+    "integration-test-only": "glob -c \"tsx --test\" \"./test/**/*.integration.spec.ts\"",
     "test": "npm run lint && npm run test-only",
     "test:unit": "npm run lint && npm run unit-test-only",
     "test:integration": "npm run lint && npm run integration-test-only",
@@ -43,29 +46,20 @@
   },
   "homepage": "https://github.com/NodeSecure/vulnera#readme",
   "devDependencies": {
-    "@nodesecure/eslint-config": "^1.6.0",
+    "@nodesecure/eslint-config": "^1.8.0",
     "@slimio/is": "^2.0.0",
-    "@small-tech/esm-tape-runner": "^2.0.0",
-    "@small-tech/tap-monkey": "^1.4.0",
-    "c8": "^8.0.0",
+    "@types/node": "^20.6.0",
+    "c8": "^8.0.1",
     "cross-env": "^7.0.3",
-    "tape": "^5.6.1",
-    "tsd": "^0.29.0"
+    "glob": "^10.3.4",
+    "tsx": "^3.12.8",
+    "typescript": "^4.9.5"
   },
-  "type": "module",
   "dependencies": {
-    "@myunisoft/httpie": "^2.0.1",
-    "@nodesecure/github": "^1.2.0",
-    "@nodesecure/npm-registry-sdk": "^1.4.1",
-    "@npmcli/arborist": "^7.0.0",
-    "@pnpm/audit": "^7.0.12",
-    "@pnpm/lockfile-file": "^8.1.2",
-    "semver": "^7.3.8"
-  },
-  "tsd": {
-    "directory": "test/types",
-    "compilerOptions": {
-      "esModuleInterop": true
-    }
+    "@myunisoft/httpie": "^2.0.2",
+    "@nodesecure/npm-registry-sdk": "^1.6.1",
+    "@npmcli/arborist": "^7.1.0",
+    "@pnpm/audit": "^7.0.13",
+    "@pnpm/lockfile-file": "^8.1.2"
   }
 }

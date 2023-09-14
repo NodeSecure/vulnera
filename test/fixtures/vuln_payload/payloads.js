@@ -1,4 +1,4 @@
-import { SNYK_VULNERABILITY, NPM_VULNERABILITY, SECURITYWG_VULNERABILITY, SONATYPE_VULNERABILITY } from "./vulns.js";
+import { SNYK_VULNERABILITY, NPM_VULNERABILITY, SONATYPE_VULNERABILITY } from "./vulns.js";
 
 export const NPM_VULNS_PAYLOADS = {
   inputVulnsPayload: {
@@ -43,27 +43,6 @@ export const SNYK_VULNS_PAYLOADS = {
     cvssVector: SNYK_VULNERABILITY.CVSSv3,
     cvssScore: SNYK_VULNERABILITY.cvssScore,
     patches: SNYK_VULNERABILITY.patches
-  }
-};
-
-export const SECURITYWG_VULNS_PAYLOADS = {
-  inputVulnsPayload: {
-    vulnerabilities: [
-      SECURITYWG_VULNERABILITY
-    ]
-  },
-  outputStandardizedPayload: {
-    id: SECURITYWG_VULNERABILITY.id,
-    origin: "node",
-    package: SECURITYWG_VULNERABILITY.module_name,
-    title: SECURITYWG_VULNERABILITY.title,
-    description: SECURITYWG_VULNERABILITY.overview,
-    vulnerableRanges: [SECURITYWG_VULNERABILITY.vulnerable_versions],
-    vulnerableVersions: [],
-    cves: SECURITYWG_VULNERABILITY.cves,
-    cvssVector: SECURITYWG_VULNERABILITY.cvss_vector,
-    cvssScore: SECURITYWG_VULNERABILITY.cvss_score,
-    patchedVersions: SECURITYWG_VULNERABILITY.patched_versions
   }
 };
 

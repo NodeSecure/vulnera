@@ -5,7 +5,6 @@
     "requireConfigFile": false
   },
   "rules": {
-    "no-empty": "off",
-    "id-length": "off"
+    "no-empty": "off"
   }
 }

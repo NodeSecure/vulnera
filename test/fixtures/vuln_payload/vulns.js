@@ -117,29 +117,6 @@ export const SNYK_VULNERABILITY = {
   upgradePath: ["ms@0.7.1"]
 };
 
-export const SECURITYWG_VULNERABILITY = {
-  id: 472,
-  title: "NoSQL injection on express-cart",
-  overview: "[express-cart] Customer and admin email enumeration through MongoDB injection",
-  created_at: "2018-08-20",
-  updated_at: "2018-09-10",
-  publish_date: "1970-01-01",
-  author: {
-    name: "Benoit Côté-Jodoin",
-    website: "http://bcj.io",
-    username: "becojo"
-  },
-  module_name: "express-cart",
-  cves: [],
-  vulnerable_versions: "<1.1.8",
-  patched_versions: ">=1.1.8",
-  recommendation: "Update express-cart module to version >=1.1.8",
-  references: ["https://hackerone.com/reports/397445"],
-  cvss_vector: "CVSS:3.0/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:N",
-  cvss_score: 8.2,
-  coordinating_vendor: null
-};
-
 export const SONATYPE_VULNERABILITY = {
   id: "a917ab55-851f-4c8b-ac82-6f988881c329",
   displayName: "OSSINDEX-6f98-8881-c329",

@@ -1,14 +1,7 @@
 # Adding a new strategy
 If you are a contributor and want to add a new strategy to this package then this guide is for you.
 
-The first thing to understand is that this package was built to meet the needs of the [NodeSecure Scanner](https://github.com/NodeSecure/scanner) and NodeSecure CLI. What are these needs you will ask?
-
-- Download database on the local disk for some strategies (like Node.js Security WG with **hydrateDatabase**).
-- Know if the data is up to date (what cover **src/cache.js**).
-- Being able to delete it at any time (**deleteDatabase** method).
-- Search and attach vulnerabilities for a given list of dependencies.
-
-Not all strategies are the same and do not work in the same way. It is therefore also important to be able to adapt while maintaining abstract interfaces.
+The first thing to understand is that this package was built to meet the needs of the [NodeSecure Scanner](https://github.com/NodeSecure/scanner) and NodeSecure CLI.
 
 ![](./images/scanner.png)
 
@@ -77,7 +70,6 @@ The files that must be modified to add a new strategy are:
 You must add a new constant in variable `VULN_MODE`
 ```js
 export const VULN_MODE = Object.freeze({
-  SECURITY_WG: "node",
   GITHUB_ADVISORY: "github-advisory",
   SNYK: "snyk",
   SONATYPE: "sonatype",
@@ -90,42 +82,26 @@ Also think to update the type definition of **VULN_MODE** in `types/api.d.ts`.
 
 </details>
 
-<details><summary>types/strategy.d.ts</summary>
-
-It is necessary to add the name of your strategy in the exported type definitions.
-```ts
-declare namespace Strategy {
-  export type Kind = "github-advisory" | "node" | "snyk" | "sonatype" | "none" | "foobar"; // <-- add the name here
-```
-
-</details>
-
-<details><summary>src/strategies/index.js</summary>
+<details><summary>src/index.ts</summary>
 
 This is the file we use to export and manage the initialization of a strategy.
-
-The first line to update is the one who export all strategies at once.
-```js
-export { GitHubAuditStrategy, SecurityWGStrategy, FooBarStrategy }; // <-- add yours here
-```
-
-And then it will be necessary to modify the function initStrategy to add a new case for your strategy.
+You need to update the initStrategy function and add a new case for your strategy.
 
 ```js
-export async function initStrategy(strategy, options) {
-  switch (strategy) {
-    case VULN_MODE.SECURITY_WG:
-      return Object.seal(await SecurityWGStrategy(options));
-
-    case VULN_MODE.GITHUB_ADVISORY:
-      return Object.seal(GitHubAuditStrategy());
-    
-    /** Add it at the end **/
-    case VULN_MODE.MY_NEW_STRATEGY:
-      return Object.seal(FooBarStrategy()); // <-- add options if required!
+export function setStrategy<T extends Kind>(
+  name: T
+): AllStrategy[T] {
+  if (name === VULN_MODE.GITHUB_ADVISORY) {
+    localVulnerabilityStrategy = Object.seal(GitHubAdvisoryStrategy());
+  }
+  else if (name === VULN_MODE.MY_NEW_STRATEGY) { // Add condition here
+    localVulnerabilityStrategy = Object.seal(FooBarStrategy());
+  }
+  else {
+    localVulnerabilityStrategy = Object.seal(NoneStrategy());
   }
 
-  return Object.seal(NoneStrategy());
+  return localVulnerabilityStrategy as AllStrategy[T];
 }
 ```
 
@@ -139,41 +115,33 @@ It is obviously necessary to add your strategy in the README. Also make sure tha
 
 ---
 
-You will obviously need to add your own `.js` file in the **src/strategies** folder. The content at the start will probably look like this:
+You will obviously need to add your own `.ts` file in the **src/strategies** folder. The content at the start will probably look like this:
 
-```js
+```ts
 // Import Internal Dependencies
 import { VULN_MODE } from "../constants.js";
+import type { Dependencies } from "./types/scanner.js";
+import type {
+  HydratePayloadDepsOptions,
+  BaseStrategy
+} from "./types/api.js";
 
-export function FooBarStrategy() {
+export type FooBarStrategyDefinition = BaseStrategy<"foobar">;
+
+export function FooBarStrategy(): FooBarStrategyDefinition {
   return {
     strategy: VULN_MODE.MY_NEW_STRATEGY,
     hydratePayloadDependencies
   };
 }
 
-export async function hydratePayloadDependencies(dependencies, options = {}) {
+export async function hydratePayloadDependencies(
+  dependencies: Dependencies,
+  options: HydratePayloadDepsOptions = {}
+) {
   // Do your code here!
 }
 ```
-
-`hydrateDatabase` and `deleteDatabase` can also be added if required (take a look at security-wg.js for inspiration).
-
---- 
-
-If your strategy returns information that does not match the other strategies or the standard format you will need to add definitions for this new format in `./types` (like `node-strategy.d.ts` and `github-strategy.d.ts`).
-
-```ts
-export = FooBarStrategy;
-
-declare namespace FooBarStrategy {
-  export interface Vulnerability {
-    // Your work here!
-  }
-}
-```
-
-Think to import/export those definitions in the root file `index.d.ts`.
 
 ---
 

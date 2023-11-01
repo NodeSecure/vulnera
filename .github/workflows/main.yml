@@ -18,7 +18,7 @@ jobs:
           egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
 
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v2.6.0
-      - uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
+      - uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
         with:
           node-version: 16.x
       - name: Install dependencies
@@ -39,7 +39,7 @@ jobs:
 
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v2.6.0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
@@ -60,7 +60,7 @@ jobs:
 
       - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3.8.1
+        uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65 # v4.0.0
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies

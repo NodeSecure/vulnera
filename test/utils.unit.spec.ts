@@ -6,8 +6,29 @@ import assert from "node:assert";
 import {
   standardizeNpmSeverity,
   fromMaybeStringToArray,
+  parseNpmSpec,
   chunkArray
 } from "../src/utils.js";
+
+test("parseNpmSpec", () => {
+  assert.deepEqual(
+    parseNpmSpec("foobar"),
+    { name: "foobar", version: undefined }
+  );
+  assert.deepEqual(
+    parseNpmSpec("foobar@1.0.0"),
+    { name: "foobar", version: "1.0.0" }
+  );
+
+  assert.deepEqual(
+    parseNpmSpec("@nodesecure/js-x-ray"),
+    { name: "@nodesecure/js-x-ray", version: undefined }
+  );
+  assert.deepEqual(
+    parseNpmSpec("@nodesecure/js-x-ray@1.0.0"),
+    { name: "@nodesecure/js-x-ray", version: "1.0.0" }
+  );
+});
 
 test("standardizeNpmSeverity", () => {
   assert.strictEqual(

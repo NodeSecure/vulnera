@@ -21,6 +21,16 @@ export function standardizeNpmSeverity(
   return severity as Severity;
 }
 
+export function parseNpmSpec(
+  spec: string
+) {
+  const parts = spec.split("@");
+
+  return spec.startsWith("@") ?
+    { name: `@${parts[1]}`, version: parts[2] ?? void 0 } :
+    { name: parts[0], version: parts[1] ?? void 0 };
+}
+
 export function* chunkArray<T = any>(
   arr: T[], chunkSize: number
 ): IterableIterator<T[]> {

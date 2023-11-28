@@ -165,6 +165,9 @@ export interface StandardVulnerability {
 }
 ```
 
+### Databases
+- [OSV](./docs/database/osv.md)
+
 ## Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->

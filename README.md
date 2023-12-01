@@ -123,7 +123,7 @@ export interface HydratePayloadDepsOptions extends BaseStrategyOptions {
 
 Where `dependencies` is the dependencies **Map()** object of the NodeSecure Scanner.
 
-> [!NOTES] 
+> [!NOTE] 
 > the option **hydrateDatabase** is only useful for some of the strategy (like Node.js Security WG).
 
 ### Standard vulnerability format

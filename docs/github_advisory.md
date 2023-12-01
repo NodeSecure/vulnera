@@ -13,7 +13,8 @@ const { vulnerabilities } = (await arborist.audit()).toJSON();
 
 This strategy doesn't require the synchronization of a local database.
 
-> ⚠️ This strategy currently only work with a local project analysis (with a package.json/package-lock.json) ⚠️
+> [!IMPORTANT] 
+> This strategy currently only work with a local project analysis (with a package.json/package-lock.json)
 
 ```js
 import * as vulnera from "@nodesecure/vulnera";

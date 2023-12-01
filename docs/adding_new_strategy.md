@@ -144,7 +144,7 @@ export async function hydratePayloadDependencies(
 ```
 
 ---
-
-> ⚠️ **Notes**: Documentation and testing are not specified here because it is difficult to predict what is needed. However, you are also responsible for adding them.
+> [!WARNING] 
+> Documentation and testing are not specified here because it is difficult to predict what is needed. However, you are also responsible for adding them.
 
 Take an interest in the previous works in `docs/` and `tests/strategies`. 

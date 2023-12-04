@@ -60,7 +60,7 @@
   },
   "dependencies": {
     "@myunisoft/httpie": "^2.0.2",
-    "@nodesecure/npm-registry-sdk": "^1.6.1",
+    "@nodesecure/npm-registry-sdk": "^2.0.0",
     "@npmcli/arborist": "^7.1.0",
     "@pnpm/audit": "^7.0.13",
     "@pnpm/lockfile-file": "^8.1.2"

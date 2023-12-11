@@ -59,7 +59,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@myunisoft/httpie": "^2.0.2",
+    "@myunisoft/httpie": "^3.0.0",
     "@nodesecure/npm-registry-sdk": "^1.6.1",
     "@npmcli/arborist": "^7.1.0",
     "@pnpm/audit": "^7.0.13",

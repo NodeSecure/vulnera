@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 {
   "name": "@nodesecure/vulnera",
   "version": "1.8.0",
@@ -67,71 +66,3 @@
     "@pnpm/lockfile-file": "^8.1.2"
   }
 }
-=======
-{
-  "name": "@nodesecure/vulnera",
-  "version": "1.8.0",
-  "description": "NodeSecure vulnerabilities strategies",
-  "type": "module",
-  "exports": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "scripts": {
-    "build": "tsc",
-    "prepublishOnly": "npm run build",
-    "lint": "cross-env eslint src/**/*.ts",
-    "test-only": "glob -c \"tsx --test\" \"./test/**/*.spec.ts\"",
-    "unit-test-only": "glob -c \"tsx --test\" \"./test/**/*.unit.spec.ts\"",
-    "integration-test-only": "glob -c \"tsx --test\" \"./test/**/*.integration.spec.ts\"",
-    "osv": "glob -c \"tsx --test\" \"./test/**/osv.unit.spec.ts\"",
-    "test": "npm run lint && npm run test-only",
-    "test:unit": "npm run lint && npm run unit-test-only",
-    "test:integration": "npm run lint && npm run integration-test-only",
-    "coverage": "c8 -r html npm test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/NodeSecure/vulnera.git"
-  },
-  "keywords": [
-    "npm",
-    "audit",
-    "nodesecure",
-    "vulnerabilities",
-    "vulnerability",
-    "strategies",
-    "strategy",
-    "security",
-    "node",
-    "wg"
-  ],
-  "author": "GENTILHOMME Thomas <gentilhomme.thomas@gmail.com>",
-  "files": [
-    "index.d.ts",
-    "index.js",
-    "types",
-    "src"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/NodeSecure/vulnera/issues"
-  },
-  "homepage": "https://github.com/NodeSecure/vulnera#readme",
-  "devDependencies": {
-    "@nodesecure/eslint-config": "^1.8.0",
-    "@slimio/is": "^2.0.0",
-    "@types/node": "^20.6.0",
-    "c8": "^8.0.1",
-    "cross-env": "^7.0.3",
-    "glob": "^10.3.4",
-    "tsx": "^4.7.0",
-    "typescript": "^4.9.5"
-  },
-  "dependencies": {
-    "@myunisoft/httpie": "^2.0.2",
-    "@nodesecure/npm-registry-sdk": "^1.6.1",
-    "@npmcli/arborist": "^7.1.0",
-    "@pnpm/audit": "^7.0.13",
-    "@pnpm/lockfile-file": "^8.1.2"
-  }
-}
->>>>>>> 835b171 (chore: update tsx (3.12.9 to 4.7.0))

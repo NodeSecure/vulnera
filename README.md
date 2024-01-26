@@ -45,7 +45,7 @@ const definition = await vulnera.getStrategy();
 console.log(definition.strategy);
 
 const vulnerabilities = await definition.getVulnerabilities(process.cwd(), {
-  useStandardFormat: true
+  useFormat: "Standard"
 });
 console.log(vulnerabilities);
 ```
@@ -105,11 +105,13 @@ export interface ExtendedStrategy<
   ) => Promise<(VulnFormat | StandardVulnerability)[]>;
 }
 
+export type BaseStrategyFormat = "Preserve" | "Standard" | "OSV";
+
 export interface BaseStrategyOptions {
   /**
-   * @default false
+   * @default "Preserve"
    */
-  useStandardFormat?: boolean;
+  useFormat?: BaseStrategyFormat;
 }
 
 export interface HydratePayloadDepsOptions extends BaseStrategyOptions {
@@ -127,7 +129,7 @@ Where `dependencies` is the dependencies **Map()** object of the NodeSecure Scan
 > the option **hydrateDatabase** is only useful for some of the strategy (like Node.js Security WG).
 
 ### Standard vulnerability format
-We provide an high level format that work for all available strategy. It can be activated with the option `useStandardFormat`.
+We provide an high level format that work for all available strategy. It can be activated with the option `useFormat`.
 
 ```ts
 export interface StandardVulnerability {

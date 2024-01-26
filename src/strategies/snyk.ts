@@ -7,7 +7,7 @@ import * as httpie from "@myunisoft/httpie";
 
 // Import Internal Dependencies
 import { VULN_MODE, SNYK_ORG, SNYK_TOKEN } from "../constants.js";
-import { standardizeVulnsPayload } from "../formats/standard/index.js";
+import { formatVulnsPayload } from "../formats/index.js";
 import type { Dependencies } from "./types/scanner.js";
 import type {
   HydratePayloadDepsOptions,
@@ -180,8 +180,8 @@ function extractSnykVulnerabilities(
   options: HydratePayloadDepsOptions
 ) {
   const { ok, issues } = snykAudit;
-  const { useStandardFormat } = options;
-  const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
+  const { useFormat } = options;
+  const formatVulnerabilities = formatVulnsPayload(useFormat);
 
   if (!ok) {
     const vulnerabilities = formatVulnerabilities(VULN_MODE.SNYK, issues.vulnerabilities);

@@ -3,11 +3,13 @@ import type { Dependencies } from "./scanner.js";
 import type { StandardVulnerability } from "../../formats/standard/index.js";
 import type { Kind } from "../../constants.js";
 
+export type BaseStrategyFormat = "Preserve" | "Standard" | "OSV";
+
 export interface BaseStrategyOptions {
   /**
-   * @default false
+   * @default "Preserve"
    */
-  useStandardFormat?: boolean;
+  useFormat?: BaseStrategyFormat;
 }
 
 export interface HydratePayloadDepsOptions extends BaseStrategyOptions {

@@ -10,7 +10,8 @@ import { readWantedLockfile } from "@pnpm/lockfile-file";
 
 // Import Internal Dependencies
 import { VULN_MODE, NPM_TOKEN } from "../constants.js";
-import { StandardVulnerability, standardizeVulnsPayload } from "../formats/standard/index.js";
+import { StandardVulnerability } from "../formats/standard/index.js";
+import { formatVulnsPayload } from "../formats/index.js";
 import type { Dependencies } from "./types/scanner.js";
 import type {
   BaseStrategyOptions,
@@ -71,9 +72,9 @@ async function getVulnerabilities(
   lockDirOrManifestPath: string,
   options: BaseStrategyOptions = {}
 ): Promise<(GithubVulnerability | StandardVulnerability)[]> {
-  const { useStandardFormat } = options;
+  const { useFormat } = options;
 
-  const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
+  const formatVulnerabilities = formatVulnsPayload(useFormat);
   const registry = getLocalRegistryURL();
 
   const lockfileDir = path.extname(lockDirOrManifestPath) === "" ?
@@ -88,7 +89,7 @@ async function getVulnerabilities(
     await pnpmAudit(lockfileDir, registry) :
     await npmAudit(lockDirOrManifestPath, registry);
 
-  if (useStandardFormat) {
+  if (useFormat) {
     return formatVulnerabilities(
       isPnpm ? "github-advisory_pnpm" : VULN_MODE.GITHUB_ADVISORY,
       vulnerabilities
@@ -102,12 +103,12 @@ async function hydratePayloadDependencies(
   dependencies: Dependencies,
   options: HydratePayloadDepsOptions
 ): Promise<void> {
-  const { path, useStandardFormat } = options;
+  const { path, useFormat } = options;
   if (!path) {
     throw new Error("path argument is required for <github-advisory> strategy");
   }
 
-  const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
+  const formatVulnerabilities = formatVulnsPayload(useFormat);
   const registry = getLocalRegistryURL();
 
   try {

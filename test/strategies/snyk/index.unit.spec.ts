@@ -114,7 +114,7 @@ test("snyk strategy: hydratePayloadDependencies using NodeSecure standard format
 
   await hydratePayloadDependencies(dependencies, {
     path: path.join(kFixturesDir, "snyk"),
-    useStandardFormat: true
+    useFormat: "Standard"
   });
 
   assert.strictEqual(

@@ -1,5 +1,5 @@
 // Import Internal Dependencies
-import { VULN_MAPPERS } from "./mappers.js";
+import { STANDARD_VULN_MAPPERS } from "./mappers.js";
 import { Kind } from "../../constants.js";
 
 export type Severity = "info" | "low" | "medium" | "high" | "critical";
@@ -47,33 +47,15 @@ export interface StandardVulnerability {
   patches?: StandardPatch[];
 }
 
-export type StandardizeKind = keyof typeof VULN_MAPPERS;
+export type StandardizeKind = keyof typeof STANDARD_VULN_MAPPERS;
 
-function useStrategyVulnerabilityMapper(
+export function standardVulnerabilityMapper(
   strategy: StandardizeKind,
   vulnerabilities: any[]
 ): StandardVulnerability[] {
-  if (!(strategy in VULN_MAPPERS)) {
+  if (!(strategy in STANDARD_VULN_MAPPERS)) {
     return [];
   }
 
-  return vulnerabilities.map(VULN_MAPPERS[strategy]);
+  return vulnerabilities.map(STANDARD_VULN_MAPPERS[strategy]);
 }
-
-export function standardizeVulnsPayload(useStandardFormat = false) {
-  return function formatVulnerabilities(
-    strategy: StandardizeKind,
-    vulnerabilities: any[]
-  ) {
-    if (useStandardFormat) {
-      return useStrategyVulnerabilityMapper(
-        strategy, vulnerabilities
-      );
-    }
-
-    // identity function
-    return vulnerabilities;
-  };
-}
-
-

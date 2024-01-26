@@ -91,7 +91,7 @@ function mapFromSonatype(vuln: SonatypeVulnerability): StandardVulnerability {
   };
 }
 
-export const VULN_MAPPERS = Object.freeze({
+export const STANDARD_VULN_MAPPERS = Object.freeze({
   [VULN_MODE.GITHUB_ADVISORY]: mapFromNPM,
   "github-advisory_pnpm": mapFromPnpm,
   [VULN_MODE.SNYK]: mapFromSnyk,

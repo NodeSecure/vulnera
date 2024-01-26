@@ -31,6 +31,9 @@ import {
 import type {
   StandardVulnerability, Severity, StandardPatch
 } from "./formats/standard/index.js";
+import type {
+  OSV
+} from "./formats/osv/index.js";
 
 import type {
   Dependencies, ScannerVersionDescriptor
@@ -42,6 +45,8 @@ import type {
   BaseStrategyOptions,
   HydratePayloadDepsOptions
 } from "./strategies/types/api.js";
+
+export * as Database from "./database/index.js";
 
 export type AllStrategy = {
   "none": NoneStrategyDefinition;
@@ -110,5 +115,7 @@ export {
   NpmAuditAdvisory,
   PnpmAuditAdvisory,
   SnykVulnerability,
-  SonatypeVulnerability
+  SonatypeVulnerability,
+
+  OSV
 };

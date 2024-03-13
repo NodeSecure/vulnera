@@ -59,8 +59,8 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@myunisoft/httpie": "^2.0.2",
-    "@nodesecure/npm-registry-sdk": "^1.6.1",
+    "@myunisoft/httpie": "^4.0.0",
+    "@nodesecure/npm-registry-sdk": "^2.1.1",
     "@npmcli/arborist": "^7.1.0",
     "@pnpm/audit": "^7.0.13",
     "@pnpm/lockfile-file": "^8.1.2"

@@ -88,7 +88,7 @@ Strategy extend from the following set of interfaces;
 export interface BaseStrategy<T extends Kind> {
   /** Name of the strategy **/
   strategy: T;
-  /** Method to hydrate (insert/push) vulnerabilities in the dependencies retrieved by the Scanner **/
+  /** Method to hydrate dependency vulnerabilities fetched by the Scanner **/
   hydratePayloadDependencies: (
     dependencies: Dependencies,
     options?: HydratePayloadDepsOptions
@@ -149,7 +149,8 @@ export interface StandardVulnerability {
   cves?: string[];
   /**
    * Common Vulnerability Scoring System (CVSS) provides a way to capture
-   * the principal characteristics of a vulnerability, and produce a numerical score reflecting its severity,
+   * the principal characteristics of a vulnerability,
+   * and produce a numerical score reflecting its severity,
    * as well as a textual representation of that score. **/
   cvssVector?: string;
   /** CVSS Score **/

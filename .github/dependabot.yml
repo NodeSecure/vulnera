@@ -26,9 +26,3 @@ updates:
       interval: weekly
     ignore:
       - dependency-name: "*"
-
-  - package-ecosystem: npm
-    directory: /test/fixtures/snyk
-    versioning-strategy: widen
-    schedule:
-      interval: weekly

@@ -22,9 +22,10 @@ updates:
 
   - package-ecosystem: npm
     directory: /test/fixtures/audit
-    versioning-strategy: widen
     schedule:
       interval: weekly
+    ignore:
+      - dependency-name: "*"
 
   - package-ecosystem: npm
     directory: /test/fixtures/snyk

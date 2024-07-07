@@ -59,10 +59,10 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "@myunisoft/httpie": "^4.0.1",
+    "@myunisoft/httpie": "^5.0.0",
     "@nodesecure/npm-registry-sdk": "^2.1.1",
     "@npmcli/arborist": "^7.1.0",
-    "@pnpm/audit": "^7.0.13",
-    "@pnpm/lockfile-file": "^8.1.2"
+    "@pnpm/audit": "^8.1.5",
+    "@pnpm/lockfile-file": "^9.1.1"
   }
 }

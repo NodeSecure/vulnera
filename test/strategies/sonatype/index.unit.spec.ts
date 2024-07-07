@@ -104,7 +104,7 @@ test("sonatype strategy: hydratePayloadDependencies when using NodeSecure standa
     }
   });
 
-  await hydratePayloadDependencies(dependencies, { useStandardFormat: true });
+  await hydratePayloadDependencies(dependencies, { useFormat: "Standard" });
 
   assert.strictEqual(
     dependencies.size,

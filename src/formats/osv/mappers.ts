@@ -2,24 +2,29 @@
 import { VULN_MODE } from "../../constants.js";
 import * as utils from "../../utils.js";
 
-// Import types
+import type { OSV } from "./index.js";
 import type {
   SonatypeVulnerability,
   SnykVulnerability,
   NpmAuditAdvisory,
-  PnpmAuditAdvisory,
-  StandardVulnerability
+  PnpmAuditAdvisory
 } from "../../index.js";
 
-function mapFromNPM(vuln: NpmAuditAdvisory): StandardVulnerability {
+function mapFromNPM(
+  vuln: NpmAuditAdvisory
+): OSV {
   const hasCVSS = typeof vuln.cvss !== "undefined";
 
   return {
     id: String(vuln.source),
-    origin: VULN_MODE.GITHUB_ADVISORY,
+    references: [
+      {
+        type: "ADVISORY",
+        url: vuln.url
+      }
+    ],
     package: vuln.name,
     title: vuln.title,
-    url: vuln.url,
     severity: utils.standardizeNpmSeverity(vuln.severity),
     vulnerableRanges: utils.fromMaybeStringToArray(vuln.range),
     vulnerableVersions: utils.fromMaybeStringToArray(vuln.vulnerableVersions),
@@ -30,7 +35,9 @@ function mapFromNPM(vuln: NpmAuditAdvisory): StandardVulnerability {
   };
 }
 
-function mapFromPnpm(vuln: PnpmAuditAdvisory): StandardVulnerability {
+function mapFromPnpm(
+  vuln: PnpmAuditAdvisory
+): OSV {
   const hasCVSS = typeof vuln.cvss !== "undefined";
 
   return {
@@ -52,7 +59,9 @@ function mapFromPnpm(vuln: PnpmAuditAdvisory): StandardVulnerability {
   };
 }
 
-function mapFromSnyk(vuln: SnykVulnerability): StandardVulnerability {
+function mapFromSnyk(
+  vuln: SnykVulnerability
+): OSV {
   function concatVulnerableVersions(vulnFunctions) {
     return vulnFunctions
       .reduce((ranges, functions) => [...ranges, ...functions.version], []);
@@ -75,7 +84,9 @@ function mapFromSnyk(vuln: SnykVulnerability): StandardVulnerability {
   };
 }
 
-function mapFromSonatype(vuln: SonatypeVulnerability): StandardVulnerability {
+function mapFromSonatype(
+  vuln: SonatypeVulnerability
+): OSV {
   return {
     id: vuln.id,
     origin: VULN_MODE.SONATYPE,
@@ -91,7 +102,7 @@ function mapFromSonatype(vuln: SonatypeVulnerability): StandardVulnerability {
   };
 }
 
-export const STANDARD_VULN_MAPPERS = Object.freeze({
+export const OSV_VULN_MAPPERS = Object.freeze({
   [VULN_MODE.GITHUB_ADVISORY]: mapFromNPM,
   "github-advisory_pnpm": mapFromPnpm,
   [VULN_MODE.SNYK]: mapFromSnyk,

@@ -43,6 +43,7 @@ import type {
   BaseStrategy,
   ExtendedStrategy,
   BaseStrategyOptions,
+  BaseStrategyFormat,
   HydratePayloadDepsOptions
 } from "./strategies/types/api.js";
 
@@ -101,6 +102,7 @@ export const defaultStrategyName = VULN_MODE.NONE;
 export {
   Kind,
   BaseStrategyOptions,
+  BaseStrategyFormat,
   BaseStrategy,
   ExtendedStrategy,
   HydratePayloadDepsOptions,

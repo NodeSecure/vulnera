@@ -1,17 +1,16 @@
-// Import Internal Dependencies
-import { OSV_VULN_MAPPERS } from "./mappers.js";
+# OSV vulnerability format
 
-/**
- * @see https://ossf.github.io/osv-schema/
- */
+See [Open Source Vulnerability format](https://ossf.github.io/osv-schema/)
+
+```ts
 export interface OSV {
-  schema_version?: string;
+  schema_version: string;
   id: string;
   modified: string;
   published: string;
-  withdraw?: string;
+  withdraw: string;
   aliases: string[];
-  related?: string[];
+  related: string[];
   summary: string;
   details: string;
   severity: OSVSeverity[];
@@ -80,16 +79,4 @@ export interface OSVSeverity {
   type: string;
   score: string;
 }
-
-export type OSVKind = keyof typeof OSV_VULN_MAPPERS;
-
-export function osvVulnerabilityMapper(
-  strategy: OSVKind,
-  vulnerabilities: any[]
-): OSV[] {
-  if (!(strategy in OSV_VULN_MAPPERS)) {
-    return [];
-  }
-
-  return vulnerabilities.map(OSV_VULN_MAPPERS[strategy]);
-}
+```

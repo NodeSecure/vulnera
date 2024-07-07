@@ -6,11 +6,16 @@ import {
   StandardizeKind
 } from "./standard/index.js";
 
+import {
+  osvVulnerabilityMapper,
+  OSVKind
+} from "./osv/index.js";
+
 export function formatVulnsPayload(
   format: BaseStrategyFormat | null = null
 ) {
   return function formatVulnerabilities(
-    strategy: StandardizeKind,
+    strategy: StandardizeKind | OSVKind,
     vulnerabilities: any[]
   ) {
     if (format === "Standard") {
@@ -20,7 +25,10 @@ export function formatVulnsPayload(
       );
     }
     if (format === "OSV") {
-      throw new Error("Not Implemented Yet");
+      return osvVulnerabilityMapper(
+        strategy,
+        vulnerabilities
+      );
     }
 
     // identity function

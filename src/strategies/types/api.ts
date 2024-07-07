@@ -3,12 +3,9 @@ import type { Dependencies } from "./scanner.js";
 import type { StandardVulnerability } from "../../formats/standard/index.js";
 import type { Kind } from "../../constants.js";
 
-export type BaseStrategyFormat = "Preserve" | "Standard" | "OSV";
+export type BaseStrategyFormat = "Standard" | "OSV";
 
 export interface BaseStrategyOptions {
-  /**
-   * @default "Preserve"
-   */
   useFormat?: BaseStrategyFormat;
 }
 

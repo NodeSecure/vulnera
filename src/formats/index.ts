@@ -6,7 +6,9 @@ import {
   StandardizeKind
 } from "./standard/index.js";
 
-export function formatVulnsPayload(format: BaseStrategyFormat = "Preserve") {
+export function formatVulnsPayload(
+  format: BaseStrategyFormat | null = null
+) {
   return function formatVulnerabilities(
     strategy: StandardizeKind,
     vulnerabilities: any[]

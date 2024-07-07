@@ -105,12 +105,9 @@ export interface ExtendedStrategy<
   ) => Promise<(VulnFormat | StandardVulnerability)[]>;
 }
 
-export type BaseStrategyFormat = "Preserve" | "Standard" | "OSV";
+export type BaseStrategyFormat = "Standard" | "OSV";
 
 export interface BaseStrategyOptions {
-  /**
-   * @default "Preserve"
-   */
   useFormat?: BaseStrategyFormat;
 }
 

@@ -154,7 +154,8 @@ async function pnpmAudit(
   const auditOptions = {
     include: { dependencies: true, devDependencies: true, optionalDependencies: false },
     lockfileDir,
-    registry
+    registry,
+    virtualStoreDirMaxLength: 120
   };
 
   const lockfile = await readWantedLockfile(lockfileDir, {
@@ -164,7 +165,9 @@ async function pnpmAudit(
   // eslint-disable-next-line
   const getAuthHeader = () => (void 0);
   const { advisories } = await audit(
-    lockfile!, getAuthHeader, auditOptions
+    lockfile!,
+    getAuthHeader,
+    auditOptions
   );
 
   // Note: we need to cast because original interface is incomplete

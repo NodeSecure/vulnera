@@ -4,7 +4,7 @@ import * as httpie from "@myunisoft/httpie";
 // Import Internal Dependencies
 import * as utils from "../utils.js";
 import { VULN_MODE } from "../constants.js";
-import { standardizeVulnsPayload } from "../formats/standard/index.js";
+import { formatVulnsPayload } from "../formats/index.js";
 import type { Dependencies, Dependency } from "./types/scanner.js";
 import type {
   BaseStrategyOptions,
@@ -135,8 +135,8 @@ async function hydratePayloadDependencies(
     Array.from(dependencies).flatMap(createPackageURLCoordinates)
   );
 
-  const formatVulnerabilities = standardizeVulnsPayload(
-    options.useStandardFormat
+  const formatVulnerabilities = formatVulnsPayload(
+    options.useFormat
   );
   for (const sonatypeResponse of packageURLsData) {
     const packageName = extractNameFromPackageURL(sonatypeResponse.coordinates);

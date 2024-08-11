@@ -36,7 +36,7 @@ import type {
 } from "./formats/osv/index.js";
 
 import type {
-  Dependencies, ScannerVersionDescriptor
+  Dependencies
 } from "./strategies/types/scanner.js";
 
 import type {
@@ -105,7 +105,6 @@ export {
   ExtendedStrategy,
   HydratePayloadDepsOptions,
   Dependencies,
-  ScannerVersionDescriptor,
 
   StandardVulnerability,
   StandardPatch,

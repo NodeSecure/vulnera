@@ -5,7 +5,7 @@ import * as httpie from "@myunisoft/httpie";
 import * as utils from "../utils.js";
 import { VULN_MODE } from "../constants.js";
 import { standardizeVulnsPayload } from "../formats/standard/index.js";
-import type { Dependencies, ScannerVersionDescriptor } from "./types/scanner.js";
+import type { Dependencies, Dependency } from "./types/scanner.js";
 import type {
   BaseStrategyOptions,
   BaseStrategy
@@ -66,7 +66,7 @@ function toPackageURL(
  * using package's name and different package's versions
  */
 function createPackageURLCoordinates(
-  [dependencyName, dependencyPayload]: [string, ScannerVersionDescriptor]
+  [dependencyName, dependencyPayload]: [string, Dependency]
 ) {
   const { versions } = dependencyPayload;
 

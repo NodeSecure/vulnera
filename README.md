@@ -172,7 +172,7 @@ export interface StandardVulnerability {
 ## Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -190,6 +190,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Mathieuka"><img src="https://avatars.githubusercontent.com/u/34446722?v=4?s=100" width="100px;" alt="Mathieu"/><br /><sub><b>Mathieu</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=Mathieuka" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/PierreDemailly"><img src="https://avatars.githubusercontent.com/u/39910767?v=4?s=100" width="100px;" alt="PierreD"/><br /><sub><b>PierreD</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=PierreDemailly" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/commits?author=PierreDemailly" title="Documentation">📖</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/fabnguess"><img src="https://avatars.githubusercontent.com/u/72697416?v=4?s=100" width="100px;" alt="Kouadio Fabrice Nguessan"/><br /><sub><b>Kouadio Fabrice Nguessan</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=fabnguess" title="Code">💻</a> <a href="#maintenance-fabnguess" title="Maintenance">🚧</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/AntonioliBenjamin"><img src="https://avatars.githubusercontent.com/u/111560667?v=4?s=100" width="100px;" alt="benjamin antonioli"/><br /><sub><b>benjamin antonioli</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=AntonioliBenjamin" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/commits?author=AntonioliBenjamin" title="Tests">⚠️</a></td>
     </tr>
   </tbody>
 </table>

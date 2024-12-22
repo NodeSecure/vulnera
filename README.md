@@ -20,7 +20,7 @@
 The **vuln-*era*** has begun! Programmatically fetch security vulnerabilities with one or many strategies. Originally designed to run and analyze [Scanner](https://github.com/NodeSecure/scanner) dependencies it now also runs independently from an npm Manifest.
 
 ## Requirements
-- [Node.js](https://nodejs.org/en/) v18 or higher
+- [Node.js](https://nodejs.org/en/) v20 or higher
 
 ## Getting Started
 

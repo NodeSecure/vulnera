@@ -4,7 +4,7 @@
   "description": "NodeSecure vulnerabilities strategies",
   "type": "module",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",

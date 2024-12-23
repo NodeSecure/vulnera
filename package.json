@@ -58,7 +58,7 @@
   "dependencies": {
     "@myunisoft/httpie": "^5.0.0",
     "@nodesecure/npm-registry-sdk": "^3.0.0",
-    "@npmcli/arborist": "^7.1.0",
+    "@npmcli/arborist": "^8.0.0",
     "@pnpm/audit": "^8.1.5",
     "@pnpm/lockfile-file": "^9.1.1"
   }

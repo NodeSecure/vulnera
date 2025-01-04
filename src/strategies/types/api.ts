@@ -24,7 +24,7 @@ export interface BaseStrategy<T extends Kind> {
   /** Method to hydrate (insert/push) vulnerabilities in the dependencies retrieved by the Scanner **/
   hydratePayloadDependencies: (
     dependencies: Dependencies,
-    options?: HydratePayloadDepsOptions
+    options: HydratePayloadDepsOptions
   ) => Promise<void>;
 }
 

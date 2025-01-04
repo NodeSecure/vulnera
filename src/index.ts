@@ -8,8 +8,7 @@ import {
 
 import {
   SnykStrategy,
-  type SnykStrategyDefinition,
-  type SnykVulnerability
+  type SnykStrategyDefinition
 } from "./strategies/snyk.js";
 
 import {
@@ -28,6 +27,9 @@ import {
   type Kind
 } from "./constants.js";
 
+import type {
+  SnykVulnerability
+} from "./formats/snyk/index.js";
 import type {
   StandardVulnerability, Severity, StandardPatch
 } from "./formats/standard/index.js";
@@ -49,10 +51,10 @@ import type {
 export * as Database from "./database/index.js";
 
 export type AllStrategy = {
-  "none": NoneStrategyDefinition;
+  none: NoneStrategyDefinition;
   "github-advisory": GithubAdvisoryStrategyDefinition;
-  "snyk": SnykStrategyDefinition;
-  "sonatype": SonatypeStrategyDefinition;
+  snyk: SnykStrategyDefinition;
+  sonatype: SonatypeStrategyDefinition;
 };
 export type AnyStrategy = AllStrategy[keyof AllStrategy];
 
@@ -98,7 +100,7 @@ export function getStrategy(): AnyStrategy {
 export const strategies = VULN_MODE;
 export const defaultStrategyName = VULN_MODE.NONE;
 
-export {
+export type {
   Kind,
   BaseStrategyOptions,
   BaseStrategy,

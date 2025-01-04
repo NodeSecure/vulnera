@@ -11,7 +11,6 @@ export function NoneStrategy(): NoneStrategyDefinition {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function hydratePayloadDependencies(dependencies: any) {
   // Do nothing
 }

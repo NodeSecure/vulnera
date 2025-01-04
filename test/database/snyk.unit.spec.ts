@@ -8,61 +8,61 @@ import { snyk } from "../../src/database";
 import { SNYK_ORG } from "../../src/constants";
 
 describe("snyk", () => {
-    const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
-    const mockedHttpClient = mockedHttpAgent.get(snyk.ROOT_API);
+  const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
+  const mockedHttpClient = mockedHttpAgent.get(snyk.ROOT_API);
 
-    after(() => {
-        restoreHttpAgent();
+  after(() => {
+    restoreHttpAgent();
+  });
+
+  test(`should send a POST http request to the Snyk API using findOne and then return the SnykAuditResponse`, async() => {
+    const expectedResponse = { issues: "some issues data" };
+    const targetFile = "some target file content";
+    const additionalFile = "some additional file content";
+
+    mockedHttpClient
+      .intercept({
+        path: new URL(`/api/v1/test/npm?org=${SNYK_ORG}`, snyk.ROOT_API).href,
+        method: "POST",
+        body: JSON.stringify({
+          files: {
+            target: { contents: targetFile },
+            additional: [{ contents: additionalFile }]
+          }
+        })
+      })
+      .reply(200, expectedResponse, kHttpClientHeaders);
+
+    const data = await snyk.findOne({
+      files: {
+        target: { contents: targetFile },
+        additional: [{ contents: additionalFile }]
+      }
     });
 
-    test(`should send a POST http request to the Snyk API using findOne and then return the SnykAuditResponse`, async() => {
-        const expectedResponse = { issues: "some issues data" };
-        const targetFile = "some target file content";
-        const additionalFile = "some additional file content";
+    assert.deepStrictEqual(data, expectedResponse);
+  });
 
-        mockedHttpClient
-            .intercept({
-                path: new URL(`/api/v1/test/npm?org=${SNYK_ORG}`, snyk.ROOT_API).href,
-                method: "POST",
-                body: JSON.stringify({
-                    files: {
-                        target: { contents: targetFile },
-                        additional: [{ contents: additionalFile }]
-                    }
-                })
-            })
-            .reply(200, expectedResponse, kHttpClientHeaders);
+  test(`should send a POST http request to the Snyk API using findOne without additional files`, async() => {
+    const expectedResponse = { issues: "some issues data" };
+    const targetFile = "some target file content";
 
-        const data = await snyk.findOne({
-            files: {
-                target: { contents: targetFile },
-                additional: [{ contents: additionalFile }]
-            }
-        });
+    mockedHttpClient
+      .intercept({
+        path: new URL(`/api/v1/test/npm?org=${SNYK_ORG}`, snyk.ROOT_API).href,
+        method: "POST",
+        body: JSON.stringify({
+          files: {
+            target: { contents: targetFile }
+          }
+        })
+      })
+      .reply(200, expectedResponse, kHttpClientHeaders);
 
-        assert.deepStrictEqual(data, expectedResponse);
+    const data = await snyk.findOne({
+      files: { target: { contents: targetFile } }
     });
 
-    test(`should send a POST http request to the Snyk API using findOne without additional files`, async() => {
-        const expectedResponse = { issues: "some issues data" };
-        const targetFile = "some target file content";
-
-        mockedHttpClient
-            .intercept({
-                path: new URL(`/api/v1/test/npm?org=${SNYK_ORG}`, snyk.ROOT_API).href,
-                method: "POST",
-                body: JSON.stringify({
-                    files: {
-                        target: { contents: targetFile }
-                    }
-                })
-            })
-            .reply(200, expectedResponse, kHttpClientHeaders);
-
-        const data = await snyk.findOne({
-            files: { target: { contents: targetFile } }
-        });
-
-        assert.deepStrictEqual(data, expectedResponse);
-    });
+    assert.deepStrictEqual(data, expectedResponse);
+  });
 });

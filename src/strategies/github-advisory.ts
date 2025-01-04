@@ -1,16 +1,17 @@
+/* eslint-disable no-empty */
 // Import Node.js Dependencies
 import fs from "node:fs/promises";
 import path from "node:path";
 
 // Import Third-party Dependencies
 import Arborist from "@npmcli/arborist";
-import { audit, AuditAdvisory } from "@pnpm/audit";
+import { audit, type AuditAdvisory } from "@pnpm/audit";
 import { getLocalRegistryURL } from "@nodesecure/npm-registry-sdk";
 import { readWantedLockfile } from "@pnpm/lockfile-file";
 
 // Import Internal Dependencies
 import { VULN_MODE, NPM_TOKEN } from "../constants.js";
-import { StandardVulnerability, standardizeVulnsPayload } from "../formats/standard/index.js";
+import { type StandardVulnerability, standardizeVulnsPayload } from "../formats/standard/index.js";
 import type { Dependencies } from "./types/scanner.js";
 import type {
   BaseStrategyOptions,
@@ -44,7 +45,7 @@ export type NpmAuditAdvisory = {
   range: string;
   /** The set of versions that are vulnerable **/
   vulnerableVersions?: string[];
-}
+};
 
 export type PnpmAuditAdvisory = Exclude<AuditAdvisory, "cwe"> & {
   github_advisory_id: string;
@@ -53,11 +54,11 @@ export type PnpmAuditAdvisory = Exclude<AuditAdvisory, "cwe"> & {
   cvss: {
     score: number;
     vectorString: string;
-  }
+  };
 };
 export type GithubVulnerability = PnpmAuditAdvisory | NpmAuditAdvisory;
 
-export type GithubAdvisoryStrategyDefinition = ExtendedStrategy<"github-advisory", GithubVulnerability>
+export type GithubAdvisoryStrategyDefinition = ExtendedStrategy<"github-advisory", GithubVulnerability>;
 
 export function GitHubAdvisoryStrategy(): GithubAdvisoryStrategyDefinition {
   return {
@@ -140,7 +141,7 @@ async function npmAudit(
   registry: string
 ): Promise<NpmAuditAdvisory[]> {
   const arborist = new Arborist({ ...NPM_TOKEN, registry, path });
-  const { vulnerabilities } = (await arborist.audit()).toJSON() as { vulnerabilities: any[] };
+  const { vulnerabilities } = (await arborist.audit()).toJSON() as { vulnerabilities: any[]; };
 
   // TODO: remove Symbols?
   return Object.values(vulnerabilities)

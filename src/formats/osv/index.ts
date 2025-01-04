@@ -51,7 +51,7 @@ export type OSVCreditType = "FINDER" |
 
 export interface OSVAffected {
   package: {
-    ecosystem: "npm",
+    ecosystem: "npm";
     name: string;
     purl: string;
   };

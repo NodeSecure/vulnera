@@ -2,7 +2,7 @@
 import * as httpie from "@myunisoft/httpie";
 
 // Import Internal Dependencies
-import { OSV } from "../formats/osv";
+import type { OSV } from "../formats/osv/index.js";
 import * as utils from "../utils.js";
 
 // CONSTANTS
@@ -17,7 +17,7 @@ export type OSVApiParameter = {
      */
     ecosystem?: string;
   };
-}
+};
 
 export async function findOne(
   parameters: OSVApiParameter
@@ -26,7 +26,7 @@ export async function findOne(
     parameters.package.ecosystem = "npm";
   }
 
-  const { data } = await httpie.post<{ vulns: OSV[] }>(
+  const { data } = await httpie.post<{ vulns: OSV[]; }>(
     new URL("v1/query", ROOT_API),
     {
       body: parameters

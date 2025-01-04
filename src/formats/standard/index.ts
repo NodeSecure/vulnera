@@ -1,6 +1,6 @@
 // Import Internal Dependencies
 import { VULN_MAPPERS } from "./mappers.js";
-import { Kind } from "../../constants.js";
+import type { Kind } from "../../constants.js";
 
 export type Severity = "info" | "low" | "medium" | "high" | "critical";
 
@@ -75,5 +75,4 @@ export function standardizeVulnsPayload(useStandardFormat = false) {
     return vulnerabilities;
   };
 }
-
 

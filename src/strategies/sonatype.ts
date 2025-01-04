@@ -73,7 +73,7 @@ function createPackageURLCoordinates(
   return Object.keys(versions).map((version) => toPackageURL(dependencyName, version));
 }
 
-type SonatypeHttpResponse = { coordinates: string, vulnerabilities: SonatypeVulnerability[] };
+type SonatypeHttpResponse = { coordinates: string; vulnerabilities: SonatypeVulnerability[]; };
 
 async function fetchDataForPackageURLs(
   unchunkedCoordinates: string[]

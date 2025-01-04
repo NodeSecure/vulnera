@@ -1,3 +1,4 @@
+/* eslint-disable no-empty */
 // Import Node.js Dependencies
 import path from "node:path";
 import { readFile } from "node:fs/promises";
@@ -10,9 +11,8 @@ import type {
   HydratePayloadDepsOptions,
   BaseStrategy
 } from "./types/api.js";
-import { SnykAuditResponse } from "../formats/snyk/index.js";
+import { type SnykAuditResponse } from "../formats/snyk/index.js";
 import { snyk } from "../database/index.js";
-
 
 export type SnykStrategyDefinition = BaseStrategy<"snyk">;
 

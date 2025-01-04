@@ -3,20 +3,20 @@ import * as httpie from "@myunisoft/httpie";
 
 // Import Internal Dependencies
 import { SNYK_ORG, SNYK_TOKEN } from "../constants.js";
-import { SnykAuditResponse } from "../formats/snyk/index.js";
+import type { SnykAuditResponse } from "../formats/snyk/index.js";
 
 // CONSTANTS
 export const ROOT_API = "https://snyk.io";
 
 export type SnykFindOneParameters = {
-    files: {
-        target: {
-            contents: string;
-        };
-        additional?: {
-            contents: string;
-        }[];
+  files: {
+    target: {
+      contents: string;
     };
+    additional?: {
+      contents: string;
+    }[];
+  };
 };
 
 export async function findOne(

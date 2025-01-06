@@ -11,6 +11,6 @@ export function NoneStrategy(): NoneStrategyDefinition {
   };
 }
 
-async function hydratePayloadDependencies(dependencies: any) {
+async function hydratePayloadDependencies(_dependencies: any) {
   // Do nothing
 }

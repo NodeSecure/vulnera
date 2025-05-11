@@ -168,6 +168,7 @@ export interface StandardVulnerability {
 
 ### Databases
 - [OSV](./docs/database/osv.md)
+- [NVD](./docs/database/nvd.md)
 
 ## Contributors ✨
 

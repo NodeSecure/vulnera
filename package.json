@@ -46,7 +46,7 @@
   },
   "homepage": "https://github.com/NodeSecure/vulnera#readme",
   "devDependencies": {
-    "@openally/config.eslint": "^1.3.0",
+    "@openally/config.eslint": "^2.1.0",
     "@openally/config.typescript": "^1.0.3",
     "@slimio/is": "^2.0.0",
     "@types/node": "^22.1.0",

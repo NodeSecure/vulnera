@@ -9,7 +9,7 @@ import fs from "node:fs/promises";
 import { SnykStrategy } from "../../../src/strategies/snyk.js";
 import {
   expectVulnToBeNodeSecureStandardCompliant,
-  kHttpClientHeaders,
+  HTTP_CLIENT_HEADERS,
   setupHttpAgentMock
 } from "../utils.js";
 
@@ -71,7 +71,7 @@ test("snyk strategy: hydratePayloadDependencies", async() => {
       path: kSnykApiPath,
       method: "POST"
     })
-    .reply(200, responseBody, kHttpClientHeaders);
+    .reply(200, responseBody, HTTP_CLIENT_HEADERS);
 
   dependencies.set("node-uuid", { vulnerabilities: [] });
 
@@ -108,7 +108,7 @@ test("snyk strategy: hydratePayloadDependencies using NodeSecure standard format
       path: kSnykApiPath,
       method: "POST"
     })
-    .reply(200, responseBody, kHttpClientHeaders);
+    .reply(200, responseBody, HTTP_CLIENT_HEADERS);
 
   dependencies.set("node-uuid", { vulnerabilities: [] });
 

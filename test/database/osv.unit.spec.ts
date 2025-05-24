@@ -4,7 +4,7 @@ import assert from "node:assert";
 
 // Import Internal Dependencies
 import {
-  kHttpClientHeaders,
+  HTTP_CLIENT_HEADERS,
   setupHttpAgentMock
 } from "../strategies/utils";
 import { osv } from "../../src/database/index";
@@ -26,7 +26,7 @@ describe("osv", () => {
         method: "POST",
         body: JSON.stringify({ package: { name: "foobar", ecosystem: "npm" } })
       })
-      .reply(200, expectedResponse, kHttpClientHeaders);
+      .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
     const vulns = await osv.findOne({
       package: {
@@ -51,13 +51,13 @@ describe("osv", () => {
           package: { name: packageName, ecosystem: "npm" }
         })
       })
-      .reply(200, expectedResponse, kHttpClientHeaders);
+      .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
     const vulns = await osv.findOneBySpec(`${packageName}@2.0.0`);
     assert.strictEqual(vulns, expectedResponse.vulns);
   });
 
-  test(`should send multiple POST http requests to the OSV API using findMany`, async() => {
+  test("should send multiple POST http requests to the OSV API using findMany", async() => {
     const expectedResponse = { vulns: [1, 2, 3] };
 
     mockedHttpClient
@@ -65,7 +65,7 @@ describe("osv", () => {
         path: new URL("/v1/query", osv.ROOT_API).href,
         method: "POST"
       })
-      .reply(200, expectedResponse, kHttpClientHeaders)
+      .reply(200, expectedResponse, HTTP_CLIENT_HEADERS)
       .times(2);
 
     const result = await osv.findMany(

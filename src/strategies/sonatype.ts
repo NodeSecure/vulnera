@@ -1,4 +1,4 @@
-// Import Third-Party Dependencies
+// Import Third-party Dependencies
 import * as httpie from "@myunisoft/httpie";
 
 // Import Internal Dependencies

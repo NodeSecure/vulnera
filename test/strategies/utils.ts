@@ -5,7 +5,7 @@ import assert from "node:assert";
 import * as httpie from "@myunisoft/httpie";
 
 // CONSTANTS
-export const kHttpClientHeaders = {
+export const HTTP_CLIENT_HEADERS = {
   headers: { "content-type": "application/json" }
 };
 

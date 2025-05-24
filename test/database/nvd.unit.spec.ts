@@ -4,7 +4,7 @@ import assert from "node:assert";
 
 // Import Internal Dependencies
 import {
-  kHttpClientHeaders,
+  HTTP_CLIENT_HEADERS,
   setupHttpAgentMock
 } from "../strategies/utils.js";
 import { nvd } from "../../src/database/index.js";
@@ -29,7 +29,7 @@ describe("nvd", () => {
         path: `${new URL(nvd.ROOT_API).pathname}?${queryString}`,
         method: "GET"
       })
-      .reply(200, expectedResponse, kHttpClientHeaders);
+      .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
     const vulns = await nvd.findOne({
       packageName: "express",
@@ -39,7 +39,7 @@ describe("nvd", () => {
     assert.deepStrictEqual(vulns, expectedResponse.vulnerabilities);
   });
 
-  test(`should send a GET http request with severity parameter`, async() => {
+  test("should send a GET http request with severity parameter", async() => {
     const expectedResponse = { vulnerabilities: ["cve-data-1"] };
     const params = new URLSearchParams();
     params.append("keywordSearch", "express");
@@ -51,7 +51,7 @@ describe("nvd", () => {
         path: `${new URL(nvd.ROOT_API).pathname}?${queryString}`,
         method: "GET"
       })
-      .reply(200, expectedResponse, kHttpClientHeaders);
+      .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
     const vulns = await nvd.findOne({
       packageName: "express",
@@ -62,7 +62,7 @@ describe("nvd", () => {
     assert.deepStrictEqual(vulns, expectedResponse.vulnerabilities);
   });
 
-  test(`should send a GET http request to the NVD API using findOneBySpec`, async() => {
+  test("should send a GET http request to the NVD API using findOneBySpec", async() => {
     const expectedResponse = { vulnerabilities: ["cve-data-1", "cve-data-2"] };
     const packageName = "express";
     const params = new URLSearchParams();
@@ -74,13 +74,13 @@ describe("nvd", () => {
         path: `${new URL(nvd.ROOT_API).pathname}?${queryString}`,
         method: "GET"
       })
-      .reply(200, expectedResponse, kHttpClientHeaders);
+      .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
     const vulns = await nvd.findOneBySpec(`${packageName}@1.0.0`);
     assert.deepStrictEqual(vulns, expectedResponse.vulnerabilities);
   });
 
-  test(`should send multiple GET http requests to the NVD API using findMany`, async() => {
+  test("should send multiple GET http requests to the NVD API using findMany", async() => {
     const expectedResponse = { vulnerabilities: ["cve-data-1", "cve-data-2"] };
 
     const paramsFirst = new URLSearchParams();
@@ -96,14 +96,14 @@ describe("nvd", () => {
         path: `${new URL(nvd.ROOT_API).pathname}?${queryStringFirst}`,
         method: "GET"
       })
-      .reply(200, expectedResponse, kHttpClientHeaders);
+      .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
     mockedHttpClient
       .intercept({
         path: `${new URL(nvd.ROOT_API).pathname}?${queryStringSecond}`,
         method: "GET"
       })
-      .reply(200, expectedResponse, kHttpClientHeaders);
+      .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
     const result = await nvd.findMany(
       ["foobar", "yoobar"]
@@ -115,7 +115,7 @@ describe("nvd", () => {
     });
   });
 
-  test(`should handle empty response from NVD API`, async() => {
+  test("should handle empty response from NVD API", async() => {
     const emptyResponse = {};
 
     const params = new URLSearchParams();
@@ -127,7 +127,7 @@ describe("nvd", () => {
         path: `${new URL(nvd.ROOT_API).pathname}?${queryString}`,
         method: "GET"
       })
-      .reply(200, emptyResponse, kHttpClientHeaders);
+      .reply(200, emptyResponse, HTTP_CLIENT_HEADERS);
 
     const vulns = await nvd.findOne({
       packageName: "nonexistent",

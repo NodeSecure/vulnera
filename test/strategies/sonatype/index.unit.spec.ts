@@ -8,7 +8,7 @@ import {
 } from "../../../src/strategies/sonatype.js";
 import {
   expectVulnToBeNodeSecureStandardCompliant,
-  kHttpClientHeaders,
+  HTTP_CLIENT_HEADERS,
   setupHttpAgentMock
 } from "../utils.js";
 
@@ -47,7 +47,7 @@ test("sonatype strategy: hydratePayloadDependencies", async() => {
       method: "POST",
       body: JSON.stringify({ coordinates: [kFakePackageURL] })
     })
-    .reply(200, [kSonatypeVulnComponent], kHttpClientHeaders);
+    .reply(200, [kSonatypeVulnComponent], HTTP_CLIENT_HEADERS);
 
   dependencies.set("fake-npm-package", {
     vulnerabilities: [],
@@ -92,7 +92,7 @@ test("sonatype strategy: hydratePayloadDependencies when using NodeSecure standa
       method: "POST",
       body: JSON.stringify({ coordinates: [kFakePackageURL] })
     })
-    .reply(200, [kSonatypeVulnComponent], kHttpClientHeaders);
+    .reply(200, [kSonatypeVulnComponent], HTTP_CLIENT_HEADERS);
 
   dependencies.set("fake-npm-package", {
     vulnerabilities: [],
@@ -156,7 +156,7 @@ test("sonatype strategy: fetchDataForPackageURLs with coordinates exceeding the 
       path: kSonatypeApiPath,
       method: "POST"
     })
-    .reply(200, [kSonatypeVulnComponent], kHttpClientHeaders)
+    .reply(200, [kSonatypeVulnComponent], HTTP_CLIENT_HEADERS)
     .times(2);
 
   dependencies.set("fake-npm-package", fakeDependencyPayload);

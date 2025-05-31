@@ -1,6 +1,6 @@
 # Standard vulnerability format
 
-We provide an high level format that work for all available strategy. It can be activated with the option `useFormat` equal `Standard`.
+We provide a high-level format that works for all available strategies. It can be activated with the option `useFormat` equal `Standard`.
 
 ```ts
 export interface StandardVulnerability {

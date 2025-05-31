@@ -60,7 +60,7 @@
     "@myunisoft/httpie": "^5.0.0",
     "@nodesecure/npm-registry-sdk": "^3.0.0",
     "@npmcli/arborist": "^9.0.0",
-    "@pnpm/audit": "^1002.0.0",
+    "@pnpm/audit": "1001.0.2",
     "@pnpm/lockfile-file": "^9.1.1"
   }
 }

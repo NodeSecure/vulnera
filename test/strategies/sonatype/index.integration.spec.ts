@@ -38,8 +38,12 @@ test("sonatype strategy: fetching a package with a vulnerability using the API",
 
   const { vulnerabilities } = dependencies.get(
     packageWithVulnerability.package
+  )!;
+  const ids = vulnerabilities.map((vuln) => vuln.id);
+  assert.deepEqual(
+    ids,
+    ["CVE-2022-31150", "CVE-2022-35948", "CVE-2023-23936", "CVE-2025-47279"]
   );
-  assert.strictEqual(vulnerabilities.length, 3);
 
   const [vulnerability] = vulnerabilities;
 

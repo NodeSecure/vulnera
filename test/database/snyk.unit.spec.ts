@@ -3,7 +3,7 @@ import { describe, test, after } from "node:test";
 import assert from "node:assert";
 
 // Import Internal Dependencies
-import { kHttpClientHeaders, setupHttpAgentMock } from "../strategies/utils";
+import { HTTP_CLIENT_HEADERS, setupHttpAgentMock } from "../strategies/utils";
 import { snyk } from "../../src/database";
 import { SNYK_ORG } from "../../src/constants";
 
@@ -15,7 +15,7 @@ describe("snyk", () => {
     restoreHttpAgent();
   });
 
-  test(`should send a POST http request to the Snyk API using findOne and then return the SnykAuditResponse`, async() => {
+  test("should send a POST http request to the Snyk API using findOne and then return the SnykAuditResponse", async() => {
     const expectedResponse = { issues: "some issues data" };
     const targetFile = "some target file content";
     const additionalFile = "some additional file content";
@@ -31,7 +31,7 @@ describe("snyk", () => {
           }
         })
       })
-      .reply(200, expectedResponse, kHttpClientHeaders);
+      .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
     const data = await snyk.findOne({
       files: {
@@ -43,7 +43,7 @@ describe("snyk", () => {
     assert.deepStrictEqual(data, expectedResponse);
   });
 
-  test(`should send a POST http request to the Snyk API using findOne without additional files`, async() => {
+  test("should send a POST http request to the Snyk API using findOne without additional files", async() => {
     const expectedResponse = { issues: "some issues data" };
     const targetFile = "some target file content";
 
@@ -57,7 +57,7 @@ describe("snyk", () => {
           }
         })
       })
-      .reply(200, expectedResponse, kHttpClientHeaders);
+      .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
     const data = await snyk.findOne({
       files: { target: { contents: targetFile } }

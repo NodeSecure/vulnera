@@ -1,4 +1,4 @@
-// Import Internal Types
+// Import Internal Dependencies
 import type { Dependencies } from "./scanner.js";
 import type { StandardVulnerability } from "../../formats/standard/index.js";
 import type { Kind } from "../../constants.js";

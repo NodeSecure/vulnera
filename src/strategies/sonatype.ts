@@ -4,12 +4,12 @@ import * as httpie from "@myunisoft/httpie";
 // Import Internal Dependencies
 import * as utils from "../utils.js";
 import { VULN_MODE } from "../constants.js";
-import { standardizeVulnsPayload } from "../formats/standard/index.js";
 import type { Dependencies, Dependency } from "./types/scanner.js";
 import type {
   BaseStrategyOptions,
   BaseStrategy
 } from "./types/api.js";
+import { formatVulnsPayload } from "../formats/index.js";
 
 // CONSTANTS
 const kSonatypeApiURL = "https://ossindex.sonatype.org/api/v3/component-report";
@@ -135,8 +135,8 @@ async function hydratePayloadDependencies(
     Array.from(dependencies).flatMap(createPackageURLCoordinates)
   );
 
-  const formatVulnerabilities = standardizeVulnsPayload(
-    options.useStandardFormat
+  const formatVulnerabilities = formatVulnsPayload(
+    options.useFormat
   );
   for (const sonatypeResponse of packageURLsData) {
     const packageName = extractNameFromPackageURL(sonatypeResponse.coordinates);

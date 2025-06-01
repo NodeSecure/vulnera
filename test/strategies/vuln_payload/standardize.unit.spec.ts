@@ -4,14 +4,14 @@ import assert from "node:assert";
 
 // Import Internal Dependencies
 import { VULN_MODE } from "../../../src/constants.js";
-import { standardizeVulnsPayload } from "../../../src/formats/standard/index.js";
+import { formatVulnsPayload } from "../../../src/formats/index.js";
 import {
   NPM_VULNS_PAYLOADS,
   SNYK_VULNS_PAYLOADS,
   SONATYPE_VULNS_PAYLOADS
 } from "../../fixtures/vuln_payload/payloads.js";
 
-const formatVulnerabilities = standardizeVulnsPayload(true);
+const formatVulnerabilities = formatVulnsPayload("Standard");
 
 test("should convert NONE or unknown strategy into blank payload", () => {
   let notStandardized = formatVulnerabilities(VULN_MODE.NONE as any, [{}, {}]);

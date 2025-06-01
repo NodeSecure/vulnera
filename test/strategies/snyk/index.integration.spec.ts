@@ -21,7 +21,7 @@
 
 //   await hydratePayloadDependencies(dependencies, {
 //     path: path.join(kFixturesDir, "snyk"),
-//     useStandardFormat: true
+//     useFormat: "Standard"
 //   });
 
 //   assert.strictEqual(

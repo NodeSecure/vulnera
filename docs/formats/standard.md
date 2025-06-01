@@ -1,22 +1,13 @@
-// Import Internal Dependencies
-import { STANDARD_VULN_MAPPERS } from "./mappers.js";
-import type { Kind } from "../../constants.js";
+# Standard vulnerability format
 
-export type Severity = "info" | "low" | "medium" | "high" | "critical";
+We provide a high-level format that works for all available strategies. It can be activated with the option `useFormat` equal `Standard`.
 
-export interface StandardPatch {
-  id: string;
-  comments: string[];
-  modificationTime: string;
-  urls: string[];
-  version: string;
-}
-
+```ts
 export interface StandardVulnerability {
   /** Unique identifier for the vulnerability **/
   id?: string;
   /** Vulnerability origin, either Snyk, Sonatype, GitHub or NodeSWG **/
-  origin: Exclude<Kind, "none">;
+  origin: Origin;
   /** Package associated with the vulnerability **/
   package: string;
   /** Vulnerability title **/
@@ -30,10 +21,10 @@ export interface StandardVulnerability {
   /** Common Vulnerabilities and Exposures dictionary */
   cves?: string[];
   /**
-   * Common Vulnerability Scoring System (CVSS) provides a way to capture the
-   * principal characteristics of a vulnerability, and produce a numerical score reflecting its severity,
-   * as well as a textual representation of that score.
-   * **/
+   * Common Vulnerability Scoring System (CVSS) provides a way to capture
+   * the principal characteristics of a vulnerability,
+   * and produce a numerical score reflecting its severity,
+   * as well as a textual representation of that score. **/
   cvssVector?: string;
   /** CVSS Score **/
   cvssScore?: number;
@@ -44,18 +35,6 @@ export interface StandardVulnerability {
   /** The set of versions that are patched **/
   patchedVersions?: string;
   /** Overview of available patches to get rid of listed vulnerabilities **/
-  patches?: StandardPatch[];
+  patches?: Patch[];
 }
-
-export type StandardizeKind = keyof typeof STANDARD_VULN_MAPPERS;
-
-export function standardVulnerabilityMapper(
-  strategy: StandardizeKind,
-  vulnerabilities: any[]
-): StandardVulnerability[] {
-  if (!(strategy in STANDARD_VULN_MAPPERS)) {
-    return [];
-  }
-
-  return vulnerabilities.map(STANDARD_VULN_MAPPERS[strategy]);
-}
+```

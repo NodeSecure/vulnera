@@ -5,7 +5,6 @@ import { readFile } from "node:fs/promises";
 
 // Import Internal Dependencies
 import { VULN_MODE } from "../constants.js";
-import { standardizeVulnsPayload } from "../formats/standard/index.js";
 import type { Dependencies } from "./types/scanner.js";
 import type {
   HydratePayloadDepsOptions,
@@ -13,6 +12,7 @@ import type {
 } from "./types/api.js";
 import { type SnykAuditResponse } from "../formats/snyk/index.js";
 import { snyk } from "../database/index.js";
+import { formatVulnsPayload } from "../formats/index.js";
 
 export type SnykStrategyDefinition = BaseStrategy<"snyk">;
 
@@ -78,8 +78,8 @@ function extractSnykVulnerabilities(
   options: HydratePayloadDepsOptions
 ) {
   const { ok, issues } = snykAudit;
-  const { useStandardFormat } = options;
-  const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
+  const { useFormat } = options;
+  const formatVulnerabilities = formatVulnsPayload(useFormat);
 
   if (!ok) {
     const vulnerabilities = formatVulnerabilities(VULN_MODE.SNYK, issues.vulnerabilities);

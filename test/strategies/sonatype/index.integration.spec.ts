@@ -27,7 +27,7 @@ test("sonatype strategy: fetching a package with a vulnerability using the API",
   });
 
   await hydratePayloadDependencies(dependencies, {
-    useStandardFormat: true
+    useFormat: "Standard"
   });
 
   assert.strictEqual(
@@ -74,7 +74,7 @@ test("sonatype strategy: fetching a package with a name that should be percent-e
     }
   );
 
-  await hydratePayloadDependencies(dependencies, { useStandardFormat: true });
+  await hydratePayloadDependencies(dependencies, { useFormat: "Standard" });
 
   assert.strictEqual(
     dependencies.size,

@@ -41,9 +41,9 @@ For audit a specific manifest (package.json, lock-file or nodes_modules), there 
 
 ```js
 async function getVulnerabilities(path, options = {}) {
-  const { useStandardFormat } = options;
+  const { useFormat } = options;
 
-  const formatVulnerabilities = standardizeVulnsPayload(useStandardFormat);
+  const formatVulnerabilities = formatVulnsPayload(useFormat);
   const registry = getLocalRegistryURL();
   const isPnpm = await hasPnpmLockFile(path);
 
@@ -51,7 +51,7 @@ async function getVulnerabilities(path, options = {}) {
     await pnpmAudit(path, registry) :
     await npmAudit(path, registry);
 
-  if (useStandardFormat) {
+  if (useFormat) {
     return formatVulnerabilities(
       isPnpm ? VULN_MODE.GITHUB_ADVISORY + "_pnpm" : VULN_MODE.GITHUB_ADVISORY,
       vulnerabilities
@@ -69,7 +69,7 @@ import * as vulnera from "@nodesecure/vulnera";
 const definition = await vulnera.setStrategy(vulnera.strategies.GITHUB_ADVISORY);
 const vulnerabilites = await definition.getVulnerabilities(
   './package.json',
-  { useStandardFormat: true }
+  { useFormat: "Standard" }
 );
 ```
 

@@ -52,7 +52,7 @@ test("GitHubAdvisoryStrategy (npm): hydratePayloadDependencies using NodeSecure 
 
   await hydratePayloadDependencies(dependencies, {
     path: path.join(kFixturesDir, "audit"),
-    useStandardFormat: true
+    useFormat: "Standard"
   });
 
   assert.strictEqual(dependencies.size, 1, "hydratePayloadDependencies must not add new dependencies by itself");
@@ -75,7 +75,7 @@ test("GitHubAdvisoryStrategy (npm): getVulnerabilities in the standard NodeSecur
   const { getVulnerabilities } = GitHubAdvisoryStrategy();
   const vulnerabilities = await getVulnerabilities(
     path.join(kFixturesDir, "audit"),
-    { useStandardFormat: true }
+    { useFormat: "Standard" }
   );
 
   assert.equal(vulnerabilities.length > 0, true);

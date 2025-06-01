@@ -3,7 +3,9 @@ import type { Dependencies } from "./scanner.ts";
 import type { StandardVulnerability } from "../../formats/standard/index.ts";
 import type { Kind } from "../../constants.ts";
 
-export type BaseStrategyFormat = "Standard";
+export type BaseStrategyFormat =
+  | "Standard"
+  | "OSV";
 
 export interface BaseStrategyOptions {
   useFormat?: BaseStrategyFormat;

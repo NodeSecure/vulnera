@@ -46,8 +46,8 @@ export interface SnykVulnerability {
   isPinnable: boolean;
   /** Additional vulnerability identifiers **/
   identifiers: Record<string, string[]>;
-  /** The reporter of the vulnerability **/
-  credit: string;
+  /** The reporter(s) of the vulnerability **/
+  credit: string[];
   /**
      * Common Vulnerability Scoring System (CVSS) provides a way to capture the principal characteristics
      * of a vulnerability, and produce a numerical score reflecting its severity,
@@ -64,7 +64,13 @@ export interface SnykVulnerability {
   isPatched: boolean;
   /** The snyk exploit maturity level **/
   exploitMaturity: string;
-  functions: any;
+  functions: {
+    functionId: {
+      filePath: string;
+      functionName: string;
+    };
+    version: string[];
+  }[];
 }
 
 export interface SnykAuditResponse {

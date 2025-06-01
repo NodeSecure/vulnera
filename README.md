@@ -102,7 +102,9 @@ export interface ExtendedStrategy<
   ) => Promise<(VulnFormat | StandardVulnerability)[]>;
 }
 
-export type BaseStrategyFormat = "Standard";
+export type BaseStrategyFormat =
+  | "Standard"
+  | "OSV";
 
 export interface BaseStrategyOptions {
   useFormat?: BaseStrategyFormat;
@@ -124,6 +126,7 @@ Where `dependencies` is the dependencies **Map()** object of the NodeSecure Scan
 
 ### Formats
 - [Standard](./docs/formats/standard.md)
+- [OSV](./docs/formats/osv.md)
 
 ### Databases
 - [OSV](./docs/database/osv.md)

@@ -32,6 +32,10 @@ import {
 
 import { ApiCredential, type ApiCredentialOptions } from "./credential.ts";
 
+import {
+  formatVulnsPayload
+} from "./formats/index.js";
+
 import type {
   SnykVulnerability
 } from "./formats/snyk/index.ts";
@@ -135,5 +139,6 @@ export type {
   SnykVulnerability,
   SonatypeVulnerability,
 
-  OSV
+  OSV,
+  formatVulnsPayload
 };

@@ -49,7 +49,7 @@
     "@openally/config.eslint": "^2.1.0",
     "@openally/config.typescript": "^1.0.3",
     "@slimio/is": "^2.0.0",
-    "@types/node": "^22.1.0",
+    "@types/node": "^24.0.1",
     "c8": "^10.1.2",
     "cross-env": "^7.0.3",
     "glob": "^11.0.0",

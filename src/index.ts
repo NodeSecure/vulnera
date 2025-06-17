@@ -28,6 +28,10 @@ import {
   type Kind
 } from "./constants.js";
 
+import {
+  formatVulnsPayload
+} from "./formats/index.js";
+
 import type {
   SnykVulnerability
 } from "./formats/snyk/index.js";
@@ -121,5 +125,6 @@ export type {
   SnykVulnerability,
   SonatypeVulnerability,
 
-  OSV
+  OSV,
+  formatVulnsPayload
 };

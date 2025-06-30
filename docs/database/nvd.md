@@ -18,37 +18,19 @@ The implementation might be enhanced in the future if NVD provides clearer guide
 
 ## Format
 
-The NVD API returns detailed vulnerability information. The raw response is structured as follows:
+The NVD API returns detailed vulnerability information.
 
-```json
-{
-  "vulnerabilities": [
-    {
-      "cve": {
-        "id": "CVE-XXXX-XXXXX",
-        "sourceIdentifier": "source",
-        "published": "YYYY-MM-DDThh:mm:ss.sss",
-        "lastModified": "YYYY-MM-DDThh:mm:ss.sss",
-        "vulnStatus": "status",
-        "descriptions": [
-          {
-            "lang": "en",
-            "value": "Description of the vulnerability"
-          }
-        ],
-        "metrics": {
-          "cvssMetricV2": [ /* CVSS v2 metrics */ ],
-          "cvssMetricV3": [ /* CVSS v3 metrics */ ]
-        }
-      }
-    }
-  ]
+The NVD interface is exported as root like `StandardVulnerability`.
+
+```ts
+export interface NVD {
+  cve: Cve;
 }
 ```
 
 ## API
 
-### findOne(parameters: NVDApiParameter): Promise< any[] >
+### findOne(parameters: NVDApiParameter): Promise< NVD[] >
 Find the vulnerabilities of a given package using available NVD API parameters.
 
 ```ts
@@ -61,7 +43,7 @@ export type NVDApiParameter = {
 };
 ```
 
-### findOneBySpec(spec: string): Promise< any[] >
+### findOneBySpec(spec: string): Promise< NVD[] >
 Find the vulnerabilities of a given package using the NPM spec format like `packageName@version`.
 
 ```ts
@@ -73,7 +55,7 @@ const vulns = await vulnera.Database.nvd.findOneBySpec(
 console.log(vulns);
 ```
 
-### findMany< T extends string >(specs: T[]): Promise< Record< T, any[] > >
+### findMany< T extends string >(specs: T[]): Promise< Record< T, NVD[] > >
 Find the vulnerabilities of many packages using the spec format.
 
 Returns a Record where keys are equals to the provided specs. 

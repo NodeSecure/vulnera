@@ -3,6 +3,7 @@ import * as httpie from "@myunisoft/httpie";
 
 // Import Internal Dependencies
 import * as utils from "../utils.js";
+import type { NVD } from "../formats/nvd/index.js";
 
 // CONSTANTS
 export const ROOT_API = "https://services.nvd.nist.gov/rest/json/cves/2.0";
@@ -30,7 +31,7 @@ export type NVDApiParameter = {
 
 export async function findOne(
   parameters: NVDApiParameter
-): Promise<any[]> {
+): Promise<NVD[]> {
   const queryParams = new URLSearchParams();
 
   if (parameters.packageName) {
@@ -52,7 +53,7 @@ export async function findOne(
   url.search = queryParams.toString();
 
   try {
-    const { data } = await httpie.get<{ vulnerabilities: any[]; }>(url.toString());
+    const { data } = await httpie.get<{ vulnerabilities: NVD[]; }>(url.toString());
 
     return data.vulnerabilities || [];
   }
@@ -76,7 +77,7 @@ export function findOneBySpec(
 
 export async function findMany<T extends string = string>(
   specs: T[]
-): Promise<Record<T, any[]>> {
+): Promise<Record<T, NVD[]>> {
   const packagesVulns = await Promise.all(
     specs.map(async(spec) => {
       return {

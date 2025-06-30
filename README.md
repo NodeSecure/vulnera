@@ -131,6 +131,8 @@ Where `dependencies` is the dependencies **Map()** object of the NodeSecure Scan
 ### Databases
 - [OSV](./docs/database/osv.md)
 - [NVD](./docs/database/nvd.md)
+- [Snyk](./docs/database/snyk.md)
+- [Sonatype](./docs/database/sonatype.md)
 
 ## Contributors ✨
 

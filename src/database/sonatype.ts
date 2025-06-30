@@ -32,7 +32,9 @@ export async function findOne(
 }
 
 export async function findMany(parameters: SonaTypeFindManyParameters): Promise<SonatypeResponse[]> {
-  const data = await Promise.all(parameters.coordinates.map(async(coordinates) => findOne({ coordinates })));
+  const data = await Promise.all(
+    parameters.coordinates.map((coordinates) => findOne({ coordinates }))
+  );
 
   return data.flat();
 }

@@ -1,6 +1,3 @@
-// Import Third-party Dependencies
-import * as httpie from "@myunisoft/httpie";
-
 // Import Internal Dependencies
 import * as utils from "../utils.js";
 import { VULN_MODE } from "../constants.js";
@@ -10,9 +7,9 @@ import type {
   BaseStrategy
 } from "./types/api.js";
 import { formatVulnsPayload } from "../formats/index.js";
+import { sonatype } from "../database/index.js";
 
 // CONSTANTS
-const kSonatypeApiURL = "https://ossindex.sonatype.org/api/v3/component-report";
 const kRatelimitChunkSize = 128;
 
 export interface SonatypeVulnerability {
@@ -78,25 +75,12 @@ type SonatypeHttpResponse = { coordinates: string; vulnerabilities: SonatypeVuln
 async function fetchDataForPackageURLs(
   unchunkedCoordinates: string[]
 ): Promise<SonatypeHttpResponse[]> {
-  const requestOptions = {
-    headers: {
-      accept: "application/json"
-    }
-  };
-
   try {
     const chunkedCoordinates = [
       ...utils.chunkArray(unchunkedCoordinates, kRatelimitChunkSize)
     ];
 
-    const rawHttpPromises = chunkedCoordinates.map((coordinates) => httpie.post<SonatypeHttpResponse>(kSonatypeApiURL, {
-      ...requestOptions,
-      body: { coordinates }
-    }));
-
-    return (
-      await Promise.all(rawHttpPromises)
-    ).flatMap((requestResponse) => requestResponse.data);
+    return sonatype.findMany({ coordinates: chunkedCoordinates });
   }
   catch {
     return [];

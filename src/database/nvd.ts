@@ -1,5 +1,5 @@
 // Import Third-party Dependencies
-import * as httpie from "@myunisoft/httpie";
+import * as httpie from "@openally/httpie";
 
 // Import Internal Dependencies
 import * as utils from "../utils.js";
@@ -57,7 +57,7 @@ export async function findOne(
 
     return data.vulnerabilities || [];
   }
-  catch (error) {
+  catch (error: any) {
     console.error("NVD API Error:", error.message || error);
 
     return [];

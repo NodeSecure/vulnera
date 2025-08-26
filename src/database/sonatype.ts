@@ -1,5 +1,5 @@
 // Import Third-party Dependencies
-import * as httpie from "@myunisoft/httpie";
+import * as httpie from "@openally/httpie";
 
 // Import Internal Dependencies
 import type { SonatypeResponse } from "../formats/sonatype/index.js";

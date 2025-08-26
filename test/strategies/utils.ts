@@ -2,7 +2,7 @@
 import assert from "node:assert";
 
 // Import Third-party Dependencies
-import * as httpie from "@myunisoft/httpie";
+import * as httpie from "@openally/httpie";
 
 // CONSTANTS
 export const HTTP_CLIENT_HEADERS = {

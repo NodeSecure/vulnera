@@ -8,33 +8,7 @@ Lean more at [osv.dev](https://osv.dev/)
 
 ## Format
 
-The OSV interface is exported as root like `StandardVulnerability`.
-
-```ts
-export interface OSV {
-  schema_version: string;
-  id: string;
-  modified: string;
-  published: string;
-  withdraw: string;
-  aliases: string[];
-  related: string[];
-  summary: string;
-  details: string;
-  severity: OSVSeverity[];
-  affected: OSVAffected[];
-  references: {
-    type: OSVReferenceType;
-    url: string;
-  }[];
-  credits: {
-    name: string;
-    contact: string[];
-    type: OSVCreditType;
-  }[];
-  database_specific: Record<string, any>;
-}
-```
+See the [OSV format](../formats/osv.md) documentation.
 
 ## API
 

@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 22.x
       - name: Install dependencies
-        run: npm install
+        run: npm install --ignore-scripts
       - name: Run ESLint
         run: npm run lint
   test:

@@ -4,6 +4,8 @@ updates:
     directory: /
     schedule:
       interval: monthly
+    cooldown:
+      default-days: 5
     groups:
       github-actions:
         patterns:
@@ -24,5 +26,7 @@ updates:
     directory: /test/fixtures/audit
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 5
     ignore:
       - dependency-name: "*"

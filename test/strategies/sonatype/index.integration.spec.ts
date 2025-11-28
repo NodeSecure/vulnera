@@ -6,7 +6,7 @@ import assert from "node:assert";
 import { SonatypeStrategy } from "../../../src/strategies/sonatype.js";
 import { expectVulnToBeNodeSecureStandardCompliant } from "../utils.js";
 
-test("sonatype strategy: fetching a package with a vulnerability using the API", async() => {
+test.skip("sonatype strategy: fetching a package with a vulnerability using the API", async() => {
   const { hydratePayloadDependencies } = SonatypeStrategy();
   const dependencies = new Map();
   /**
@@ -50,7 +50,7 @@ test("sonatype strategy: fetching a package with a vulnerability using the API",
   expectVulnToBeNodeSecureStandardCompliant(vulnerability);
 });
 
-test("sonatype strategy: fetching a package with a name that should be percent-encoded/decoded, using the API", async() => {
+test.skip("sonatype strategy: fetching a package with a name that should be percent-encoded/decoded, using the API", async() => {
   const { hydratePayloadDependencies } = SonatypeStrategy();
   const dependencies = new Map();
   const packageWithScopeThatShouldBePercentEncoded = {

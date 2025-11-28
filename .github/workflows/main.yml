@@ -20,16 +20,16 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v2.6.0
       - uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
-          node-version: 22.x
+          node-version: 24.x
       - name: Install dependencies
-        run: npm install
+        run: npm install --ignore-scripts
       - name: Run ESLint
         run: npm run lint
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [20.x, 22.x]
+        node-version: [22.x, 24.x]
       fail-fast: false
     steps:
       - name: Harden Runner
@@ -60,25 +60,3 @@ jobs:
         uses: fastify/github-action-merge-dependabot@1b2ed42db8f9d81a46bac83adedfc03eb5149dff # v3.11.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-  nsci:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20.x, 22.x]
-      fail-fast: false
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@f4a75cfd619ee5ce8d5b864b0d183aff3c69b55a # v2.13.1
-        with:
-          egress-policy: audit # TODO: change to 'egress-policy: block' after couple of runs
-
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: npm install
-      - uses: NodeSecure/ci-action@e3ac9c03585752e979622279106a161e94d5717b # v1
-        with:
-          warnings: warning

@@ -12,9 +12,9 @@
     "build": "tsc",
     "prepublishOnly": "npm run build",
     "lint": "eslint src test",
-    "test-only": "glob -c \"tsx --test\" \"./test/**/*.spec.ts\"",
-    "unit-test-only": "glob -c \"tsx --test\" \"./test/**/*.unit.spec.ts\"",
-    "integration-test-only": "glob -c \"tsx --test\" \"./test/**/*.integration.spec.ts\"",
+    "test-only": "node --test ./test/**/*.spec.ts",
+    "unit-test-only": "node --test ./test/**/*.unit.spec.ts",
+    "integration-test-only": "node --test ./test/**/*.integration.spec.ts",
     "test": "npm run lint && npm run test-only",
     "test:unit": "npm run lint && npm run unit-test-only",
     "test:integration": "npm run lint && npm run integration-test-only",
@@ -47,13 +47,10 @@
   "homepage": "https://github.com/NodeSecure/vulnera#readme",
   "devDependencies": {
     "@openally/config.eslint": "^2.1.0",
-    "@openally/config.typescript": "^1.0.3",
+    "@openally/config.typescript": "1.2.1",
     "@slimio/is": "^2.0.0",
     "@types/node": "^24.0.1",
     "c8": "^10.1.2",
-    "cross-env": "^10.0.0",
-    "glob": "^11.0.0",
-    "tsx": "^4.7.0",
     "typescript": "^5.4.2"
   },
   "dependencies": {

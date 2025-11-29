@@ -5,8 +5,13 @@ import { test } from "node:test";
 import assert from "node:assert";
 
 // Import Internal Dependencies
-import { GitHubAdvisoryStrategy, NpmAuditAdvisory } from "../../../src/strategies/github-advisory.js";
-import { expectVulnToBeNodeSecureStandardCompliant } from "../utils.js";
+import {
+  GitHubAdvisoryStrategy,
+  type NpmAuditAdvisory
+} from "../../../src/strategies/github-advisory.ts";
+import {
+  expectVulnToBeNodeSecureStandardCompliant
+} from "../utils.ts";
 
 // CONSTANTS
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

@@ -2,7 +2,7 @@
 import * as httpie from "@openally/httpie";
 
 // Import Internal Dependencies
-import type { SonatypeResponse } from "../formats/sonatype/index.js";
+import type { SonatypeResponse } from "../formats/sonatype/index.ts";
 
 export type SonaTypeFindOneParameters = {
   coordinates: string[];

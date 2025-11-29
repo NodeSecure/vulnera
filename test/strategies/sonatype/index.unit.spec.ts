@@ -5,12 +5,12 @@ import assert from "node:assert";
 // Import Internal Dependencies
 import {
   SonatypeStrategy
-} from "../../../src/strategies/sonatype.js";
+} from "../../../src/strategies/sonatype.ts";
 import {
   expectVulnToBeNodeSecureStandardCompliant,
   HTTP_CLIENT_HEADERS,
   setupHttpAgentMock
-} from "../utils.js";
+} from "../utils.ts";
 
 // CONSTANTS
 const kSonatypeOrigin = "https://ossindex.sonatype.org";
@@ -59,7 +59,7 @@ test("sonatype strategy: hydratePayloadDependencies", async() => {
     }
   });
 
-  await hydratePayloadDependencies(dependencies);
+  await hydratePayloadDependencies(dependencies, {});
 
   assert.strictEqual(
     dependencies.size,
@@ -163,7 +163,7 @@ test("sonatype strategy: fetchDataForPackageURLs with coordinates exceeding the 
 
   Array.from({ length: chunkSizeApiLimit + 1 }, (_, index) => dependencies.set(`fake-npm-${index}`, fakeDependencyPayload));
 
-  await hydratePayloadDependencies(dependencies);
+  await hydratePayloadDependencies(dependencies, {});
 
   mockedHttpAgent.assertNoPendingInterceptors();
 

@@ -10,15 +10,15 @@ import { getLocalRegistryURL } from "@nodesecure/npm-registry-sdk";
 import { readWantedLockfile } from "@pnpm/lockfile-file";
 
 // Import Internal Dependencies
-import { VULN_MODE, NPM_TOKEN } from "../constants.js";
-import type { StandardVulnerability } from "../formats/standard/index.js";
-import { formatVulnsPayload } from "../formats/index.js";
-import type { Dependencies } from "./types/scanner.js";
+import { VULN_MODE, NPM_TOKEN } from "../constants.ts";
+import type { StandardVulnerability } from "../formats/standard/index.ts";
+import { formatVulnsPayload } from "../formats/index.ts";
+import type { Dependencies } from "./types/scanner.ts";
 import type {
   BaseStrategyOptions,
   ExtendedStrategy,
   HydratePayloadDepsOptions
-} from "./types/api.js";
+} from "./types/api.ts";
 
 export type NpmAuditAdvisory = {
   /** The unique cache key for this vuln or metavuln. **/

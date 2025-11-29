@@ -3,7 +3,7 @@ import { test } from "node:test";
 import assert from "node:assert";
 
 // Import Internal Dependencies
-import * as none from "../../../src/strategies/none.js";
+import * as none from "../../../src/strategies/none.ts";
 
 test("NoneStrategy definition must return only two keys.", () => {
   const definition = none.NoneStrategy();
@@ -16,6 +16,6 @@ test("none: hydratePayloadDependencies should not hydrate dependencies Map", asy
   const { hydratePayloadDependencies } = none.NoneStrategy();
   const dependencies = new Map();
 
-  await hydratePayloadDependencies(dependencies);
+  await hydratePayloadDependencies(dependencies, {});
   assert.strictEqual(dependencies.size, 0, "dependencies must be always empty with none strategy");
 });

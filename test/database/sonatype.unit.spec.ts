@@ -6,8 +6,8 @@ import assert from "node:assert";
 import {
   HTTP_CLIENT_HEADERS,
   setupHttpAgentMock
-} from "../strategies/utils";
-import { sonatype } from "../../src/database/index";
+} from "../strategies/utils.ts";
+import { sonatype } from "../../src/database/index.ts";
 
 describe("sonatype", () => {
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();

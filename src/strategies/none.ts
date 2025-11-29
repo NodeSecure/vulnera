@@ -1,6 +1,6 @@
 // Import Internal Dependencies
-import { VULN_MODE } from "../constants.js";
-import type { BaseStrategy } from "./types/api.js";
+import { VULN_MODE } from "../constants.ts";
+import type { BaseStrategy } from "./types/api.ts";
 
 export type NoneStrategyDefinition = BaseStrategy<"none">;
 

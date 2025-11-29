@@ -1,5 +1,5 @@
 // Import Internal Dependencies
-import type { Severity } from "./formats/standard/index.js";
+import type { Severity } from "./formats/standard/index.ts";
 
 export function fromMaybeStringToArray(
   value: undefined | null | string | string[]

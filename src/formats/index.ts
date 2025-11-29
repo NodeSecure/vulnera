@@ -1,10 +1,10 @@
 // Import Internal Dependencies
-import type { BaseStrategyFormat } from "../strategies/types/api.js";
+import type { BaseStrategyFormat } from "../strategies/types/api.ts";
 
 import {
   standardVulnerabilityMapper,
   type StandardizeKind
-} from "./standard/index.js";
+} from "./standard/index.ts";
 
 export function formatVulnsPayload(
   format: BaseStrategyFormat | null = null

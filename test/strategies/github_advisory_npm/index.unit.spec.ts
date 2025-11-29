@@ -3,7 +3,7 @@ import { test } from "node:test";
 import assert from "node:assert";
 
 // Import Internal Dependencies
-import { GitHubAdvisoryStrategy } from "../../../src/strategies/github-advisory.js";
+import { GitHubAdvisoryStrategy } from "../../../src/strategies/github-advisory.ts";
 
 test("GitHubAdvisoryStrategy definition must return only three keys.", () => {
   const definition = GitHubAdvisoryStrategy();

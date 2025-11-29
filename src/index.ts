@@ -5,42 +5,42 @@ import {
   type GithubVulnerability,
   type NpmAuditAdvisory,
   type PnpmAuditAdvisory
-} from "./strategies/github-advisory.js";
+} from "./strategies/github-advisory.ts";
 
 import {
   SnykStrategy,
   type SnykStrategyDefinition
-} from "./strategies/snyk.js";
+} from "./strategies/snyk.ts";
 
 import {
   SonatypeStrategy,
   type SonatypeStrategyDefinition,
   type SonatypeVulnerability
-} from "./strategies/sonatype.js";
+} from "./strategies/sonatype.ts";
 
 import {
   NoneStrategy,
   type NoneStrategyDefinition
-} from "./strategies/none.js";
+} from "./strategies/none.ts";
 
 import {
   VULN_MODE,
   type Kind
-} from "./constants.js";
+} from "./constants.ts";
 
 import type {
   SnykVulnerability
-} from "./formats/snyk/index.js";
+} from "./formats/snyk/index.ts";
 import type {
   StandardVulnerability, Severity, StandardPatch
-} from "./formats/standard/index.js";
+} from "./formats/standard/index.ts";
 import type {
   OSV
-} from "./formats/osv/index.js";
+} from "./formats/osv/index.ts";
 
 import type {
   Dependencies
-} from "./strategies/types/scanner.js";
+} from "./strategies/types/scanner.ts";
 
 import type {
   BaseStrategy,
@@ -48,9 +48,9 @@ import type {
   BaseStrategyFormat,
   ExtendedStrategy,
   HydratePayloadDepsOptions
-} from "./strategies/types/api.js";
+} from "./strategies/types/api.ts";
 
-export * as Database from "./database/index.js";
+export * as Database from "./database/index.ts";
 
 export type AllStrategy = {
   none: NoneStrategyDefinition;

@@ -1,5 +1,5 @@
 // Import Internal Dependencies
-import type { StandardVulnerability } from "../../formats/standard/index.js";
+import type { StandardVulnerability } from "../../formats/standard/index.ts";
 
 export interface Dependency {
   metadata: any;

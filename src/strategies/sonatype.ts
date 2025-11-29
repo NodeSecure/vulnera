@@ -1,13 +1,13 @@
 // Import Internal Dependencies
-import * as utils from "../utils.js";
-import { VULN_MODE } from "../constants.js";
-import type { Dependencies, Dependency } from "./types/scanner.js";
+import * as utils from "../utils.ts";
+import { VULN_MODE } from "../constants.ts";
+import type { Dependencies, Dependency } from "./types/scanner.ts";
 import type {
   BaseStrategyOptions,
   BaseStrategy
-} from "./types/api.js";
-import { formatVulnsPayload } from "../formats/index.js";
-import { sonatype } from "../database/index.js";
+} from "./types/api.ts";
+import { formatVulnsPayload } from "../formats/index.ts";
+import { sonatype } from "../database/index.ts";
 
 // CONSTANTS
 const kRatelimitChunkSize = 128;

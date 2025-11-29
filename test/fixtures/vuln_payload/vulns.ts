@@ -1,4 +1,5 @@
- 
+/* eslint-disable @stylistic/max-len */
+
 export const NPM_VULNERABILITY = {
   title: "Arbitrary Command Injection due to Improper Command Sanitization",
   name: "@npmcli/git",

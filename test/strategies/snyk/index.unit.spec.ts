@@ -6,12 +6,12 @@ import path from "node:path";
 import fs from "node:fs/promises";
 
 // Import Internal Dependencies
-import { SnykStrategy } from "../../../src/strategies/snyk.js";
+import { SnykStrategy } from "../../../src/strategies/snyk.ts";
 import {
   expectVulnToBeNodeSecureStandardCompliant,
   HTTP_CLIENT_HEADERS,
   setupHttpAgentMock
-} from "../utils.js";
+} from "../utils.ts";
 
 // CONSTANTS
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

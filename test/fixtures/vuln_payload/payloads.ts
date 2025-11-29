@@ -1,4 +1,9 @@
-import { SNYK_VULNERABILITY, NPM_VULNERABILITY, SONATYPE_VULNERABILITY } from "./vulns.js";
+// Import Internal Dependencies
+import {
+  SNYK_VULNERABILITY,
+  NPM_VULNERABILITY,
+  SONATYPE_VULNERABILITY
+} from "./vulns.ts";
 
 export const NPM_VULNS_PAYLOADS = {
   inputVulnsPayload: {

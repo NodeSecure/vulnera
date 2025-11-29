@@ -3,8 +3,8 @@ import { test } from "node:test";
 import assert from "node:assert";
 
 // Import Internal Dependencies
-import { SonatypeStrategy } from "../../../src/strategies/sonatype.js";
-import { expectVulnToBeNodeSecureStandardCompliant } from "../utils.js";
+import { SonatypeStrategy } from "../../../src/strategies/sonatype.ts";
+import { expectVulnToBeNodeSecureStandardCompliant } from "../utils.ts";
 
 test.skip("sonatype strategy: fetching a package with a vulnerability using the API", async() => {
   const { hydratePayloadDependencies } = SonatypeStrategy();
@@ -39,7 +39,7 @@ test.skip("sonatype strategy: fetching a package with a vulnerability using the 
   const { vulnerabilities } = dependencies.get(
     packageWithVulnerability.package
   )!;
-  const ids = vulnerabilities.map((vuln) => vuln.id);
+  const ids = vulnerabilities.map((vuln: any) => vuln.id);
   assert.deepEqual(
     ids,
     ["CVE-2022-31150", "CVE-2022-35948", "CVE-2023-23936", "CVE-2025-47279"]

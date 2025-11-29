@@ -2,8 +2,8 @@
 import * as httpie from "@openally/httpie";
 
 // Import Internal Dependencies
-import * as utils from "../utils.js";
-import type { NVD } from "../formats/nvd/index.js";
+import * as utils from "../utils.ts";
+import type { NVD } from "../formats/nvd/index.ts";
 
 // CONSTANTS
 export const ROOT_API = "https://services.nvd.nist.gov/rest/json/cves/2.0";

@@ -3,13 +3,13 @@ import { test } from "node:test";
 import assert from "node:assert";
 
 // Import Internal Dependencies
-import { VULN_MODE } from "../../../src/constants.js";
-import { formatVulnsPayload } from "../../../src/formats/index.js";
+import { VULN_MODE } from "../../../src/constants.ts";
+import { formatVulnsPayload } from "../../../src/formats/index.ts";
 import {
   NPM_VULNS_PAYLOADS,
   SNYK_VULNS_PAYLOADS,
   SONATYPE_VULNS_PAYLOADS
-} from "../../fixtures/vuln_payload/payloads.js";
+} from "../../fixtures/vuln_payload/payloads.ts";
 
 const formatVulnerabilities = formatVulnsPayload("Standard");
 

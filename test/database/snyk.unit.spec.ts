@@ -3,9 +3,9 @@ import { describe, test, after } from "node:test";
 import assert from "node:assert";
 
 // Import Internal Dependencies
-import { HTTP_CLIENT_HEADERS, setupHttpAgentMock } from "../strategies/utils";
-import { snyk } from "../../src/database";
-import { SNYK_ORG } from "../../src/constants";
+import { HTTP_CLIENT_HEADERS, setupHttpAgentMock } from "../strategies/utils.ts";
+import { snyk } from "../../src/database/index.ts";
+import { SNYK_ORG } from "../../src/constants.ts";
 
 describe("snyk", () => {
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();

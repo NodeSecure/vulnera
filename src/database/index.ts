@@ -1,4 +1,4 @@
-export * as osv from "./osv.js";
-export * as snyk from "./snyk.js";
-export * as nvd from "./nvd.js";
-export * as sonatype from "./sonatype.js";
+export * as osv from "./osv.ts";
+export * as snyk from "./snyk.ts";
+export * as nvd from "./nvd.ts";
+export * as sonatype from "./sonatype.ts";

@@ -11,8 +11,8 @@ import {
   getStrategy,
   strategies,
   defaultStrategyName,
-  AnyStrategy
-} from "../src/index.js";
+  type AnyStrategy
+} from "../src/index.ts";
 
 function isStrategyDefinition(definition: AnyStrategy) {
   assert.ok("strategy" in definition, "definition should have a 'strategy' property");

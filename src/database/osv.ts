@@ -2,8 +2,8 @@
 import * as httpie from "@openally/httpie";
 
 // Import Internal Dependencies
-import type { OSV } from "../formats/osv/index.js";
-import * as utils from "../utils.js";
+import type { OSV } from "../formats/osv/index.ts";
+import * as utils from "../utils.ts";
 
 // CONSTANTS
 export const ROOT_API = "https://api.osv.dev";

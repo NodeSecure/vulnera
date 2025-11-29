@@ -2,8 +2,8 @@
 import * as httpie from "@openally/httpie";
 
 // Import Internal Dependencies
-import { SNYK_ORG, SNYK_TOKEN } from "../constants.js";
-import type { SnykAuditResponse } from "../formats/snyk/index.js";
+import { SNYK_ORG, SNYK_TOKEN } from "../constants.ts";
+import type { SnykAuditResponse } from "../formats/snyk/index.ts";
 
 // CONSTANTS
 export const ROOT_API = "https://snyk.io";

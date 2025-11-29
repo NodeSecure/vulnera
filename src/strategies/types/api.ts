@@ -1,7 +1,7 @@
 // Import Internal Dependencies
-import type { Dependencies } from "./scanner.js";
-import type { StandardVulnerability } from "../../formats/standard/index.js";
-import type { Kind } from "../../constants.js";
+import type { Dependencies } from "./scanner.ts";
+import type { StandardVulnerability } from "../../formats/standard/index.ts";
+import type { Kind } from "../../constants.ts";
 
 export type BaseStrategyFormat = "Standard";
 

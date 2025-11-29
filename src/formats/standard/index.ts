@@ -1,6 +1,6 @@
 // Import Internal Dependencies
-import { STANDARD_VULN_MAPPERS } from "./mappers.js";
-import type { Kind } from "../../constants.js";
+import { STANDARD_VULN_MAPPERS } from "./mappers.ts";
+import type { Kind } from "../../constants.ts";
 
 export type Severity = "info" | "low" | "medium" | "high" | "critical";
 

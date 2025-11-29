@@ -8,7 +8,7 @@ import {
   fromMaybeStringToArray,
   parseNpmSpec,
   chunkArray
-} from "../src/utils.js";
+} from "../src/utils.ts";
 
 test("parseNpmSpec", () => {
   assert.deepEqual(

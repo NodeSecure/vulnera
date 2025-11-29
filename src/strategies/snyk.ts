@@ -4,15 +4,15 @@ import path from "node:path";
 import { readFile } from "node:fs/promises";
 
 // Import Internal Dependencies
-import { VULN_MODE } from "../constants.js";
-import type { Dependencies } from "./types/scanner.js";
+import { VULN_MODE } from "../constants.ts";
+import type { Dependencies } from "./types/scanner.ts";
 import type {
   HydratePayloadDepsOptions,
   BaseStrategy
-} from "./types/api.js";
-import { type SnykAuditResponse } from "../formats/snyk/index.js";
-import { snyk } from "../database/index.js";
-import { formatVulnsPayload } from "../formats/index.js";
+} from "./types/api.ts";
+import { type SnykAuditResponse } from "../formats/snyk/index.ts";
+import { snyk } from "../database/index.ts";
+import { formatVulnsPayload } from "../formats/index.ts";
 
 export type SnykStrategyDefinition = BaseStrategy<"snyk">;
 

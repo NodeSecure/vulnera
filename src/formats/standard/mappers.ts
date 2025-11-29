@@ -1,15 +1,13 @@
 // Import Internal Dependencies
-import { VULN_MODE } from "../../constants.js";
-import * as utils from "../../utils.js";
-
-// Import types
+import { VULN_MODE } from "../../constants.ts";
+import * as utils from "../../utils.ts";
 import type {
   SonatypeVulnerability,
   SnykVulnerability,
   NpmAuditAdvisory,
   PnpmAuditAdvisory,
   StandardVulnerability
-} from "../../index.js";
+} from "../../index.ts";
 
 function mapFromNPM(vuln: NpmAuditAdvisory): StandardVulnerability {
   const hasCVSS = typeof vuln.cvss !== "undefined";

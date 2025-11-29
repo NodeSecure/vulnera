@@ -6,8 +6,8 @@ import assert from "node:assert";
 import {
   HTTP_CLIENT_HEADERS,
   setupHttpAgentMock
-} from "../strategies/utils.js";
-import { nvd } from "../../src/database/index.js";
+} from "../strategies/utils.ts";
+import { nvd } from "../../src/database/index.ts";
 
 describe("nvd", () => {
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();

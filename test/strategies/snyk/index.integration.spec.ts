@@ -5,8 +5,8 @@
 // import path from "node:path";
 
 // Import Internal Dependencies
-// import { SnykStrategy } from "../../../src/strategies/snyk.js";
-// import { expectVulnToBeNodeSecureStandardCompliant } from "../utils.js";
+// import { SnykStrategy } from "../../../src/strategies/snyk.ts";
+// import { expectVulnToBeNodeSecureStandardCompliant } from "../utils.ts";
 
 // CONSTANTS
 // const __dirname = path.dirname(fileURLToPath(import.meta.url));

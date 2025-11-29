@@ -119,12 +119,12 @@ You will obviously need to add your own `.ts` file in the **src/strategies** fol
 
 ```ts
 // Import Internal Dependencies
-import { VULN_MODE } from "../constants.js";
-import type { Dependencies } from "./types/scanner.js";
+import { VULN_MODE } from "../constants.ts";
+import type { Dependencies } from "./types/scanner.ts";
 import type {
   HydratePayloadDepsOptions,
   BaseStrategy
-} from "./types/api.js";
+} from "./types/api.ts";
 
 export type FooBarStrategyDefinition = BaseStrategy<"foobar">;
 

@@ -49,7 +49,7 @@
     "@openally/config.eslint": "^2.1.0",
     "@openally/config.typescript": "1.2.1",
     "@slimio/is": "^2.0.0",
-    "@types/node": "^24.0.1",
+    "@types/node": "^25.0.2",
     "c8": "^10.1.2",
     "typescript": "^5.4.2"
   },

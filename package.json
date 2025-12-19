@@ -20,6 +20,11 @@
     "test:integration": "npm run lint && npm run integration-test-only",
     "coverage": "c8 -r html npm test"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public",
+    "provenance": true
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NodeSecure/vulnera.git"

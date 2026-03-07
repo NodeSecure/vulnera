@@ -37,14 +37,11 @@ $ yarn add @nodesecure/vulnera
 ```js
 import * as vulnera from "@nodesecure/vulnera";
 
-await vulnera.setStrategy(
+const github = vulnera.setStrategy(
   vulnera.strategies.GITHUB_ADVISORY
 );
 
-const definition = await vulnera.getStrategy();
-console.log(definition.strategy);
-
-const vulnerabilities = await definition.getVulnerabilities(process.cwd(), {
+const vulnerabilities = await github.getVulnerabilities(process.cwd(), {
   useFormat: "Standard"
 });
 console.log(vulnerabilities);

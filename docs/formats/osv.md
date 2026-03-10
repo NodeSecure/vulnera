@@ -1,9 +1,12 @@
-// Import Internal Dependencies
-import { OSV_VULN_MAPPERS } from "./mappers.ts";
+# OSV vulnerability format
 
-/**
- * @see https://ossf.github.io/osv-schema/
- */
+The [Open Source Vulnerability (OSV) schema](https://ossf.github.io/osv-schema/) is an open, precise, and human-readable format for describing vulnerabilities, maintained by the OpenSSF. It is designed to be interoperable across ecosystems and tooling.
+
+This format can be activated with the `useFormat` option set to `"OSV"`.
+
+## TypeScript interfaces
+
+```ts
 export interface OSV {
   schema_version?: string;
   id: string;
@@ -29,29 +32,6 @@ export interface OSV {
   database_specific: Record<string, any>;
 }
 
-export type OSVReferenceType = "ADVISORY" |
-  "ARTICLE" |
-  "DETECTION" |
-  "DISCUSSION" |
-  "REPORT" |
-  "FIX" |
-  "GIT" |
-  "INTRODUCED" |
-  "PACKAGE" |
-  "EVIDENCE" |
-  "WEB";
-
-export type OSVCreditType = "FINDER" |
-  "REPORTER" |
-  "ANALYST" |
-  "COORDINATOR" |
-  "REMEDIATION_DEVELOPER" |
-  "REMEDIATION_REVIEWER" |
-  "REMEDIATION_VERIFIER" |
-  "TOOL" |
-  "SPONSOR" |
-  "OTHER";
-
 export interface OSVAffected {
   package: {
     ecosystem: "npm";
@@ -67,7 +47,7 @@ export interface OSVAffected {
 
 export interface OSVRange {
   type: string;
-  repo?: string;
+  repo?: string; // Only required for GIT type
   events: {
     introduced?: string;
     fixed?: string;
@@ -82,15 +62,28 @@ export interface OSVSeverity {
   score: string;
 }
 
-export type OSVKind = keyof typeof OSV_VULN_MAPPERS;
+export type OSVReferenceType =
+  | "ADVISORY"
+  | "ARTICLE"
+  | "DETECTION"
+  | "DISCUSSION"
+  | "REPORT"
+  | "FIX"
+  | "GIT"
+  | "INTRODUCED"
+  | "PACKAGE"
+  | "EVIDENCE"
+  | "WEB";
 
-export function osvVulnerabilityMapper(
-  strategy: OSVKind,
-  vulnerabilities: any[]
-): OSV[] {
-  if (!(strategy in OSV_VULN_MAPPERS)) {
-    return [];
-  }
-
-  return vulnerabilities.map(OSV_VULN_MAPPERS[strategy]);
-}
+export type OSVCreditType =
+  | "FINDER"
+  | "REPORTER"
+  | "ANALYST"
+  | "COORDINATOR"
+  | "REMEDIATION_DEVELOPER"
+  | "REMEDIATION_REVIEWER"
+  | "REMEDIATION_VERIFIER"
+  | "TOOL"
+  | "SPONSOR"
+  | "OTHER";
+```

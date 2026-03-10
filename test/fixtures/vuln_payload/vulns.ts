@@ -118,6 +118,22 @@ export const SNYK_VULNERABILITY = {
   upgradePath: ["ms@0.7.1"]
 };
 
+export const PNPM_VULNERABILITY = {
+  id: 1005085,
+  github_advisory_id: "GHSA-hxwm-x553-x359",
+  npm_advisory_id: 1005085,
+  module_name: "@npmcli/git",
+  title: "Arbitrary Command Injection due to Improper Command Sanitization",
+  overview: "A vulnerability in @npmcli/git allows arbitrary command injection.",
+  url: "https://github.com/advisories/GHSA-hxwm-x553-x359",
+  severity: "moderate",
+  cwe: ["CWE-77"],
+  cves: ["CVE-2021-3807"],
+  patched_versions: ">=2.0.8",
+  vulnerable_versions: ["<2.0.8"],
+  cvss: { score: 7.5, vectorString: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H" }
+};
+
 export const SONATYPE_VULNERABILITY = {
   id: "a917ab55-851f-4c8b-ac82-6f988881c329",
   displayName: "OSSINDEX-6f98-8881-c329",

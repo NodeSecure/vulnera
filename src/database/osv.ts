@@ -2,11 +2,9 @@
 import * as httpie from "@openally/httpie";
 
 // Import Internal Dependencies
-import type { OSV } from "../formats/osv/index.ts";
+import type { OSV as OSVFormat } from "../formats/osv/index.ts";
 import * as utils from "../utils.ts";
-
-// CONSTANTS
-export const ROOT_API = "https://api.osv.dev";
+import type { ApiCredential } from "../credential.ts";
 
 export type OSVApiParameter = {
   version?: string;
@@ -19,47 +17,59 @@ export type OSVApiParameter = {
   };
 };
 
-export async function findOne(
-  parameters: OSVApiParameter
-): Promise<OSV[]> {
-  if (!parameters.package.ecosystem) {
-    parameters.package.ecosystem = "npm";
+export interface OSVOptions {
+  credential?: ApiCredential;
+}
+
+export class OSV {
+  static readonly ROOT_API = "https://api.osv.dev";
+
+  readonly #credential: ApiCredential | undefined;
+
+  constructor(
+    options: OSVOptions = {}
+  ) {
+    this.#credential = options.credential;
   }
 
-  const { data } = await httpie.post<{ vulns: OSV[]; }>(
-    new URL("v1/query", ROOT_API),
-    {
-      body: parameters
+  async findOne(
+    parameters: OSVApiParameter
+  ): Promise<OSVFormat[]> {
+    if (!parameters.package.ecosystem) {
+      parameters.package.ecosystem = "npm";
     }
-  );
 
-  return data.vulns;
-}
+    const { data } = await httpie.post<{ vulns: OSVFormat[]; }>(
+      new URL("v1/query", OSV.ROOT_API),
+      {
+        headers: this.#credential?.headers,
+        body: parameters
+      }
+    );
 
-export function findOneBySpec(
-  spec: string
-) {
-  const { name, version } = utils.parseNpmSpec(spec);
+    return data.vulns;
+  }
 
-  return findOne({
-    version,
-    package: {
-      name
-    }
-  });
-}
+  findOneBySpec(
+    spec: string
+  ): Promise<OSVFormat[]> {
+    const { name, version } = utils.parseNpmSpec(spec);
 
-export async function findMany<T extends string = string>(
-  specs: T[]
-): Promise<Record<T, OSV[]>> {
-  const packagesVulns = await Promise.all(
-    specs.map(async(spec) => {
-      return {
-        [spec]: await findOneBySpec(spec)
-      };
-    })
-  );
+    return this.findOne({
+      version,
+      package: {
+        name
+      }
+    });
+  }
 
-  // @ts-ignore
-  return Object.assign(...packagesVulns);
+  async findMany<T extends string = string>(
+    specs: T[]
+  ): Promise<Record<T, OSVFormat[]>> {
+    const entries = await Promise.all(
+      specs.map(async(spec) => [spec, await this.findOneBySpec(spec)] as [T, OSVFormat[]])
+    );
+
+    return Object.fromEntries(entries) as Record<T, OSVFormat[]>;
+  }
 }

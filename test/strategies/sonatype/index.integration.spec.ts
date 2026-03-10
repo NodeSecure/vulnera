@@ -4,10 +4,14 @@ import assert from "node:assert";
 
 // Import Internal Dependencies
 import { SonatypeStrategy } from "../../../src/strategies/sonatype.ts";
+import { ApiCredential } from "../../../src/credential.ts";
 import { expectVulnToBeNodeSecureStandardCompliant } from "../utils.ts";
 
+// CONSTANTS
+const kTestCredential = new ApiCredential({ type: "basic", username: "user", password: "pass" });
+
 test.skip("sonatype strategy: fetching a package with a vulnerability using the API", async() => {
-  const { hydratePayloadDependencies } = SonatypeStrategy();
+  const { hydratePayloadDependencies } = SonatypeStrategy({ credential: kTestCredential });
   const dependencies = new Map();
   /**
    * This package is arbitrary chosen and hardcoded as there is no way to fetch
@@ -51,7 +55,7 @@ test.skip("sonatype strategy: fetching a package with a vulnerability using the 
 });
 
 test.skip("sonatype strategy: fetching a package with a name that should be percent-encoded/decoded, using the API", async() => {
-  const { hydratePayloadDependencies } = SonatypeStrategy();
+  const { hydratePayloadDependencies } = SonatypeStrategy({ credential: kTestCredential });
   const dependencies = new Map();
   const packageWithScopeThatShouldBePercentEncoded = {
     /**

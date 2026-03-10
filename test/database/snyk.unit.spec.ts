@@ -4,12 +4,17 @@ import assert from "node:assert";
 
 // Import Internal Dependencies
 import { HTTP_CLIENT_HEADERS, setupHttpAgentMock } from "../strategies/utils.ts";
-import { snyk } from "../../src/database/index.ts";
-import { SNYK_ORG } from "../../src/constants.ts";
+import { Snyk, ApiCredential } from "../../src/database/index.ts";
 
-describe("snyk", () => {
+describe("Database.Snyk", () => {
+  const org = process.env.SNYK_ORG ?? "test-org";
+  const token = process.env.SNYK_TOKEN ?? "test-token";
+  const db = new Snyk({
+    org,
+    credential: new ApiCredential({ type: "token", token })
+  });
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
-  const mockedHttpClient = mockedHttpAgent.get(snyk.ROOT_API);
+  const mockedHttpClient = mockedHttpAgent.get(Snyk.ROOT_API);
 
   after(() => {
     restoreHttpAgent();
@@ -22,7 +27,7 @@ describe("snyk", () => {
 
     mockedHttpClient
       .intercept({
-        path: new URL(`/api/v1/test/npm?org=${SNYK_ORG}`, snyk.ROOT_API).href,
+        path: new URL(`/api/v1/test/npm?org=${org}`, Snyk.ROOT_API).href,
         method: "POST",
         body: JSON.stringify({
           files: {
@@ -33,7 +38,7 @@ describe("snyk", () => {
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
-    const data = await snyk.findOne({
+    const data = await db.findOne({
       files: {
         target: { contents: targetFile },
         additional: [{ contents: additionalFile }]
@@ -49,7 +54,7 @@ describe("snyk", () => {
 
     mockedHttpClient
       .intercept({
-        path: new URL(`/api/v1/test/npm?org=${SNYK_ORG}`, snyk.ROOT_API).href,
+        path: new URL(`/api/v1/test/npm?org=${org}`, Snyk.ROOT_API).href,
         method: "POST",
         body: JSON.stringify({
           files: {
@@ -59,7 +64,7 @@ describe("snyk", () => {
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
-    const data = await snyk.findOne({
+    const data = await db.findOne({
       files: { target: { contents: targetFile } }
     });
 

@@ -4,7 +4,7 @@ NVD stand for <kbd>National Vulnerability Database</kbd>, which is the U.S. gove
 
 ## Implementation Notes
 
-The NVD integration uses the REST API (v2.0) available at [services.nvd.nist.gov](https://services.nvd.nist.gov/rest/json/cves/2.0). 
+The NVD integration uses the REST API (v2.0) available at [services.nvd.nist.gov](https://services.nvd.nist.gov/rest/json/cves/2.0).
 
 ### Search Parameters
 
@@ -30,7 +30,27 @@ export interface NVD {
 
 ## API
 
-### findOne(parameters: NVDApiParameter): Promise< NVD[] >
+### Constructor
+
+```ts
+import * as vulnera from "@nodesecure/vulnera";
+
+const db = new vulnera.Database.NVD({
+  credential: new vulnera.ApiCredential({
+    type: "querystring",
+    name: "apiKey",
+    value: "your-api-key"
+  })
+});
+```
+
+```ts
+export interface NVDOptions {
+  credential?: ApiCredential;
+}
+```
+
+### `findOne(parameters: NVDApiParameter): Promise<NVD[]>`
 Find the vulnerabilities of a given package using available NVD API parameters.
 
 ```ts
@@ -43,19 +63,20 @@ export type NVDApiParameter = {
 };
 ```
 
-### findOneBySpec(spec: string): Promise< NVD[] >
+### `findOneBySpec(spec: string): Promise<NVD[]>`
 Find the vulnerabilities of a given package using the NPM spec format like `packageName@version`.
 
 ```ts
-import * as vulnera from "@nodesecure/vulnera";
-
-const vulns = await vulnera.Database.nvd.findOneBySpec(
-  "express@4.0.0"
-);
+const vulns = await db.findOneBySpec("express@4.0.0");
 console.log(vulns);
 ```
 
-### findMany< T extends string >(specs: T[]): Promise< Record< T, NVD[] > >
+### `findMany<T extends string>(specs: T[]): Promise<Record<T, NVD[]>>`
 Find the vulnerabilities of many packages using the spec format.
 
-Returns a Record where keys are equals to the provided specs. 
+Returns a Record where keys are equals to the provided specs.
+
+```ts
+const vulns = await db.findMany(["express@4.0.0", "lodash@4.17.0"]);
+console.log(vulns);
+```

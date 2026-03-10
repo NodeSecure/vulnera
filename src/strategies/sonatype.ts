@@ -7,10 +7,15 @@ import type {
   BaseStrategy
 } from "./types/api.ts";
 import { formatVulnsPayload } from "../formats/index.ts";
-import { sonatype } from "../database/index.ts";
+import { Sonatype } from "../database/index.ts";
+import type { ApiCredential } from "../credential.ts";
 
 // CONSTANTS
 const kRatelimitChunkSize = 128;
+
+export interface SonatypeStrategyOptions {
+  credential: ApiCredential;
+}
 
 export interface SonatypeVulnerability {
   id: string;
@@ -29,10 +34,15 @@ export interface SonatypeVulnerability {
 
 export type SonatypeStrategyDefinition = BaseStrategy<"sonatype">;
 
-export function SonatypeStrategy(): SonatypeStrategyDefinition {
+export function SonatypeStrategy(
+  options: SonatypeStrategyOptions
+): SonatypeStrategyDefinition {
+  const { credential } = options;
+  const sonatype = new Sonatype({ credential });
+
   return {
     strategy: VULN_MODE.SONATYPE,
-    hydratePayloadDependencies
+    hydratePayloadDependencies: hydratePayloadDependencies.bind(null, sonatype)
   };
 }
 
@@ -70,9 +80,13 @@ function createPackageURLCoordinates(
   return Object.keys(versions).map((version) => toPackageURL(dependencyName, version));
 }
 
-type SonatypeHttpResponse = { coordinates: string; vulnerabilities: SonatypeVulnerability[]; };
+type SonatypeHttpResponse = {
+  coordinates: string;
+  vulnerabilities: SonatypeVulnerability[];
+};
 
 async function fetchDataForPackageURLs(
+  sonatype: Sonatype,
   unchunkedCoordinates: string[]
 ): Promise<SonatypeHttpResponse[]> {
   try {
@@ -112,10 +126,12 @@ function vulnWithPackageName(packageName: string) {
 }
 
 async function hydratePayloadDependencies(
+  sonatype: Sonatype,
   dependencies: Dependencies,
   options: BaseStrategyOptions = {}
 ): Promise<void> {
   const packageURLsData = await fetchDataForPackageURLs(
+    sonatype,
     Array.from(dependencies).flatMap(createPackageURLCoordinates)
   );
 

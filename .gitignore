@@ -108,3 +108,4 @@ dist
 .vscode/
 
 temp/
+.claude

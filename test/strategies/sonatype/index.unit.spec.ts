@@ -6,6 +6,7 @@ import assert from "node:assert";
 import {
   SonatypeStrategy
 } from "../../../src/strategies/sonatype.ts";
+import { ApiCredential } from "../../../src/credential.ts";
 import {
   expectVulnToBeNodeSecureStandardCompliant,
   HTTP_CLIENT_HEADERS,
@@ -13,6 +14,7 @@ import {
 } from "../utils.ts";
 
 // CONSTANTS
+const kTestCredential = new ApiCredential({ type: "basic", username: "user", password: "pass" });
 const kSonatypeOrigin = "https://ossindex.sonatype.org";
 const kSonatypeApiPath = "/api/v3/component-report";
 const kSonatypeVulnComponent = {
@@ -22,7 +24,7 @@ const kSonatypeVulnComponent = {
 const kFakePackageURL = "pkg:npm/fake-npm-package@3.0.1";
 
 test("SonatypeStrategy definition must return only two keys.", () => {
-  const definition = SonatypeStrategy();
+  const definition = SonatypeStrategy({ credential: kTestCredential });
 
   assert.strictEqual(
     definition.strategy,
@@ -36,7 +38,7 @@ test("SonatypeStrategy definition must return only two keys.", () => {
 });
 
 test("sonatype strategy: hydratePayloadDependencies", async() => {
-  const { hydratePayloadDependencies } = SonatypeStrategy();
+  const { hydratePayloadDependencies } = SonatypeStrategy({ credential: kTestCredential });
   const dependencies = new Map();
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
   const mockedHttpClient = mockedHttpAgent.get(kSonatypeOrigin);
@@ -81,7 +83,7 @@ test("sonatype strategy: hydratePayloadDependencies", async() => {
 });
 
 test("sonatype strategy: hydratePayloadDependencies when using NodeSecure standard format", async() => {
-  const { hydratePayloadDependencies } = SonatypeStrategy();
+  const { hydratePayloadDependencies } = SonatypeStrategy({ credential: kTestCredential });
   const dependencies = new Map();
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
   const mockedHttpClient = mockedHttpAgent.get(kSonatypeOrigin);
@@ -136,7 +138,7 @@ test("sonatype strategy: hydratePayloadDependencies when using NodeSecure standa
 });
 
 test("sonatype strategy: fetchDataForPackageURLs with coordinates exceeding the ratelimit", async() => {
-  const { hydratePayloadDependencies } = SonatypeStrategy();
+  const { hydratePayloadDependencies } = SonatypeStrategy({ credential: kTestCredential });
   const chunkSizeApiLimit = 128;
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
   const mockedHttpClient = mockedHttpAgent.get(kSonatypeOrigin);

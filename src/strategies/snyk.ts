@@ -11,19 +11,33 @@ import type {
   BaseStrategy
 } from "./types/api.ts";
 import { type SnykAuditResponse } from "../formats/snyk/index.ts";
-import { snyk } from "../database/index.ts";
+import { Snyk } from "../database/index.ts";
 import { formatVulnsPayload } from "../formats/index.ts";
+import type { ApiCredential } from "../credential.ts";
+
+export interface SnykStrategyOptions {
+  org: string;
+  credential: ApiCredential;
+}
 
 export type SnykStrategyDefinition = BaseStrategy<"snyk">;
 
-export function SnykStrategy(): SnykStrategyDefinition {
+export function SnykStrategy(
+  options: SnykStrategyOptions
+): SnykStrategyDefinition {
+  const snyk = new Snyk({
+    org: options.org,
+    credential: options.credential
+  });
+
   return {
     strategy: VULN_MODE.SNYK,
-    hydratePayloadDependencies
+    hydratePayloadDependencies: hydratePayloadDependencies.bind(null, snyk)
   };
 }
 
 async function hydratePayloadDependencies(
+  snyk: Snyk,
   dependencies: Dependencies,
   options: HydratePayloadDepsOptions
 ) {

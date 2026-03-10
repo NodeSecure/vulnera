@@ -7,11 +7,12 @@ import {
   HTTP_CLIENT_HEADERS,
   setupHttpAgentMock
 } from "../strategies/utils.ts";
-import { osv } from "../../src/database/index.ts";
+import { OSV } from "../../src/database/index.ts";
 
-describe("osv", () => {
+describe("Database.OSV", () => {
+  const db = new OSV();
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
-  const mockedHttpClient = mockedHttpAgent.get(osv.ROOT_API);
+  const mockedHttpClient = mockedHttpAgent.get(OSV.ROOT_API);
 
   after(() => {
     restoreHttpAgent();
@@ -22,13 +23,13 @@ describe("osv", () => {
     const expectedResponse = { vulns: "hello world" };
     mockedHttpClient
       .intercept({
-        path: new URL("/v1/query", osv.ROOT_API).href,
+        path: new URL("/v1/query", OSV.ROOT_API).href,
         method: "POST",
         body: JSON.stringify({ package: { name: "foobar", ecosystem: "npm" } })
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
-    const vulns = await osv.findOne({
+    const vulns = await db.findOne({
       package: {
         name: "foobar",
         ecosystem: "npm"
@@ -44,7 +45,7 @@ describe("osv", () => {
 
     mockedHttpClient
       .intercept({
-        path: new URL("/v1/query", osv.ROOT_API).href,
+        path: new URL("/v1/query", OSV.ROOT_API).href,
         method: "POST",
         body: JSON.stringify({
           version: "2.0.0",
@@ -53,7 +54,7 @@ describe("osv", () => {
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
-    const vulns = await osv.findOneBySpec(`${packageName}@2.0.0`);
+    const vulns = await db.findOneBySpec(`${packageName}@2.0.0`);
     assert.strictEqual(vulns, expectedResponse.vulns);
   });
 
@@ -62,13 +63,13 @@ describe("osv", () => {
 
     mockedHttpClient
       .intercept({
-        path: new URL("/v1/query", osv.ROOT_API).href,
+        path: new URL("/v1/query", OSV.ROOT_API).href,
         method: "POST"
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS)
       .times(2);
 
-    const result = await osv.findMany(
+    const result = await db.findMany(
       ["foobar", "yoobar"]
     );
     assert.deepEqual(result, {

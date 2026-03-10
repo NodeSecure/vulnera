@@ -7,6 +7,7 @@ import fs from "node:fs/promises";
 
 // Import Internal Dependencies
 import { SnykStrategy } from "../../../src/strategies/snyk.ts";
+import { ApiCredential } from "../../../src/credential.ts";
 import {
   expectVulnToBeNodeSecureStandardCompliant,
   HTTP_CLIENT_HEADERS,
@@ -17,7 +18,8 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const kFixturesDir = path.join(__dirname, "..", "..", "fixtures");
 const kSnykOrigin = "https://snyk.io";
-const kSnykApiPath = "/api/v1/test/npm?org=undefined";
+const kSnykApiPath = "/api/v1/test/npm?org=";
+const kTestCredential = new ApiCredential({ type: "token", token: "test-token" });
 
 async function readFileJSON<T>(location: string): Promise<T> {
   const rawText = await fs.readFile(location, "utf-8");
@@ -44,7 +46,7 @@ function isAdvisory(data: any) {
 }
 
 test("SnykStrategy definition must return only two keys.", () => {
-  const definition = SnykStrategy();
+  const definition = SnykStrategy({ org: "", credential: kTestCredential });
 
   assert.strictEqual(
     definition.strategy,
@@ -58,7 +60,7 @@ test("SnykStrategy definition must return only two keys.", () => {
 });
 
 test("snyk strategy: hydratePayloadDependencies", async() => {
-  const { hydratePayloadDependencies } = SnykStrategy();
+  const { hydratePayloadDependencies } = SnykStrategy({ org: "", credential: kTestCredential });
   const dependencies = new Map();
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
   const mockedHttpClient = mockedHttpAgent.get(kSnykOrigin);
@@ -95,7 +97,7 @@ test("snyk strategy: hydratePayloadDependencies", async() => {
 });
 
 test("snyk strategy: hydratePayloadDependencies using NodeSecure standard format", async() => {
-  const { hydratePayloadDependencies } = SnykStrategy();
+  const { hydratePayloadDependencies } = SnykStrategy({ org: "", credential: kTestCredential });
   const dependencies = new Map();
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
   const mockedHttpClient = mockedHttpAgent.get(kSnykOrigin);

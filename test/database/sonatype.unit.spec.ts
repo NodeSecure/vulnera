@@ -7,11 +7,16 @@ import {
   HTTP_CLIENT_HEADERS,
   setupHttpAgentMock
 } from "../strategies/utils.ts";
-import { sonatype } from "../../src/database/index.ts";
+import { Sonatype, ApiCredential } from "../../src/database/index.ts";
 
-describe("sonatype", () => {
+// CONSTANTS
+const kTestCredential = new ApiCredential({ type: "basic", username: "user", password: "pass" });
+const kExpectedAuth = `Basic ${Buffer.from("user:pass").toString("base64")}`;
+
+describe("Database.Sonatype", () => {
+  const db = new Sonatype({ credential: kTestCredential });
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
-  const mockedHttpClient = mockedHttpAgent.get(sonatype.ROOT_API);
+  const mockedHttpClient = mockedHttpAgent.get(Sonatype.ROOT_API);
 
   after(() => {
     restoreHttpAgent();
@@ -28,18 +33,42 @@ describe("sonatype", () => {
     const coordinates = ["coord1", "coord2"];
     mockedHttpClient
       .intercept({
-        path: new URL("/api/v3/component-report", sonatype.ROOT_API).href,
+        path: new URL("/api/v3/component-report", Sonatype.ROOT_API).href,
         method: "POST",
         body: JSON.stringify({ coordinates }),
         headers: {
-          accept: "application/json"
+          accept: "application/json",
+          Authorization: kExpectedAuth
         }
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
-    const vulns = await sonatype.findOne({
+    const vulns = await db.findOne({
       coordinates
     });
+    assert.deepStrictEqual(vulns, expectedResponse);
+  });
+
+  test("should send a POST http request with Basic auth header when credential is provided", async() => {
+    const credential = new ApiCredential({ type: "basic", username: "user", password: "pass" });
+    const dbWithAuth = new Sonatype({ credential });
+    const expectedResponse = [kSonatypeVulnComponent];
+    const coordinates = ["coord1"];
+    const expectedAuth = `Basic ${Buffer.from("user:pass").toString("base64")}`;
+
+    mockedHttpClient
+      .intercept({
+        path: new URL("/api/v3/component-report", Sonatype.ROOT_API).href,
+        method: "POST",
+        body: JSON.stringify({ coordinates }),
+        headers: {
+          accept: "application/json",
+          Authorization: expectedAuth
+        }
+      })
+      .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
+
+    const vulns = await dbWithAuth.findOne({ coordinates });
     assert.deepStrictEqual(vulns, expectedResponse);
   });
 
@@ -48,17 +77,18 @@ describe("sonatype", () => {
 
     mockedHttpClient
       .intercept({
-        path: new URL("/api/v3/component-report", sonatype.ROOT_API).href,
+        path: new URL("/api/v3/component-report", Sonatype.ROOT_API).href,
         method: "POST",
         headers: {
-          accept: "application/json"
+          accept: "application/json",
+          Authorization: kExpectedAuth
         },
         body: JSON.stringify({ coordinates: ["coord1", "coord2"] })
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS)
       .times(2);
 
-    const result = await sonatype.findMany(
+    const result = await db.findMany(
       {
         coordinates: [["coord1", "coord2"], ["coord1", "coord2"]]
       }

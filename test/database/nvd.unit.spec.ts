@@ -7,11 +7,17 @@ import {
   HTTP_CLIENT_HEADERS,
   setupHttpAgentMock
 } from "../strategies/utils.ts";
-import { nvd } from "../../src/database/index.ts";
+import { NVD, ApiCredential } from "../../src/database/index.ts";
 
-describe("nvd", () => {
+// CONSTANTS
+const kTestApiKey = "test-api-key";
+const kTestCredential = new ApiCredential({ type: "querystring", name: "apiKey", value: kTestApiKey });
+const kNvdPathname = new URL(NVD.ROOT_API).pathname;
+
+describe("Database.NVD", () => {
+  const db = new NVD({ credential: kTestCredential });
   const [mockedHttpAgent, restoreHttpAgent] = setupHttpAgentMock();
-  const mockedHttpClient = mockedHttpAgent.get(new URL(nvd.ROOT_API).origin);
+  const mockedHttpClient = mockedHttpAgent.get(new URL(NVD.ROOT_API).origin);
 
   after(() => {
     restoreHttpAgent();
@@ -22,16 +28,17 @@ describe("nvd", () => {
     const expectedResponse = { vulnerabilities: ["cve-data-1", "cve-data-2"] };
     const params = new URLSearchParams();
     params.append("keywordSearch", "express");
+    params.append("apiKey", kTestApiKey);
     const queryString = params.toString();
 
     mockedHttpClient
       .intercept({
-        path: `${new URL(nvd.ROOT_API).pathname}?${queryString}`,
+        path: `${kNvdPathname}?${queryString}`,
         method: "GET"
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
-    const vulns = await nvd.findOne({
+    const vulns = await db.findOne({
       packageName: "express",
       ecosystem: "npm"
     });
@@ -44,16 +51,17 @@ describe("nvd", () => {
     const params = new URLSearchParams();
     params.append("keywordSearch", "express");
     params.append("cvssV3Severity", "HIGH");
+    params.append("apiKey", kTestApiKey);
     const queryString = params.toString();
 
     mockedHttpClient
       .intercept({
-        path: `${new URL(nvd.ROOT_API).pathname}?${queryString}`,
+        path: `${kNvdPathname}?${queryString}`,
         method: "GET"
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
-    const vulns = await nvd.findOne({
+    const vulns = await db.findOne({
       packageName: "express",
       ecosystem: "npm",
       cvssV3Severity: "HIGH"
@@ -67,16 +75,17 @@ describe("nvd", () => {
     const packageName = "express";
     const params = new URLSearchParams();
     params.append("keywordSearch", packageName);
+    params.append("apiKey", kTestApiKey);
     const queryString = params.toString();
 
     mockedHttpClient
       .intercept({
-        path: `${new URL(nvd.ROOT_API).pathname}?${queryString}`,
+        path: `${kNvdPathname}?${queryString}`,
         method: "GET"
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
-    const vulns = await nvd.findOneBySpec(`${packageName}@1.0.0`);
+    const vulns = await db.findOneBySpec(`${packageName}@1.0.0`);
     assert.deepStrictEqual(vulns, expectedResponse.vulnerabilities);
   });
 
@@ -85,27 +94,29 @@ describe("nvd", () => {
 
     const paramsFirst = new URLSearchParams();
     paramsFirst.append("keywordSearch", "foobar");
+    paramsFirst.append("apiKey", kTestApiKey);
     const queryStringFirst = paramsFirst.toString();
 
     const paramsSecond = new URLSearchParams();
     paramsSecond.append("keywordSearch", "yoobar");
+    paramsSecond.append("apiKey", kTestApiKey);
     const queryStringSecond = paramsSecond.toString();
 
     mockedHttpClient
       .intercept({
-        path: `${new URL(nvd.ROOT_API).pathname}?${queryStringFirst}`,
+        path: `${kNvdPathname}?${queryStringFirst}`,
         method: "GET"
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
     mockedHttpClient
       .intercept({
-        path: `${new URL(nvd.ROOT_API).pathname}?${queryStringSecond}`,
+        path: `${kNvdPathname}?${queryStringSecond}`,
         method: "GET"
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
-    const result = await nvd.findMany(
+    const result = await db.findMany(
       ["foobar", "yoobar"]
     );
 
@@ -120,16 +131,17 @@ describe("nvd", () => {
 
     const params = new URLSearchParams();
     params.append("keywordSearch", "nonexistent");
+    params.append("apiKey", kTestApiKey);
     const queryString = params.toString();
 
     mockedHttpClient
       .intercept({
-        path: `${new URL(nvd.ROOT_API).pathname}?${queryString}`,
+        path: `${kNvdPathname}?${queryString}`,
         method: "GET"
       })
       .reply(200, emptyResponse, HTTP_CLIENT_HEADERS);
 
-    const vulns = await nvd.findOne({
+    const vulns = await db.findOne({
       packageName: "nonexistent",
       ecosystem: "npm"
     });

@@ -9,12 +9,14 @@ import {
 
 import {
   SnykStrategy,
-  type SnykStrategyDefinition
+  type SnykStrategyDefinition,
+  type SnykStrategyOptions
 } from "./strategies/snyk.ts";
 
 import {
   SonatypeStrategy,
   type SonatypeStrategyDefinition,
+  type SonatypeStrategyOptions,
   type SonatypeVulnerability
 } from "./strategies/sonatype.ts";
 
@@ -27,6 +29,8 @@ import {
   VULN_MODE,
   type Kind
 } from "./constants.ts";
+
+import { ApiCredential, type ApiCredentialOptions } from "./credential.ts";
 
 import type {
   SnykVulnerability
@@ -51,6 +55,8 @@ import type {
 } from "./strategies/types/api.ts";
 
 export * as Database from "./database/index.ts";
+export { ApiCredential };
+export type { ApiCredentialOptions };
 
 export type AllStrategy = {
   none: NoneStrategyDefinition;
@@ -60,6 +66,13 @@ export type AllStrategy = {
 };
 export type AnyStrategy = AllStrategy[keyof AllStrategy];
 
+type StrategyOptions = {
+  none: undefined;
+  "github-advisory": undefined;
+  snyk: SnykStrategyOptions;
+  sonatype: SonatypeStrategyOptions;
+};
+
 // CONSTANTS
 const kAvailableStrategy = new Set(Object.values(VULN_MODE));
 
@@ -67,7 +80,8 @@ const kAvailableStrategy = new Set(Object.values(VULN_MODE));
 let localVulnerabilityStrategy: AnyStrategy;
 
 export function setStrategy<T extends Kind>(
-  name: T
+  name: T,
+  options?: StrategyOptions[T]
 ): AllStrategy[T] {
   if (!kAvailableStrategy.has(name)) {
     throw new Error(
@@ -79,10 +93,10 @@ export function setStrategy<T extends Kind>(
     localVulnerabilityStrategy = Object.seal(GitHubAdvisoryStrategy());
   }
   else if (name === VULN_MODE.SNYK) {
-    localVulnerabilityStrategy = Object.seal(SnykStrategy());
+    localVulnerabilityStrategy = Object.seal(SnykStrategy(options as SnykStrategyOptions));
   }
   else if (name === VULN_MODE.SONATYPE) {
-    localVulnerabilityStrategy = Object.seal(SonatypeStrategy());
+    localVulnerabilityStrategy = Object.seal(SonatypeStrategy(options as SonatypeStrategyOptions));
   }
   else {
     localVulnerabilityStrategy = Object.seal(NoneStrategy());

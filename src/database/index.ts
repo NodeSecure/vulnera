@@ -1,4 +1,29 @@
-export * as osv from "./osv.ts";
-export * as snyk from "./snyk.ts";
-export * as nvd from "./nvd.ts";
-export * as sonatype from "./sonatype.ts";
+export { ApiCredential } from "../credential.ts";
+export type { ApiCredentialOptions } from "../credential.ts";
+
+export {
+  NVD
+} from "./nvd.ts";
+export type {
+  NVDOptions,
+  NVDApiParameter
+} from "./nvd.ts";
+
+export { OSV } from "./osv.ts";
+export type {
+  OSVOptions,
+  OSVApiParameter
+} from "./osv.ts";
+
+export { Snyk } from "./snyk.ts";
+export type {
+  SnykOptions,
+  SnykFindOneParameters
+} from "./snyk.ts";
+
+export { Sonatype } from "./sonatype.ts";
+export type {
+  SonatypeOptions,
+  SonaTypeFindOneParameters,
+  SonaTypeFindManyParameters
+} from "./sonatype.ts";

@@ -2,11 +2,8 @@
 import * as httpie from "@openally/httpie";
 
 // Import Internal Dependencies
-import { SNYK_ORG, SNYK_TOKEN } from "../constants.ts";
 import type { SnykAuditResponse } from "../formats/snyk/index.ts";
-
-// CONSTANTS
-export const ROOT_API = "https://snyk.io";
+import type { ApiCredential } from "../credential.ts";
 
 export type SnykFindOneParameters = {
   files: {
@@ -19,18 +16,35 @@ export type SnykFindOneParameters = {
   };
 };
 
-export async function findOne(
-  parameters: SnykFindOneParameters
-): Promise<SnykAuditResponse> {
-  const { data } = await httpie.post<SnykAuditResponse>(
-    new URL(`/api/v1/test/npm?org=${SNYK_ORG}`, ROOT_API),
-    {
-      headers: {
-        Authorization: `token ${SNYK_TOKEN}`
-      },
-      body: parameters
-    }
-  );
+export interface SnykOptions {
+  org: string;
+  credential: ApiCredential;
+}
 
-  return data;
+export class Snyk {
+  static readonly ROOT_API = "https://snyk.io";
+
+  readonly #org: string;
+  readonly #credential: ApiCredential;
+
+  constructor(
+    options: SnykOptions
+  ) {
+    this.#org = options.org;
+    this.#credential = options.credential;
+  }
+
+  async findOne(
+    parameters: SnykFindOneParameters
+  ): Promise<SnykAuditResponse> {
+    const { data } = await httpie.post<SnykAuditResponse>(
+      new URL(`/api/v1/test/npm?org=${this.#org}`, Snyk.ROOT_API),
+      {
+        headers: this.#credential.headers,
+        body: parameters
+      }
+    );
+
+    return data;
+  }
 }

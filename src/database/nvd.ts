@@ -3,10 +3,8 @@ import * as httpie from "@openally/httpie";
 
 // Import Internal Dependencies
 import * as utils from "../utils.ts";
-import type { NVD } from "../formats/nvd/index.ts";
-
-// CONSTANTS
-export const ROOT_API = "https://services.nvd.nist.gov/rest/json/cves/2.0";
+import type { NVD as NVDFormat } from "../formats/nvd/index.ts";
+import type { ApiCredential } from "../credential.ts";
 
 /**
  * @description Parameters for querying the NVD API
@@ -29,63 +27,76 @@ export type NVDApiParameter = {
   ecosystem?: string;
 };
 
-export async function findOne(
-  parameters: NVDApiParameter
-): Promise<NVD[]> {
-  const queryParams = new URLSearchParams();
-
-  if (parameters.packageName) {
-    queryParams.append("keywordSearch", parameters.packageName);
-    /**
-    * NVD doesn't support cpeMatchString
-    * We will only search by keyword for now
-    */
-  }
-  if (parameters.cvssV3Severity) {
-    queryParams.append("cvssV3Severity", parameters.cvssV3Severity);
-  }
-
-  if (parameters.cweId) {
-    queryParams.append("cweId", parameters.cweId);
-  }
-
-  const url = new URL(ROOT_API);
-  url.search = queryParams.toString();
-
-  try {
-    const { data } = await httpie.get<{ vulnerabilities: NVD[]; }>(url.toString());
-
-    return data.vulnerabilities || [];
-  }
-  catch (error: any) {
-    console.error("NVD API Error:", error.message || error);
-
-    return [];
-  }
+export interface NVDOptions {
+  credential: ApiCredential;
 }
 
-export function findOneBySpec(
-  spec: string
-) {
-  const { name } = utils.parseNpmSpec(spec);
+export class NVD {
+  static readonly ROOT_API = "https://services.nvd.nist.gov/rest/json/cves/2.0";
 
-  return findOne({
-    packageName: name,
-    ecosystem: "npm"
-  });
-}
+  readonly #credential: ApiCredential;
 
-export async function findMany<T extends string = string>(
-  specs: T[]
-): Promise<Record<T, NVD[]>> {
-  const packagesVulns = await Promise.all(
-    specs.map(async(spec) => {
-      return {
-        [spec]: await findOneBySpec(spec)
-      };
-    })
-  );
+  constructor(
+    options: NVDOptions
+  ) {
+    this.#credential = options.credential;
+  }
 
-  // @ts-ignore
-  return Object.assign(...packagesVulns);
+  async findOne(
+    parameters: NVDApiParameter
+  ): Promise<NVDFormat[]> {
+    const queryParams = new URLSearchParams();
+
+    if (parameters.packageName) {
+      queryParams.append("keywordSearch", parameters.packageName);
+      /**
+      * NVD doesn't support cpeMatchString
+      * We will only search by keyword for now
+      */
+    }
+    if (parameters.cvssV3Severity) {
+      queryParams.append("cvssV3Severity", parameters.cvssV3Severity);
+    }
+    if (parameters.cweId) {
+      queryParams.append("cweId", parameters.cweId);
+    }
+    for (const [name, value] of Object.entries(this.#credential.queryParams)) {
+      queryParams.append(name, value);
+    }
+
+    const url = new URL(NVD.ROOT_API);
+    url.search = queryParams.toString();
+
+    try {
+      const { data } = await httpie.get<{ vulnerabilities: NVDFormat[]; }>(url.toString());
+
+      return data.vulnerabilities || [];
+    }
+    catch (error: any) {
+      console.error("NVD API Error:", error.message || error);
+
+      return [];
+    }
+  }
+
+  findOneBySpec(
+    spec: string
+  ): Promise<NVDFormat[]> {
+    const { name } = utils.parseNpmSpec(spec);
+
+    return this.findOne({
+      packageName: name,
+      ecosystem: "npm"
+    });
+  }
+
+  async findMany<T extends string = string>(
+    specs: T[]
+  ): Promise<Record<T, NVDFormat[]>> {
+    const entries = await Promise.all(
+      specs.map(async(spec) => [spec, await this.findOneBySpec(spec)] as [T, NVDFormat[]])
+    );
+
+    return Object.fromEntries(entries) as Record<T, NVDFormat[]>;
+  }
 }

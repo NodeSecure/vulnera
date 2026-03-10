@@ -38,7 +38,21 @@ export interface OSV {
 
 ## API
 
-### findOne(parameters: OSVApiParameter): Promise< OSV[] >
+### Constructor
+
+```ts
+import * as vulnera from "@nodesecure/vulnera";
+
+const db = new vulnera.Database.OSV();
+```
+
+```ts
+export interface OSVOptions {
+  credential?: ApiCredential;
+}
+```
+
+### `findOne(parameters: OSVApiParameter): Promise<OSV[]>`
 Find the vulnerabilities of a given package using available OSV API parameters.
 
 ```ts
@@ -54,19 +68,20 @@ export type OSVApiParameter = {
 }
 ```
 
-### findOneBySpec(spec: string): Promise< OSV[] >
+### `findOneBySpec(spec: string): Promise<OSV[]>`
 Find the vulnerabilities of a given package using the NPM spec format like `packageName@version`.
 
 ```ts
-import * as vulnera from "@nodesecure/vulnera";
-
-const vulns = await vulnera.Database.osv.findOneBySpec(
-  "01template1"
-);
+const vulns = await db.findOneBySpec("01template1");
 console.log(vulns);
 ```
 
-### findMany< T extends string >(specs: T[]): Promise< Record< T, OSV[] > >
+### `findMany<T extends string>(specs: T[]): Promise<Record<T, OSV[]>>`
 Find the vulnerabilities of many packages using the spec format.
 
 Return a Record where keys are equals to the provided specs.
+
+```ts
+const vulns = await db.findMany(["express@4.0.0", "lodash@4.17.0"]);
+console.log(vulns);
+```

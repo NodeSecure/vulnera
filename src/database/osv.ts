@@ -6,7 +6,7 @@ import type { OSV as OSVFormat } from "../formats/osv/index.ts";
 import * as utils from "../utils.ts";
 import type { ApiCredential } from "../credential.ts";
 
-export type OSVApiParameter = {
+export type OSVQueryBatchEntry = {
   version?: string;
   package: {
     name: string;
@@ -16,6 +16,18 @@ export type OSVApiParameter = {
     ecosystem?: string;
   };
 };
+
+export interface OSVQueryBatchRequest {
+  queries: OSVQueryBatchEntry[];
+}
+
+export interface OSVQueryBatchResult {
+  vulns?: OSVFormat[];
+}
+
+export interface OSVQueryBatchResponse {
+  results: OSVQueryBatchResult[];
+}
 
 export interface OSVOptions {
   credential?: ApiCredential;
@@ -32,44 +44,68 @@ export class OSV {
     this.#credential = options.credential;
   }
 
-  async findOne(
-    parameters: OSVApiParameter
+  async query(
+    query: OSVQueryBatchEntry
   ): Promise<OSVFormat[]> {
-    if (!parameters.package.ecosystem) {
-      parameters.package.ecosystem = "npm";
+    if (!query.package.ecosystem) {
+      query.package.ecosystem = "npm";
     }
 
     const { data } = await httpie.post<{ vulns: OSVFormat[]; }>(
       new URL("v1/query", OSV.ROOT_API),
       {
         headers: this.#credential?.headers,
-        body: parameters
+        body: query
       }
     );
 
     return data.vulns;
   }
 
-  findOneBySpec(
+  queryBySpec(
     spec: string
   ): Promise<OSVFormat[]> {
     const { name, version } = utils.parseNpmSpec(spec);
 
-    return this.findOne({
+    return this.query({
       version,
       package: {
-        name
+        name,
+        ecosystem: "npm"
       }
     });
   }
 
-  async findMany<T extends string = string>(
-    specs: T[]
-  ): Promise<Record<T, OSVFormat[]>> {
-    const entries = await Promise.all(
-      specs.map(async(spec) => [spec, await this.findOneBySpec(spec)] as [T, OSVFormat[]])
+  async queryBatch(
+    queries: OSVQueryBatchEntry[]
+  ): Promise<OSVQueryBatchResult[]> {
+    for (const query of queries) {
+      if (!query.package.ecosystem) {
+        query.package.ecosystem = "npm";
+      }
+    }
+
+    const { data } = await httpie.post<OSVQueryBatchResponse>(
+      new URL("v1/querybatch", OSV.ROOT_API),
+      {
+        headers: this.#credential?.headers,
+        body: { queries }
+      }
     );
 
-    return Object.fromEntries(entries) as Record<T, OSVFormat[]>;
+    return data.results;
+  }
+
+  async findVulnById(
+    id: string
+  ): Promise<OSVFormat> {
+    const { data } = await httpie.get<OSVFormat>(
+      new URL(`v1/vulns/${id}`, OSV.ROOT_API),
+      {
+        headers: this.#credential?.headers
+      }
+    );
+
+    return data;
   }
 }

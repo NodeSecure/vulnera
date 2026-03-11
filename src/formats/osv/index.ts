@@ -85,12 +85,12 @@ export interface OSVSeverity {
 export type OSVKind = keyof typeof OSV_VULN_MAPPERS;
 
 export function osvVulnerabilityMapper(
-  strategy: OSVKind,
+  strategy: OSVKind | string,
   vulnerabilities: any[]
 ): OSV[] {
   if (!(strategy in OSV_VULN_MAPPERS)) {
     return [];
   }
 
-  return vulnerabilities.map(OSV_VULN_MAPPERS[strategy]);
+  return vulnerabilities.map(OSV_VULN_MAPPERS[strategy as OSVKind]);
 }

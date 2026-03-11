@@ -1,0 +1,7 @@
+{
+  "name": "test-extractor-project",
+  "version": "1.0.0",
+  "dependencies": {
+    "once": "^1.4.0"
+  }
+}

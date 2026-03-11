@@ -12,7 +12,10 @@ export type {
 export { OSV } from "./osv.ts";
 export type {
   OSVOptions,
-  OSVApiParameter
+  OSVQueryBatchEntry,
+  OSVQueryBatchRequest,
+  OSVQueryBatchResult,
+  OSVQueryBatchResponse
 } from "./osv.ts";
 
 export { Snyk } from "./snyk.ts";

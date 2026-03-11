@@ -18,7 +18,7 @@ describe("Database.OSV", () => {
     restoreHttpAgent();
   });
 
-  test(`should send a POST http request to the OSV API using findOne
+  test(`should send a POST http request to the OSV API using query
   and then return the 'vulns' property from the JSON response`, async() => {
     const expectedResponse = { vulns: "hello world" };
     mockedHttpClient
@@ -29,7 +29,7 @@ describe("Database.OSV", () => {
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
-    const vulns = await db.findOne({
+    const vulns = await db.query({
       package: {
         name: "foobar",
         ecosystem: "npm"
@@ -38,7 +38,7 @@ describe("Database.OSV", () => {
     assert.strictEqual(vulns, expectedResponse.vulns);
   });
 
-  test(`should send a POST http request to the OSV API using findOneBySpec
+  test(`should send a POST http request to the OSV API using queryBySpec
   and then return the 'vulns' property from the JSON response`, async() => {
     const expectedResponse = { vulns: "hello world" };
     const packageName = "@nodesecure/js-x-ray";
@@ -54,27 +54,48 @@ describe("Database.OSV", () => {
       })
       .reply(200, expectedResponse, HTTP_CLIENT_HEADERS);
 
-    const vulns = await db.findOneBySpec(`${packageName}@2.0.0`);
+    const vulns = await db.queryBySpec(`${packageName}@2.0.0`);
     assert.strictEqual(vulns, expectedResponse.vulns);
   });
 
-  test("should send multiple POST http requests to the OSV API using findMany", async() => {
-    const expectedResponse = { vulns: [1, 2, 3] };
+  test("should send a POST http request to /v1/querybatch and return the 'results' array", async() => {
+    const expectedResults = [
+      { vulns: [{ id: "OSV-2021-1" }] },
+      {}
+    ];
+    const queries = [
+      { package: { name: "foo", ecosystem: "npm" }, version: "1.0.0" },
+      { package: { name: "bar", ecosystem: "npm" }, version: "2.0.0" }
+    ];
 
     mockedHttpClient
       .intercept({
-        path: new URL("/v1/query", OSV.ROOT_API).href,
-        method: "POST"
+        path: new URL("/v1/querybatch", OSV.ROOT_API).href,
+        method: "POST",
+        body: JSON.stringify({ queries })
       })
-      .reply(200, expectedResponse, HTTP_CLIENT_HEADERS)
-      .times(2);
+      .reply(200, { results: expectedResults }, HTTP_CLIENT_HEADERS);
 
-    const result = await db.findMany(
-      ["foobar", "yoobar"]
-    );
-    assert.deepEqual(result, {
-      foobar: expectedResponse.vulns,
-      yoobar: expectedResponse.vulns
-    });
+    const results = await db.queryBatch(queries);
+    assert.deepEqual(results, expectedResults);
+  });
+
+  test("should send a GET http request to /v1/vulns/{id} and return the full OSV object", async() => {
+    const vulnId = "OSV-2021-1234";
+    const expectedVuln = {
+      id: vulnId,
+      summary: "Fake vulnerability",
+      modified: "2021-01-01T00:00:00Z"
+    };
+
+    mockedHttpClient
+      .intercept({
+        path: new URL(`/v1/vulns/${vulnId}`, OSV.ROOT_API).href,
+        method: "GET"
+      })
+      .reply(200, expectedVuln, HTTP_CLIENT_HEADERS);
+
+    const vuln = await db.findVulnById(vulnId);
+    assert.deepEqual(vuln, expectedVuln);
   });
 });

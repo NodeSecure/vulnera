@@ -26,6 +26,11 @@ import {
 } from "./strategies/none.ts";
 
 import {
+  OSVStrategy,
+  type OSVStrategyDefinition
+} from "./strategies/osv.ts";
+
+import {
   VULN_MODE,
   type Kind
 } from "./constants.ts";
@@ -34,7 +39,7 @@ import { ApiCredential, type ApiCredentialOptions } from "./credential.ts";
 
 import {
   formatVulnsPayload
-} from "./formats/index.js";
+} from "./formats/index.ts";
 
 import type {
   SnykVulnerability
@@ -67,6 +72,7 @@ export type AllStrategy = {
   "github-advisory": GithubAdvisoryStrategyDefinition;
   snyk: SnykStrategyDefinition;
   sonatype: SonatypeStrategyDefinition;
+  osv: OSVStrategyDefinition;
 };
 export type AnyStrategy = AllStrategy[keyof AllStrategy];
 
@@ -75,6 +81,7 @@ type StrategyOptions = {
   "github-advisory": undefined;
   snyk: SnykStrategyOptions;
   sonatype: SonatypeStrategyOptions;
+  osv: undefined;
 };
 
 // CONSTANTS
@@ -94,16 +101,29 @@ export function setStrategy<T extends Kind>(
   }
 
   if (name === VULN_MODE.GITHUB_ADVISORY) {
-    localVulnerabilityStrategy = Object.seal(GitHubAdvisoryStrategy());
+    localVulnerabilityStrategy = Object.seal(
+      GitHubAdvisoryStrategy()
+    );
   }
   else if (name === VULN_MODE.SNYK) {
-    localVulnerabilityStrategy = Object.seal(SnykStrategy(options as SnykStrategyOptions));
+    localVulnerabilityStrategy = Object.seal(
+      SnykStrategy(options as SnykStrategyOptions)
+    );
   }
   else if (name === VULN_MODE.SONATYPE) {
-    localVulnerabilityStrategy = Object.seal(SonatypeStrategy(options as SonatypeStrategyOptions));
+    localVulnerabilityStrategy = Object.seal(
+      SonatypeStrategy(options as SonatypeStrategyOptions)
+    );
+  }
+  else if (name === VULN_MODE.OSV) {
+    localVulnerabilityStrategy = Object.seal(
+      OSVStrategy()
+    );
   }
   else {
-    localVulnerabilityStrategy = Object.seal(NoneStrategy());
+    localVulnerabilityStrategy = Object.seal(
+      NoneStrategy()
+    );
   }
 
   return localVulnerabilityStrategy as AllStrategy[T];
@@ -138,6 +158,7 @@ export type {
   PnpmAuditAdvisory,
   SnykVulnerability,
   SonatypeVulnerability,
+  OSVStrategyDefinition,
 
   OSV,
   formatVulnsPayload

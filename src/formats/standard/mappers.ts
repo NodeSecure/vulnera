@@ -8,6 +8,26 @@ import type {
   PnpmAuditAdvisory,
   StandardVulnerability
 } from "../../index.ts";
+type Severity = "info" | "low" | "medium" | "high" | "critical";
+
+/** Minimal OSV shape needed by mapFromOSV (avoids circular import chain) */
+interface OSVVulnForMapper {
+  id: string;
+  summary: string;
+  details: string;
+  aliases?: string[];
+  references?: Array<{ type: string; url: string; }>;
+  severity?: Array<{ type: string; score: string; }>;
+  affected?: Array<{
+    versions?: string[];
+    ranges?: Array<{
+      type: string;
+      events: Array<{ introduced?: string; fixed?: string; }>;
+    }>;
+  }>;
+  database_specific?: Record<string, unknown>;
+  package: string;
+}
 
 function mapFromNPM(vuln: NpmAuditAdvisory): StandardVulnerability {
   const hasCVSS = typeof vuln.cvss !== "undefined";
@@ -89,10 +109,77 @@ function mapFromSonatype(vuln: SonatypeVulnerability): StandardVulnerability {
   };
 }
 
+function osvSeverityToStandard(
+  severity: string
+): Severity | undefined {
+  const lower = severity.toLowerCase();
+  if (lower === "moderate") {
+    return "medium";
+  }
+  if (lower === "low" || lower === "medium" || lower === "high" || lower === "critical" || lower === "info") {
+    return lower;
+  }
+
+  return undefined;
+}
+
+function mapFromOSV(
+  vuln: OSVVulnForMapper
+): StandardVulnerability {
+  const advisoryRef = vuln.references?.find((r) => r.type === "ADVISORY") ?? vuln.references?.[0];
+  const cves = vuln.aliases?.filter((a) => a.startsWith("CVE-")) ?? [];
+
+  const affected = vuln.affected?.[0];
+  const vulnerableVersions = affected?.versions ?? [];
+
+  const semverRanges = affected?.ranges?.filter((r) => r.type === "SEMVER") ?? [];
+  const vulnerableRanges: string[] = semverRanges.flatMap((range) => {
+    const ranges: string[] = [];
+    let intro: string | undefined;
+    for (const event of range.events) {
+      if (event.introduced !== undefined) {
+        intro = event.introduced;
+      }
+      else if (event.fixed !== undefined && intro !== undefined) {
+        ranges.push(`>=${intro} <${event.fixed}`);
+        intro = undefined;
+      }
+    }
+
+    return ranges;
+  });
+
+  const patchedVersions = semverRanges
+    .flatMap((r) => r.events.filter((e) => e.fixed !== undefined).map((e) => e.fixed!))
+    .join(" || ") || undefined;
+
+  const cvssEntry = vuln.severity?.[0];
+  const cvssVector = cvssEntry?.score;
+
+  const dbSeverity = vuln.database_specific?.severity as string | undefined;
+  const severity = dbSeverity ? osvSeverityToStandard(dbSeverity) : undefined;
+
+  return {
+    id: vuln.id,
+    origin: VULN_MODE.OSV,
+    package: vuln.package,
+    title: vuln.summary,
+    description: vuln.details,
+    url: advisoryRef?.url,
+    severity,
+    cves: cves.length > 0 ? cves : undefined,
+    cvssVector,
+    vulnerableVersions,
+    vulnerableRanges,
+    patchedVersions
+  };
+}
+
 export const STANDARD_VULN_MAPPERS = Object.freeze({
   [VULN_MODE.GITHUB_ADVISORY]: mapFromNPM,
   "github-advisory_pnpm": mapFromPnpm,
   [VULN_MODE.SNYK]: mapFromSnyk,
-  [VULN_MODE.SONATYPE]: mapFromSonatype
+  [VULN_MODE.SONATYPE]: mapFromSonatype,
+  [VULN_MODE.OSV]: mapFromOSV
 });
 

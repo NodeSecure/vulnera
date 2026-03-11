@@ -20,19 +20,9 @@ import type {
   HydratePayloadDepsOptions
 } from "./types/api.ts";
 
-export type NpmAuditAdvisory = {
-  /** The unique cache key for this vuln or metavuln. **/
-  source: number;
+export type NpmAuditAdvisory = Omit<Arborist.Advisory, "id"> & {
   /** Same as source (but seems deprecated now) **/
-  id?: number;
-  /** The name of the package that this vulnerability is about**/
-  name: string;
-  /** For metavulns, the dependency that causes this package to be have a vulnerability. For advisories, the same as name. **/
-  dependency: string;
-  /** The text title of the advisory or metavuln **/
-  title: string;
-  /** The url for the advisory (null for metavulns) **/
-  url: string;
+  id?: string | number;
   /** Publicly-known vulnerabilities have identification numbers, known as Common Vulnerabilities and Exposures (CVEs) */
   cwe?: string[];
   /** The Common Vulnerability Scoring System (CVSS) is a method used to supply a qualitative measure of severity. CVSS is not a measure of risk. */
@@ -40,15 +30,9 @@ export type NpmAuditAdvisory = {
     score: number;
     vectorString: string;
   };
-  /** The severity level **/
-  severity: "info" | "low" | "moderate" | "high" | "critical";
-  /** The range that is vulnerable **/
-  range: string;
-  /** The set of versions that are vulnerable **/
-  vulnerableVersions?: string[];
 };
 
-export type PnpmAuditAdvisory = Exclude<AuditAdvisory, "cwe"> & {
+export type PnpmAuditAdvisory = Omit<AuditAdvisory, "cwe"> & {
   github_advisory_id: string;
   npm_advisory_id: null | number;
   cwe: string | string[];
@@ -120,7 +104,7 @@ async function hydratePayloadDependencies(
       await npmAudit(path, registry);
 
     for (const packageVulns of vulnerabilities) {
-      const packageName = (packageVulns as NpmAuditAdvisory).name || (packageVulns as PnpmAuditAdvisory).module_name;
+      const packageName = "name" in packageVulns ? packageVulns.name : packageVulns.module_name;
       if (!dependencies.has(packageName)) {
         continue;
       }
@@ -141,10 +125,16 @@ async function npmAudit(
   path: string,
   registry: string
 ): Promise<NpmAuditAdvisory[]> {
-  const arborist = new Arborist({ ...NPM_TOKEN, registry, path });
-  const { vulnerabilities } = (await arborist.audit()).toJSON() as { vulnerabilities: any[]; };
+  const arborist = new Arborist({
+    ...NPM_TOKEN,
+    registry,
+    path
+  });
 
-  // TODO: remove Symbols?
+  const { vulnerabilities } = (
+    await arborist.audit()
+  ).toJSON();
+
   return Object.values(vulnerabilities)
     .flatMap((vuln) => (Array.isArray(vuln.via) && typeof vuln.via[0] === "object" ? vuln.via : []));
 }
@@ -164,8 +154,9 @@ async function pnpmAudit(
     ignoreIncompatible: false
   });
 
-  // eslint-disable-next-line
-  const getAuthHeader = () => (void 0);
+  function getAuthHeader() {
+    return void 0;
+  }
   const { advisories } = await audit(
     lockfile!,
     getAuthHeader,
@@ -176,7 +167,9 @@ async function pnpmAudit(
   return Object.values(advisories) as PnpmAuditAdvisory[];
 }
 
-async function hasPnpmLockFile(lockfileDir: string): Promise<boolean> {
+async function hasPnpmLockFile(
+  lockfileDir: string
+): Promise<boolean> {
   try {
     await fs.access(
       path.join(lockfileDir, "pnpm-lock.yaml"),

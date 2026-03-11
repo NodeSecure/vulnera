@@ -50,7 +50,7 @@ export interface StandardVulnerability {
 export type StandardizeKind = keyof typeof STANDARD_VULN_MAPPERS;
 
 export function standardVulnerabilityMapper(
-  strategy: StandardizeKind,
+  strategy: StandardizeKind | string,
   vulnerabilities: any[]
 ): StandardVulnerability[] {
   if (!(strategy in STANDARD_VULN_MAPPERS)) {

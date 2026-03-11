@@ -20,7 +20,7 @@
 The **vuln-*era*** has begun! Programmatically fetch security vulnerabilities with one or many strategies. Originally designed to run and analyze [Scanner](https://github.com/NodeSecure/scanner) dependencies it now also runs independently from an npm Manifest.
 
 ## Requirements
-- [Node.js](https://nodejs.org/en/) v22 or higher
+- [Node.js](https://nodejs.org/en/) v24 or higher
 
 ## Getting Started
 
@@ -51,13 +51,14 @@ console.log(vulnerabilities);
 
 The default strategy is **NONE** which mean no strategy at all (we execute nothing).
 
-[GitHub Advisory](./docs/github_advisory.md) | [Sonatype - OSS Index](./docs/sonatype.md) | Snyk
-:-------------------------:|:-------------------------:|:-------------------------:
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/1200px-Npm-logo.svg.png" width="300"> | <img src="https://ossindex.sonatype.org/assets/images/sonatype-image.png" width="400"> | <img src="https://res.cloudinary.com/snyk/image/upload/v1537345894/press-kit/brand/logo-black.png" width="400">
+- [GitHub Advisory](./docs/github_advisory.md)
+- [Sonatype OSS Index](./docs/sonatype.md)
+- [OSV](./docs/osv.md)
+- Snyk
 
 Those strategies are described as "string" **type** with the following TypeScript definition:
 ```ts
-type Kind = "github-advisory" | "snyk" | "sonatype" | "none";
+type Kind = "github-advisory" | "snyk" | "sonatype" | "osv" | "none";
 ```
 
 To add a strategy or better understand how the code works, please consult [the following guide](./docs/adding_new_strategy.md).
@@ -72,6 +73,7 @@ const strategies: Object.freeze({
   GITHUB_ADVISORY: "github-advisory",
   SNYK: "snyk",
   SONATYPE: "sonatype",
+  OSV: "osv",
   NONE: "none"
 });
 

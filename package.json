@@ -55,6 +55,7 @@
     "@openally/config.typescript": "1.2.1",
     "@slimio/is": "^2.0.0",
     "@types/node": "^25.0.2",
+    "@types/npmcli__arborist": "6.3.3",
     "c8": "^11.0.0",
     "typescript": "^5.4.2"
   },

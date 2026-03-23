@@ -8,12 +8,6 @@ import {
 } from "./strategies/github-advisory.ts";
 
 import {
-  SnykStrategy,
-  type SnykStrategyDefinition,
-  type SnykStrategyOptions
-} from "./strategies/snyk.ts";
-
-import {
   SonatypeStrategy,
   type SonatypeStrategyDefinition,
   type SonatypeStrategyOptions,
@@ -42,9 +36,6 @@ import {
 } from "./formats/index.ts";
 
 import type {
-  SnykVulnerability
-} from "./formats/snyk/index.ts";
-import type {
   StandardVulnerability, Severity, StandardPatch
 } from "./formats/standard/index.ts";
 import type {
@@ -70,7 +61,6 @@ export type { ApiCredentialOptions };
 export type AllStrategy = {
   none: NoneStrategyDefinition;
   "github-advisory": GithubAdvisoryStrategyDefinition;
-  snyk: SnykStrategyDefinition;
   sonatype: SonatypeStrategyDefinition;
   osv: OSVStrategyDefinition;
 };
@@ -79,7 +69,6 @@ export type AnyStrategy = AllStrategy[keyof AllStrategy];
 type StrategyOptions = {
   none: undefined;
   "github-advisory": undefined;
-  snyk: SnykStrategyOptions;
   sonatype: SonatypeStrategyOptions;
   osv: undefined;
 };
@@ -103,11 +92,6 @@ export function setStrategy<T extends Kind>(
   if (name === VULN_MODE.GITHUB_ADVISORY) {
     localVulnerabilityStrategy = Object.seal(
       GitHubAdvisoryStrategy()
-    );
-  }
-  else if (name === VULN_MODE.SNYK) {
-    localVulnerabilityStrategy = Object.seal(
-      SnykStrategy(options as SnykStrategyOptions)
     );
   }
   else if (name === VULN_MODE.SONATYPE) {
@@ -156,7 +140,6 @@ export type {
   GithubVulnerability,
   NpmAuditAdvisory,
   PnpmAuditAdvisory,
-  SnykVulnerability,
   SonatypeVulnerability,
   OSVStrategyDefinition,
 

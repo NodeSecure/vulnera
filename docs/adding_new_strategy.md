@@ -71,7 +71,6 @@ You must add a new constant in variable `VULN_MODE`
 ```js
 export const VULN_MODE = Object.freeze({
   GITHUB_ADVISORY: "github-advisory",
-  SNYK: "snyk",
   SONATYPE: "sonatype",
   NONE: "none",
   MY_NEW_STRATEGY: "foobar" // <-- here

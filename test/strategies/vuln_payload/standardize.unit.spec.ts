@@ -7,7 +7,6 @@ import { VULN_MODE } from "../../../src/constants.ts";
 import { formatVulnsPayload } from "../../../src/formats/index.ts";
 import {
   NPM_VULNS_PAYLOADS,
-  SNYK_VULNS_PAYLOADS,
   SONATYPE_VULNS_PAYLOADS
 } from "../../fixtures/vuln_payload/payloads.ts";
 
@@ -31,18 +30,6 @@ test("should convert NPM strategy vulns payload into NodeSecure standard payload
   assert.deepEqual(
     fromNPMToStandardFormat,
     NPM_VULNS_PAYLOADS.outputStandardizedPayload
-  );
-});
-
-test("should convert Snyk strategy payload into NodeSecure standard payload", () => {
-  const [fromSnykToStandardFormat] = formatVulnerabilities(
-    VULN_MODE.SNYK,
-    SNYK_VULNS_PAYLOADS.inputVulnsPayload.vulnerabilities
-  );
-
-  assert.deepEqual(
-    fromSnykToStandardFormat,
-    SNYK_VULNS_PAYLOADS.outputStandardizedPayload
   );
 });
 

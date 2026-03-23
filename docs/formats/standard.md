@@ -6,7 +6,7 @@ We provide a high-level format that works for all available strategies. It can b
 export interface StandardVulnerability {
   /** Unique identifier for the vulnerability **/
   id?: string;
-  /** Vulnerability origin, either Snyk, Sonatype, GitHub or NodeSWG **/
+  /** Vulnerability origin, either Sonatype, GitHub or OSV **/
   origin: Origin;
   /** Package associated with the vulnerability **/
   package: string;

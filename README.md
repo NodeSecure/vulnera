@@ -54,11 +54,10 @@ The default strategy is **NONE** which mean no strategy at all (we execute nothi
 - [GitHub Advisory](./docs/github_advisory.md)
 - [Sonatype OSS Index](./docs/sonatype.md)
 - [OSV](./docs/osv.md)
-- Snyk
 
 Those strategies are described as "string" **type** with the following TypeScript definition:
 ```ts
-type Kind = "github-advisory" | "snyk" | "sonatype" | "osv" | "none";
+type Kind = "github-advisory" | "sonatype" | "osv" | "none";
 ```
 
 To add a strategy or better understand how the code works, please consult [the following guide](./docs/adding_new_strategy.md).
@@ -71,7 +70,6 @@ function getStrategy(): AnyStrategy;
 
 const strategies: Object.freeze({
   GITHUB_ADVISORY: "github-advisory",
-  SNYK: "snyk",
   SONATYPE: "sonatype",
   OSV: "osv",
   NONE: "none"
@@ -133,7 +131,6 @@ Where `dependencies` is the dependencies **Map()** object of the NodeSecure Scan
 ### Databases
 - [OSV](./docs/database/osv.md)
 - [NVD](./docs/database/nvd.md)
-- [Snyk](./docs/database/snyk.md)
 - [Sonatype](./docs/database/sonatype.md)
 
 ## Contributors ✨

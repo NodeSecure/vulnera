@@ -136,7 +136,7 @@ Where `dependencies` is the dependencies **Map()** object of the NodeSecure Scan
 ## Contributors ✨
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
@@ -157,6 +157,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/AntonioliBenjamin"><img src="https://avatars.githubusercontent.com/u/111560667?v=4?s=100" width="100px;" alt="benjamin antonioli"/><br /><sub><b>benjamin antonioli</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=AntonioliBenjamin" title="Code">💻</a> <a href="https://github.com/NodeSecure/vulnera/commits?author=AntonioliBenjamin" title="Tests">⚠️</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://securityinit.tistory.com/"><img src="https://avatars.githubusercontent.com/u/78394999?v=4?s=100" width="100px;" alt="HoyeongJeon"/><br /><sub><b>HoyeongJeon</b></sub></a><br /><a href="https://github.com/NodeSecure/vulnera/commits?author=HoyeongJeon" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

@@ -52,12 +52,12 @@
   "homepage": "https://github.com/NodeSecure/vulnera#readme",
   "devDependencies": {
     "@openally/config.eslint": "^2.1.0",
-    "@openally/config.typescript": "1.2.1",
+    "@openally/config.typescript": "1.3.0",
     "@slimio/is": "^2.0.0",
     "@types/node": "^25.0.2",
     "@types/npmcli__arborist": "6.3.3",
     "c8": "^11.0.0",
-    "typescript": "^5.4.2"
+    "typescript": "^6.0.2"
   },
   "dependencies": {
     "@nodesecure/npm-registry-sdk": "^4.1.0",

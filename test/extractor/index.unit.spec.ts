@@ -1,6 +1,5 @@
 // Import Node.js Dependencies
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 import assert from "node:assert";
 
@@ -11,7 +10,7 @@ import {
 } from "../../src/extractor/index.ts";
 
 // CONSTANTS
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = import.meta.dirname;
 const kFixturesDir = path.join(__dirname, "..", "fixtures");
 const kExtractorFixture = path.join(kFixturesDir, "extractor");
 
@@ -36,8 +35,14 @@ test("NodeDependencyExtractor: extract() does not include the root package", asy
   const extractor = new NodeDependencyExtractor();
   const packages = await extractor.extract(kExtractorFixture);
 
-  const rootEntry = packages.find((pkg) => pkg.name === "test-extractor-project");
-  assert.strictEqual(rootEntry, undefined, "the root package must not appear in results");
+  const rootEntry = packages.find(
+    (pkg) => pkg.name === "test-extractor-project"
+  );
+  assert.strictEqual(
+    rootEntry,
+    undefined,
+    "the root package must not appear in results"
+  );
 });
 
 test("NodeDependencyExtractor: extract() returns no duplicate name@version pairs", async() => {
@@ -45,5 +50,9 @@ test("NodeDependencyExtractor: extract() returns no duplicate name@version pairs
   const packages = await extractor.extract(kExtractorFixture);
 
   const specs = new Set(packages.map((pkg) => `${pkg.name}@${pkg.version}`));
-  assert.strictEqual(specs.size, packages.length, "must not contain duplicate name@version entries");
+  assert.strictEqual(
+    specs.size,
+    packages.length,
+    "must not contain duplicate name@version entries"
+  );
 });

@@ -8,7 +8,6 @@ import type {
 } from "./index.ts";
 import type {
   SonatypeVulnerability,
-  SnykVulnerability,
   NpmAuditAdvisory,
   PnpmAuditAdvisory
 } from "../../index.ts";
@@ -144,60 +143,6 @@ function mapFromPnpm(
   };
 }
 
-function mapFromSnyk(
-  vuln: SnykVulnerability
-): OSV {
-  return {
-    id: vuln.id,
-    modified: vuln.publicationTime,
-    published: vuln.disclosureTime ?? vuln.publicationTime,
-    aliases: vuln.identifiers.CVE ?? [],
-    upstream: [],
-    summary: vuln.title,
-    details: vuln.description,
-    severity: [
-      { type: "CVSS_V3", score: vuln.CVSSv3 }
-    ],
-    affected: [
-      {
-        package: {
-          ecosystem: "npm",
-          name: vuln.package,
-          purl: toPurl(vuln.package)
-        },
-        severity: [],
-        ranges: vuln.semver.vulnerable.map((range) => {
-          return {
-            type: "SEMVER",
-            events: semverRangeToOsvEvents(range),
-            database_specific: {}
-          };
-        }),
-        versions: vuln.functions.flatMap((f) => f.version),
-        ecosystem_specific: {},
-        database_specific: {}
-      }
-    ],
-    references: [
-      {
-        type: "WEB",
-        url: vuln.url
-      }
-    ],
-    credits: vuln.credit.map((name) => {
-      return {
-        name,
-        contact: [],
-        type: "FINDER" as const
-      };
-    }),
-    database_specific: {
-      severity: vuln.severity,
-      cvssScore: vuln.cvssScore
-    }
-  };
-}
-
 function mapFromSonatype(
   vuln: SonatypeVulnerability
 ): OSV {
@@ -249,6 +194,5 @@ function mapFromSonatype(
 export const OSV_VULN_MAPPERS = Object.freeze({
   [VULN_MODE.GITHUB_ADVISORY]: mapFromNPM,
   "github-advisory_pnpm": mapFromPnpm,
-  [VULN_MODE.SNYK]: mapFromSnyk,
   [VULN_MODE.SONATYPE]: mapFromSonatype
 });

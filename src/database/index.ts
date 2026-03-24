@@ -18,12 +18,6 @@ export type {
   OSVQueryBatchResponse
 } from "./osv.ts";
 
-export { Snyk } from "./snyk.ts";
-export type {
-  SnykOptions,
-  SnykFindOneParameters
-} from "./snyk.ts";
-
 export { Sonatype } from "./sonatype.ts";
 export type {
   SonatypeOptions,

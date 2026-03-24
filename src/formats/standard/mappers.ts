@@ -3,7 +3,6 @@ import { VULN_MODE } from "../../constants.ts";
 import * as utils from "../../utils.ts";
 import type {
   SonatypeVulnerability,
-  SnykVulnerability,
   NpmAuditAdvisory,
   PnpmAuditAdvisory,
   StandardVulnerability
@@ -67,29 +66,6 @@ function mapFromPnpm(vuln: PnpmAuditAdvisory): StandardVulnerability {
       { cvssScore: vuln.cvss.score, cvssVector: vuln.cvss.vectorString } :
       {}
     )
-  };
-}
-
-function mapFromSnyk(vuln: SnykVulnerability): StandardVulnerability {
-  function concatVulnerableVersions(vulnFunctions) {
-    return vulnFunctions
-      .reduce((ranges, functions) => [...ranges, ...functions.version], []);
-  }
-
-  return {
-    id: vuln.id,
-    origin: VULN_MODE.SNYK,
-    package: vuln.package,
-    title: vuln.title,
-    url: vuln.url,
-    description: vuln.description,
-    severity: vuln.severity,
-    vulnerableVersions: concatVulnerableVersions(vuln.functions),
-    vulnerableRanges: vuln.semver.vulnerable,
-    cves: vuln.identifiers.CVE,
-    cvssVector: vuln.CVSSv3,
-    cvssScore: vuln.cvssScore,
-    patches: vuln.patches
   };
 }
 
@@ -178,7 +154,6 @@ function mapFromOSV(
 export const STANDARD_VULN_MAPPERS = Object.freeze({
   [VULN_MODE.GITHUB_ADVISORY]: mapFromNPM,
   "github-advisory_pnpm": mapFromPnpm,
-  [VULN_MODE.SNYK]: mapFromSnyk,
   [VULN_MODE.SONATYPE]: mapFromSonatype,
   [VULN_MODE.OSV]: mapFromOSV
 });

@@ -15,7 +15,7 @@ export interface StandardPatch {
 export interface StandardVulnerability {
   /** Unique identifier for the vulnerability **/
   id?: string;
-  /** Vulnerability origin, either Snyk, Sonatype, GitHub or NodeSWG **/
+  /** Vulnerability origin, either Sonatype, GitHub or OSV **/
   origin: Exclude<Kind, "none">;
   /** Package associated with the vulnerability **/
   package: string;

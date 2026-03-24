@@ -1,6 +1,5 @@
 // Import Internal Dependencies
 import {
-  SNYK_VULNERABILITY,
   NPM_VULNERABILITY,
   PNPM_VULNERABILITY,
   SONATYPE_VULNERABILITY
@@ -23,32 +22,6 @@ export const NPM_VULNS_PAYLOADS = {
     severity: "medium",
     vulnerableRanges: [NPM_VULNERABILITY.range],
     vulnerableVersions: []
-  }
-};
-
-export const SNYK_VULNS_PAYLOADS = {
-  inputVulnsPayload: {
-    vulnerabilities: [
-      SNYK_VULNERABILITY
-    ]
-  },
-  outputStandardizedPayload: {
-    id: SNYK_VULNERABILITY.id,
-    origin: "snyk",
-    package: SNYK_VULNERABILITY.package,
-    title: SNYK_VULNERABILITY.title,
-    url: SNYK_VULNERABILITY.url,
-    description: SNYK_VULNERABILITY.description,
-    severity: SNYK_VULNERABILITY.severity,
-    vulnerableRanges: SNYK_VULNERABILITY.semver.vulnerable,
-    vulnerableVersions: [
-      ...SNYK_VULNERABILITY.functions[0].version,
-      ...SNYK_VULNERABILITY.functions[1].version
-    ],
-    cves: SNYK_VULNERABILITY.identifiers.CVE,
-    cvssVector: SNYK_VULNERABILITY.CVSSv3,
-    cvssScore: SNYK_VULNERABILITY.cvssScore,
-    patches: SNYK_VULNERABILITY.patches
   }
 };
 
@@ -147,55 +120,6 @@ export const PNPM_OSV_PAYLOAD = {
     references: [{ type: "ADVISORY", url: PNPM_VULNERABILITY.url }],
     credits: [],
     database_specific: { severity: PNPM_VULNERABILITY.severity }
-  }
-};
-
-export const SNYK_OSV_PAYLOAD = {
-  inputVulnsPayload: {
-    vulnerabilities: [SNYK_VULNERABILITY]
-  },
-  outputOSVPayload: {
-    id: SNYK_VULNERABILITY.id,
-    modified: SNYK_VULNERABILITY.publicationTime,
-    published: SNYK_VULNERABILITY.disclosureTime,
-    aliases: SNYK_VULNERABILITY.identifiers.CVE,
-    upstream: [],
-    summary: SNYK_VULNERABILITY.title,
-    details: SNYK_VULNERABILITY.description,
-    severity: [{ type: "CVSS_V3", score: SNYK_VULNERABILITY.CVSSv3 }],
-    affected: [
-      {
-        package: {
-          ecosystem: "npm",
-          name: SNYK_VULNERABILITY.package,
-          purl: `pkg:npm/${encodeURIComponent(SNYK_VULNERABILITY.package)}`
-        },
-        severity: [],
-        ranges: [
-          {
-            type: "SEMVER",
-            events: [{ fixed: "0.5.0" }, { introduced: "0.4.0" }],
-            database_specific: {}
-          },
-          {
-            type: "SEMVER",
-            events: [{ fixed: "0.3.8" }, { introduced: "0.3.6" }],
-            database_specific: {}
-          }
-        ],
-        versions: [
-          ...SNYK_VULNERABILITY.functions[0].version,
-          ...SNYK_VULNERABILITY.functions[1].version
-        ],
-        ecosystem_specific: {},
-        database_specific: {}
-      }
-    ],
-    references: [{ type: "WEB", url: SNYK_VULNERABILITY.url }],
-    credits: SNYK_VULNERABILITY.credit.map((name) => {
-      return { name, contact: [], type: "FINDER" };
-    }),
-    database_specific: { severity: SNYK_VULNERABILITY.severity, cvssScore: SNYK_VULNERABILITY.cvssScore }
   }
 };
 

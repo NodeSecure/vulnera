@@ -8,7 +8,6 @@ import { formatVulnsPayload } from "../../../src/formats/index.ts";
 import {
   NPM_OSV_PAYLOAD,
   PNPM_OSV_PAYLOAD,
-  SNYK_OSV_PAYLOAD,
   SONATYPE_OSV_PAYLOAD
 } from "../../fixtures/vuln_payload/payloads.ts";
 
@@ -49,16 +48,6 @@ test("should convert Pnpm strategy vulns payload into OSV format", () => {
   const { modified, published, ...rest } = result as any;
   const { outputOSVPayload } = PNPM_OSV_PAYLOAD;
   assert.deepEqual(rest, outputOSVPayload);
-});
-
-test("should convert Snyk strategy payload into OSV format", () => {
-  const [result] = formatVulnerabilities(
-    VULN_MODE.SNYK,
-    SNYK_OSV_PAYLOAD.inputVulnsPayload.vulnerabilities
-  );
-
-  const { outputOSVPayload } = SNYK_OSV_PAYLOAD;
-  assert.deepEqual(result, outputOSVPayload);
 });
 
 test("should convert Sonatype strategy payload into OSV format", () => {

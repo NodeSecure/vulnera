@@ -1,6 +1,5 @@
 // Import Node.js Dependencies
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { test } from "node:test";
 import assert from "node:assert";
 
@@ -14,7 +13,7 @@ import {
 } from "../utils.ts";
 
 // CONSTANTS
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = import.meta.dirname;
 const kFixturesDir = path.join(__dirname, "..", "..", "fixtures");
 
 function expectNpmAuditVulnToBeGithubAdvisory(vuln: NpmAuditAdvisory) {

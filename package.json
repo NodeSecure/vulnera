@@ -56,8 +56,8 @@
     "@slimio/is": "^2.0.0",
     "@types/node": "^26.0.0",
     "@types/npmcli__arborist": "6.3.3",
-    "c8": "^11.0.0",
-    "typescript": "^6.0.2"
+    "c8": "^12.0.0",
+    "typescript": "^7.0.2"
   },
   "dependencies": {
     "@nodesecure/npm-registry-sdk": "4.5.2",
